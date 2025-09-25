@@ -1,0 +1,2732 @@
+[
+  {
+    "en": "Renewable energy reduces carbon emissions significantly.",
+    "ar": "تقلل الطاقة المتجددة من انبعاثات الكربون بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Artificial intelligence is transforming modern healthcare.",
+    "ar": "يُحدث الذكاء الاصطناعي تحولًا في الرعاية الصحية الحديثة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The economy depends heavily on foreign investments.",
+    "ar": "يعتمد الاقتصاد بشكل كبير على الاستثمارات الأجنبية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Classical music enhances cognitive development in children.",
+    "ar": "تعزز الموسيقى الكلاسيكية التطور المعرفي لدى الأطفال.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Ancient civilizations built remarkable architectural wonders.",
+    "ar": "بنيت الحضارات القديمة عجائب معمارية مذهلة.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Climate change affects global food security.",
+    "ar": "يؤثر تغير المناخ على الأمن الغذائي العالمي.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Digital currencies are revolutionizing financial transactions.",
+    "ar": "تُحدث العملات الرقمية ثورة في المعاملات المالية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Quantum computing promises unprecedented processing power.",
+    "ar": "يعد الحوسبة الكمومية بقوة معالجة غير مسبوقة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Renaissance art reflects humanist philosophical ideals.",
+    "ar": "يعكس فن عصر النهضة المثل الفلسفية الإنسانية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Sustainable agriculture preserves natural ecosystems.",
+    "ar": "تحافظ الزراعة المستدامة على النظم البيئية الطبيعية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Global trade requires complex logistical networks.",
+    "ar": "يتطلب التجارة العالمية شبكات لوجستية معقدة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Neural networks mimic human brain functions.",
+    "ar": "تحاكي الشبكات العصبية وظائف الدماغ البشري.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Impressionist paintings capture fleeting light effects.",
+    "ar": "تلتقط لوحات الانطباعية تأثيرات الضوء العابرة.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Industrial revolution transformed societal structures permanently.",
+    "ar": "غيّر الثورة الصناعية الهياكل الاجتماعية بشكل دائم.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Biodiversity loss threatens ecosystem stability globally.",
+    "ar": "يهدد فقدان التنوع البيولوجي استقرار النظم البيئية عالميًا.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Cryptocurrency markets experience extreme volatility regularly.",
+    "ar": "تشهد أسواق العملات الرقمية تقلبات شديدة بانتظام.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Virtual reality creates immersive educational experiences.",
+    "ar": "يخلق الواقع الافتراضي تجارب تعليمية غامرة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Baroque architecture features dramatic ornamental details.",
+    "ar": "تتميز العمارة الباروكية بتفاصيل زخرفية درامية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Colonial expansion reshaped world geopolitical boundaries.",
+    "ar": "أعاد التوسع الاستعماري تشكيل الحدود الجيوسياسية العالمية.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Ocean acidification endangers marine life significantly.",
+    "ar": "يهدد تحمض المحيطات الحياة البحرية بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Blockchain technology ensures transparent transaction records.",
+    "ar": "تضمن تقنية البلوك تشين سجلات معاملات شفافة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Abstract expressionism emphasizes spontaneous emotional expression.",
+    "ar": "يؤكد التعبيرية التجريدية على التعبير العاطفي التلقائي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Feudal systems dominated medieval European society.",
+    "ar": "سيطرت الأنظمة الإقطاعية على المجتمع الأوروبي في العصور الوسطى.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Deforestation accelerates climate change effects dramatically.",
+    "ar": "يُسرّع إزالة الغابات آثار تغير المناخ بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Machine learning algorithms improve predictive accuracy continuously.",
+    "ar": "تحسّن خوارزميات التعلم الآلي دقة التنبؤ باستمرار.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Surrealist art explores subconscious dream imagery.",
+    "ar": "يستكشف الفن السريالي صور الأحلام اللاواعية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Enlightenment promoted rational scientific thinking.",
+    "ar": "شجّع عصر التنوير التفكير العلمي العقلاني.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Plastic pollution contaminates marine ecosystems severely.",
+    "ar": "يُلوث التلوث البلاستيكي النظم البيئية البحرية بشدة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Cloud computing enables scalable data storage solutions.",
+    "ar": "يُمكّن الحوسبة السحابية حلول تخزين بيانات قابلة للتوسع.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Gothic literature often features mysterious supernatural elements.",
+    "ar": "غالبًا ما يحتوي الأدب القوطي على عناصر خارقة غامضة.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Cold War shaped international diplomatic relations.",
+    "ar": "شكّلت الحرب الباردة العلاقات الدبلوماسية الدولية.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Urbanization increases pressure on natural resources.",
+    "ar": "يزيد التحضر الضغط على الموارد الطبيعية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Cybersecurity protects digital infrastructure from threats.",
+    "ar": "تحمي الأمن السيبراني البنية التحتية الرقمية من التهديدات.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Romantic poetry celebrates nature and individual emotion.",
+    "ar": "يحتفي الشعر الرومانسي بالطبيعة والعاطفة الفردية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Industrial Age began in late eighteenth century.",
+    "ar": "بدأ العصر الصناعي في أواخر القرن الثامن عشر.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Water scarcity affects agricultural productivity worldwide.",
+    "ar": "يؤثر نقص المياه على الإنتاجية الزراعية عالميًا.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Big data analytics reveals hidden consumer behavior patterns.",
+    "ar": "يكشف تحليل البيانات الضخمة أنماط سلوك المستهلك المخفية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Modernist architecture rejects traditional decorative elements.",
+    "ar": "ترفض العمارة الحديثة العناصر الزخرفية التقليدية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "World War II ended in nineteen forty-five.",
+    "ar": "انتهت الحرب العالمية الثانية في عام 1945.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Air pollution contributes to respiratory health problems.",
+    "ar": "يساهم تلوث الهواء في مشاكل صحية تنفسية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Internet of Things connects everyday devices intelligently.",
+    "ar": "يربط إنترنت الأشياء الأجهزة اليومية بشكل ذكي.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Postmodern literature challenges conventional narrative structures.",
+    "ar": "يتحدى الأدب ما بعد الحداثي الهياكل السردية التقليدية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The French Revolution began in seventeen eighty-nine.",
+    "ar": "بدأت الثورة الفرنسية في عام 1789.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Soil degradation reduces agricultural land fertility significantly.",
+    "ar": "يقلل تدهور التربة خصوبة الأراضي الزراعية بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Augmented reality enhances real-world visual experiences.",
+    "ar": "يحسّن الواقع المعزز تجارب الرؤية في العالم الحقيقي.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Cubist paintings fragment objects into geometric shapes.",
+    "ar": "تُجزّئ اللوحات التكعيبية الأجسام إلى أشكال هندسية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Renaissance began in fourteenth century Italy.",
+    "ar": "بدأ عصر النهضة في إيطاليا القرن الرابع عشر.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Overfishing depletes marine fish populations dangerously.",
+    "ar": "يستنزف الصيد الجائر تجمعات الأسماك البحرية بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Natural language processing enables human-computer communication.",
+    "ar": "يمكّن معالجة اللغة الطبيعية التواصل بين الإنسان والحاسوب.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Existentialist philosophy emphasizes individual freedom and responsibility.",
+    "ar": "تشدد الفلسفة الوجودية على الحرية والمسؤولية الفردية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Ottoman Empire collapsed after World War I.",
+    "ar": "انهار الإمبراطورية العثمانية بعد الحرب العالمية الأولى.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Glacier melting contributes to rising sea levels.",
+    "ar": "يساهم ذوبان الأنهار الجليدية في ارتفاع منسوب مياه البحر.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Robotics automates complex manufacturing processes efficiently.",
+    "ar": "تُؤتمت الروبوتات عمليات التصنيع المعقدة بكفاءة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Minimalist art uses simple geometric forms exclusively.",
+    "ar": "يستخدم الفن البسيط أشكالًا هندسية بسيطة حصريًا.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The American Civil War ended in eighteen sixty-five.",
+    "ar": "انتهت الحرب الأهلية الأمريكية في عام 1865.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Desertification transforms fertile land into barren desert.",
+    "ar": "يحوّل التصحر الأراضي الخصبة إلى صحراء قاحلة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "5G networks enable ultra-fast wireless communication.",
+    "ar": "تمكّن شبكات الجيل الخامس اتصالات لاسلكية فائقة السرعة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Symbolist poetry uses metaphors to convey deeper meanings.",
+    "ar": "تستخدم الشعر الرمزي الاستعارات للتعبير عن معانٍ أعمق.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Berlin Wall fell in nineteen eighty-nine.",
+    "ar": "سقط جدار برلين في عام 1989.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Wetland destruction eliminates crucial wildlife habitats permanently.",
+    "ar": "يُزيل تدمير الأراضي الرطبة مواطن الحياة البرية الحيوية بشكل دائم.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Biometric authentication enhances security system reliability significantly.",
+    "ar": "يحسّن المصادقة البيومترية موثوقية أنظمة الأمان بشكل كبير.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Fauvist paintings employ bold non-naturalistic color schemes.",
+    "ar": "تستخدم اللوحات الوحشية مخططات ألوان جريئة وغير طبيعية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Scientific Revolution transformed European intellectual thought.",
+    "ar": "غيّر الثورة العلمية الفكر الأوروبي الفكري.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Coral bleaching indicates severe ocean ecosystem stress.",
+    "ar": "يشير تبييض المرجان إلى إجهاد شديد في النظام البيئي البحري.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Autonomous vehicles use advanced sensor fusion technology.",
+    "ar": "تستخدم المركبات ذاتية القيادة تقنية دمج المستشعرات المتقدمة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Dadaism rejected logic and embraced absurdity artistically.",
+    "ar": "رفضت الدادية المنطق واحتضنت العبثية فنيًا.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Magna Carta was signed in twelve fifteen.",
+    "ar": "وُقّعت وثيقة الماجنا كارتا في عام 1215.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Invasive species disrupt native ecological balances severely.",
+    "ar": "تُخلّ الأنواع الغازية بالتوازنات البيئية المحلية بشدة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Edge computing processes data closer to source efficiently.",
+    "ar": "تعالج الحوسبة الطرفية البيانات أقرب إلى المصدر بكفاءة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Metaphysical poetry explores complex philosophical concepts intellectually.",
+    "ar": "يستكشف الشعر الميتافيزيقي مفاهيم فلسفية معقدة فكريًا.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Black Death devastated Europe in thirteen forty-eight.",
+    "ar": "دمر الطاعون الأسود أوروبا في عام 1348.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Methane emissions accelerate global warming dramatically.",
+    "ar": "تسارع انبعاثات الميثان الاحتباس الحراري بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Facial recognition technology identifies individuals accurately.",
+    "ar": "تُحدد تقنية التعرف على الوجه الأفراد بدقة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Constructivist art emphasizes industrial materials and geometric forms.",
+    "ar": "يؤكد الفن البنائي على المواد الصناعية والأشكال الهندسية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The printing press revolutionized information dissemination globally.",
+    "ar": "غيّر المطبعة انتشار المعلومات عالميًا.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Permafrost thawing releases trapped greenhouse gases dangerously.",
+    "ar": "يطلق ذوبان التربة الصقيعية غازات الدفيئة المحبوسة بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Smart contracts execute automatically when conditions met.",
+    "ar": "تنفذ العقود الذكية تلقائيًا عند استيفاء الشروط.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Absurdist theater challenges conventional dramatic structures intellectually.",
+    "ar": "يتحدى المسرح العبثي الهياكل الدرامية التقليدية فكريًا.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Silk Road connected Asia and Europe commercially.",
+    "ar": "ربط طريق الحرير آسيا وأوروبا تجاريًا.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Ocean dead zones expand due to nutrient pollution.",
+    "ar": "تتوسع مناطق الموت في المحيط بسبب التلوث الغذائي.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Natural language generation creates human-like text automatically.",
+    "ar": "ينشئ توليد اللغة الطبيعية نصوصًا تشبه البشر تلقائيًا.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Suprematist art focuses on basic geometric forms exclusively.",
+    "ar": "يركز الفن التفوقوي على الأشكال الهندسية الأساسية حصريًا.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Protestant Reformation began in fifteen seventeen.",
+    "ar": "بدأت الإصلاح البروتستانتي في عام 1517.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Light pollution disrupts nocturnal wildlife behaviors significantly.",
+    "ar": "يُخلّ تلوث الضوء بسلوكيات الحياة البرية الليلية بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Computer vision enables machines to interpret visual data.",
+    "ar": "يمكّن الرؤية الحاسوبية الآلات من تفسير البيانات البصرية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Magical realism blends fantastical elements with reality seamlessly.",
+    "ar": "يخلط الواقعية السحرية العناصر الخيالية مع الواقع بسلاسة.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Space Race intensified during the Cold War.",
+    "ar": "اشتد سباق الفضاء خلال الحرب الباردة.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Acid rain damages forests and aquatic ecosystems severely.",
+    "ar": "يُتلف المطر الحمضي الغابات والنظم البيئية المائية بشدة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Deep learning models require substantial computational resources.",
+    "ar": "تتطلب نماذج التعلم العميق موارد حاسوبية كبيرة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "De Stijl movement promoted pure abstraction and simplicity.",
+    "ar": "روّج تيار دو ستييل التجريد البحت والبساطة.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Treaty of Versailles ended World War I.",
+    "ar": "أنهت معاهدة فرساي الحرب العالمية الأولى.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Microplastics infiltrate food chains globally and dangerously.",
+    "ar": "تتسلل الجسيمات البلاستيكية الدقيقة إلى السلاسل الغذائية عالميًا وبشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Speech recognition converts spoken language to text accurately.",
+    "ar": "يحوّل التعرف على الكلام اللغة المنطوقة إلى نص بدقة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Stream of consciousness narrative mimics human thought processes.",
+    "ar": "يحاكي السرد التدفق الذهني عمليات التفكير البشرية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Cuban Missile Crisis occurred in nineteen sixty-two.",
+    "ar": "وقعت أزمة الصواريخ الكوبية في عام 1962.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Habitat fragmentation isolates wildlife populations dangerously.",
+    "ar": "يعزل تجزؤ المواطن تجمعات الحياة البرية بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Predictive analytics forecasts future trends using historical data.",
+    "ar": "يتوقع التحليل التنبؤي الاتجاهات المستقبلية باستخدام البيانات التاريخية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Bauhaus design emphasizes functionality over decorative elements.",
+    "ar": "يؤكد تصميم باوهاوس على الوظيفية أكثر من العناصر الزخرفية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Vietnam War ended in nineteen seventy-five.",
+    "ar": "انتهت حرب فيتنام في عام 1975.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Eutrophication causes excessive algae growth in water bodies.",
+    "ar": "يسبب الإثراء نموًا مفرطًا للطحالب في المسطحات المائية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Data mining extracts valuable patterns from large datasets.",
+    "ar": "تستخرج تنقيب البيانات أنماطًا قيمة من مجموعات البيانات الكبيرة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Futurist art celebrates speed technology and modernity dynamically.",
+    "ar": "يحتفي الفن المستقبلي بالسرعة والتكنولوجيا والحداثة بشكل ديناميكي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Russian Revolution occurred in nineteen seventeen.",
+    "ar": "وقعت الثورة الروسية في عام 1917.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Noise pollution affects human health and wildlife negatively.",
+    "ar": "يؤثر تلوث الضجيج على صحة الإنسان والحياة البرية سلبًا.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Natural language understanding interprets human language meaningfully.",
+    "ar": "يفسر فهم اللغة الطبيعية اللغة البشرية بشكل ذي معنى.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Neoclassical architecture draws inspiration from ancient Greece.",
+    "ar": "تستمد العمارة الكلاسيكية الجديدة الإلهام من اليونان القديمة.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Korean War began in nineteen fifty.",
+    "ar": "بدأت الحرب الكورية في عام 1950.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Thermal pollution alters aquatic ecosystem temperatures dangerously.",
+    "ar": "يغير التلوث الحراري درجات حرارة النظم البيئية المائية بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Computer graphics create realistic visual simulations effectively.",
+    "ar": "تنشئ الرسومات الحاسوبية محاكاة بصرية واقعية بفعالية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Victorian literature often explores social class tensions dramatically.",
+    "ar": "غالبًا ما يستكشف الأدب الفيكتوري توترات الطبقة الاجتماعية بشكل درامي.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Suez Crisis happened in nineteen fifty-six.",
+    "ar": "حدثت أزمة السويس في عام 1956.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Radioactive waste requires secure long-term storage solutions.",
+    "ar": "يتطلب النفايات المشعة حلول تخزين آمنة طويلة الأجل.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Human-computer interaction studies user interface design principles.",
+    "ar": "يدرس تفاعل الإنسان والحاسوب مبادئ تصميم واجهة المستخدم.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Art Deco style features geometric patterns and bold colors.",
+    "ar": "يتميز أسلوب الآرت ديكو بأنماط هندسية وألوان جريئة.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Gulf War started in nineteen ninety.",
+    "ar": "بدأت حرب الخليج في عام 1990.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Groundwater contamination threatens drinking water supplies severely.",
+    "ar": "يهدد تلوث المياه الجوفية إمدادات مياه الشرب بشدة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Software engineering develops reliable scalable application systems.",
+    "ar": "يطور هندسة البرمجيات أنظمة تطبيقات موثوقة وقابلة للتوسع.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Gothic novels often feature mysterious ancient castles atmospherically.",
+    "ar": "غالبًا ما تحتوي الروايات القوطية على قلاع قديمة غامضة بشكل جوي.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Iraq War began in two thousand three.",
+    "ar": "بدأت حرب العراق في عام 2003.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Ozone depletion increases harmful ultraviolet radiation exposure.",
+    "ar": "يزيد استنفاد الأوزون التعرض للإشعاع فوق البنفسجي الضار.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Information retrieval systems locate relevant data efficiently.",
+    "ar": "تحدد أنظمة استرجاع المعلومات البيانات ذات الصلة بكفاءة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Pointillist paintings use small distinct dots of color.",
+    "ar": "تستخدم اللوحات النقطية نقاطًا صغيرة مميزة من الألوان.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Arab Spring began in two thousand ten.",
+    "ar": "بدأ الربيع العربي في عام 2010.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Soil erosion reduces agricultural productivity significantly over time.",
+    "ar": "يقلل تآكل التربة الإنتاجية الزراعية بشكل كبير مع مرور الوقت.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Database management systems organize store and retrieve data.",
+    "ar": "تنظم أنظمة إدارة قواعد البيانات وتخزن وتسترجع البيانات.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Romantic novels emphasize intense emotional experiences passionately.",
+    "ar": "تشدد الروايات الرومانسية على التجارب العاطفية المكثفة بشغف.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Cold War ended around nineteen ninety-one.",
+    "ar": "انتهت الحرب الباردة حوالي عام 1991.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Freshwater scarcity affects billions globally and increasingly.",
+    "ar": "يؤثر نقص المياه العذبة على المليارات عالميًا وبشكل متزايد.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Network security protects data from unauthorized access effectively.",
+    "ar": "تحمي أمن الشبكة البيانات من الوصول غير المصرح به بفعالية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Realist art depicts subjects truthfully without artificiality.",
+    "ar": "يصور الفن الواقعي المواضيع بشكل حقيقي دون اصطناع.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The European Union was established in nineteen ninety-three.",
+    "ar": "تأسس الاتحاد الأوروبي في عام 1993.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Pesticide runoff contaminates rivers and lakes dangerously.",
+    "ar": "يُلوث جريان المبيدات الأنهار والبحيرات بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Operating systems manage computer hardware and software resources.",
+    "ar": "تدير أنظمة التشغيل موارد الأجهزة والبرامج الحاسوبية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Epic poetry narrates heroic deeds and adventures grandly.",
+    "ar": "يروي الشعر الملحمي الأعمال البطولية والمغامرات بشكل عظيم.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Internet was commercialized in the nineteen nineties.",
+    "ar": "تم تسويق الإنترنت تجاريًا في التسعينيات.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Nuclear accidents cause long-term environmental contamination severely.",
+    "ar": "تسبب الحوادث النووية تلوثًا بيئيًا طويل الأجل بشدة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Web development creates interactive online applications and websites.",
+    "ar": "يُنشئ تطوير الويب تطبيقات ومواقع إلكترونية تفاعلية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Expressionist art conveys emotional experiences subjectively and intensely.",
+    "ar": "يُعبّر الفن التعبيري عن التجارب العاطفية بشكل ذاتي ومكثف.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The first moon landing occurred in nineteen sixty-nine.",
+    "ar": "حدث أول هبوط على القمر في عام 1969.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Illegal logging destroys tropical rainforests rapidly and extensively.",
+    "ar": "يُدمر القطع غير القانوني للأشجار الغابات المطيرة الاستوائية بسرعة وبشكل واسع.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Mobile applications provide convenient access to various services.",
+    "ar": "توفر التطبيقات المحمولة وصولاً مريحًا إلى خدمات متنوعة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Satirical literature uses humor to criticize social issues.",
+    "ar": "يستخدم الأدب الساخر الفكاهة لنقد القضايا الاجتماعية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Berlin Conference divided Africa in eighteen eighty-four.",
+    "ar": "قسّم مؤتمر برلين أفريقيا في عام 1884.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Chemical spills pollute soil and groundwater extensively.",
+    "ar": "تلوث الانسكابات الكيميائية التربة والمياه الجوفية بشكل واسع.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Artificial neural networks learn from data patterns automatically.",
+    "ar": "تتعلم الشبكات العصبية الاصطناعية من أنماط البيانات تلقائيًا.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Pop art incorporates popular culture imagery and consumer products.",
+    "ar": "يدمج فن البوب صور الثقافة الشعبية والمنتجات الاستهلاكية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The United Nations was founded in nineteen forty-five.",
+    "ar": "تأسست الأمم المتحدة في عام 1945.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Overgrazing degrades grassland ecosystems significantly and permanently.",
+    "ar": "يُدهور الرعي المفرط النظم البيئية للمراعي بشكل كبير ودائم.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Cloud storage provides scalable remote data accessibility securely.",
+    "ar": "يوفر التخزين السحابي إمكانية وصول عن بُعد للبيانات بشكل قابل للتوسع وآمن.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Tragic drama explores human suffering and moral dilemmas profoundly.",
+    "ar": "يستكشف الدراما المأساوية المعاناة البشرية والمآزق الأخلاقية بشكل عميق.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Declaration of Independence was signed in seventeen seventy-six.",
+    "ar": "وُقّعت إعلان الاستقلال في عام 1776.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Industrial waste contaminates rivers and affects aquatic life.",
+    "ar": "يُلوث النفايات الصناعية الأنهار ويؤثر على الحياة المائية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "User interface design focuses on user experience and accessibility.",
+    "ar": "يركز تصميم واجهة المستخدم على تجربة المستخدم وإمكانية الوصول.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Conceptual art prioritizes ideas over traditional aesthetic concerns.",
+    "ar": "يُعطي الفن المفاهيمي الأولوية للأفكار على الاهتمامات الجمالية التقليدية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Boston Tea Party happened in seventeen seventy-three.",
+    "ar": "حدث حفلة شاي بوسطن في عام 1773.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Urban heat islands increase city temperatures significantly.",
+    "ar": "ترفع جزر الحرارة الحضرية درجات حرارة المدن بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Data encryption protects information from unauthorized interception securely.",
+    "ar": "تحمي تشفير البيانات المعلومات من الاعتراض غير المصرح به بشكل آمن.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Lyric poetry expresses personal emotions and reflections intimately.",
+    "ar": "يعبر الشعر الغنائي عن المشاعر الشخصية والتأملات بشكل حميمي.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Louisiana Purchase occurred in eighteen oh three.",
+    "ar": "حدث شراء لويزيانا في عام 1803.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Oil spills devastate marine ecosystems and coastal habitats.",
+    "ar": "تدمر الانسكابات النفطية النظم البيئية البحرية والمواطن الساحلية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Algorithm optimization improves computational efficiency and performance significantly.",
+    "ar": "يحسّن تحسين الخوارزميات الكفاءة والأداء الحاسوبي بشكل كبير.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Op art creates optical illusions through geometric patterns.",
+    "ar": "يخلق فن البصريات أوهامًا بصرية من خلال أنماط هندسية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The War of 1812 ended in eighteen fifteen.",
+    "ar": "انتهت حرب 1812 في عام 1815.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Landfill leachate contaminates groundwater with toxic substances.",
+    "ar": "يُلوث الترشيح من مكبات النفايات المياه الجوفية بالمواد السامة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Software testing ensures application reliability and bug-free performance.",
+    "ar": "يضمن اختبار البرمجيات موثوقية التطبيق وأداءً خاليًا من الأخطاء.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Comedy drama blends humorous and serious narrative elements skillfully.",
+    "ar": "يخلط الدراما الكوميدية عناصر سردية فكاهية وجادة بمهارة.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Mexican-American War ended in eighteen forty-eight.",
+    "ar": "انتهت الحرب المكسيكية الأمريكية في عام 1848.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Asbestos exposure causes severe respiratory health problems permanently.",
+    "ar": "يسبب التعرض للأسبستوس مشاكل صحية تنفسية شديدة بشكل دائم.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Version control systems track code changes and collaboration efficiently.",
+    "ar": "تتتبع أنظمة التحكم بالإصدارات تغييرات الكود والتعاون بكفاءة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Kinetic art incorporates movement as essential visual element.",
+    "ar": "يدمج الفن الحركي الحركة كعنصر بصري أساسي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The California Gold Rush began in eighteen forty-eight.",
+    "ar": "بدأ حمى ذهب كاليفورنيا في عام 1848.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Lead poisoning affects children's neurological development severely.",
+    "ar": "يؤثر التسمم بالرصاص على التطور العصبي للأطفال بشدة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "API integration connects different software applications seamlessly.",
+    "ar": "يصل تكامل واجهة برمجة التطبيقات تطبيقات البرمجيات المختلفة بسلاسة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Historical fiction blends factual events with imaginative narrative.",
+    "ar": "يخلط الخيال التاريخي الأحداث الواقعية بالسرد الخيالي.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Spanish-American War ended in eighteen ninety-eight.",
+    "ar": "انتهت الحرب الإسبانية الأمريكية في عام 1898.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Mercury contamination bioaccumulates in aquatic food chains dangerously.",
+    "ar": "يتراكم التلوث بالزئبق في السلاسل الغذائية المائية بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Machine vision enables automated visual inspection in manufacturing.",
+    "ar": "يمكّن الرؤية الآلية الفحص البصري الآلي في التصنيع.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Naive art features childlike simplicity and direct expression.",
+    "ar": "يتميز الفن الساذج بالبساطة الطفولية والتعبير المباشر.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Philippine-American War ended in nineteen oh two.",
+    "ar": "انتهت الحرب الفلبينية الأمريكية في عام 1902.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Radon gas exposure increases lung cancer risk significantly.",
+    "ar": "يزيد التعرض لغاز الرادون خطر الإصابة بسرطان الرئة بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "DevOps practices accelerate software development and deployment cycles.",
+    "ar": "تعجل ممارسات ديفوبس دورات تطوير ونشر البرمجيات.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Detective fiction follows investigators solving complex criminal cases.",
+    "ar": "يتبع أدب الجريمة المحققين في حل القضايا الجنائية المعقدة.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "World War I began in nineteen fourteen.",
+    "ar": "بدأت الحرب العالمية الأولى في عام 1914.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Asphalt runoff carries pollutants into stormwater systems dangerously.",
+    "ar": "يحمل جريان الأسفلت الملوثات إلى أنظمة مياه الأمطار بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Containerization simplifies application deployment across different environments.",
+    "ar": "يُبسّط الحاويات نشر التطبيق عبر بيئات مختلفة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Social realism depicts working-class struggles and social injustices.",
+    "ar": "يصور الواقعية الاجتماعية كفاح الطبقة العاملة والظلم الاجتماعي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Treaty of Paris ended the American Revolution.",
+    "ar": "أنهت معاهدة باريس الثورة الأمريكية.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Coal ash disposal contaminates water sources with heavy metals.",
+    "ar": "يُلوث التخلص من رماد الفحم مصادر المياه بالمعادن الثقيلة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Microservices architecture builds applications as independent service components.",
+    "ar": "يبني بنية الخدمات الصغيرة التطبيقات كمكونات خدمات مستقلة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Science fiction explores futuristic technological and social concepts.",
+    "ar": "يستكشف الخيال العلمي مفاهيم تكنولوجية واجتماعية مستقبلية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Congress of Vienna convened in eighteen fifteen.",
+    "ar": "اجتمع مؤتمر فيينا في عام 1815.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Electronic waste contains toxic materials requiring special disposal.",
+    "ar": "يحتوي النفايات الإلكترونية على مواد سامة تتطلب التخلص الخاص.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Serverless computing executes code without managing server infrastructure.",
+    "ar": "تنفذ الحوسبة بدون خادم الكود دون إدارة بنية الخادم.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Precisionism art depicts industrial and architectural subjects geometrically.",
+    "ar": "يصور فن الدقة المواضيع الصناعية والمعمارية بشكل هندسي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Monroe Doctrine was proclaimed in eighteen twenty-three.",
+    "ar": "أُعلن مبدأ مونرو في عام 1823.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Pharmaceutical pollution affects aquatic organisms and ecosystems negatively.",
+    "ar": "يؤثر التلوث الدوائي على الكائنات المائية والنظم البيئية سلبًا.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Continuous integration automates code testing and merging processes.",
+    "ar": "يؤتمت التكامل المستمر اختبار الكود وعمليات الدمج.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Fantasy literature creates imaginary worlds with magical elements.",
+    "ar": "يخلق أدب الفانتازيا عوالم خيالية بعناصر سحرية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Emancipation Proclamation was issued in eighteen sixty-three.",
+    "ar": "صدر إعلان تحرير العبيد في عام 1863.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Lightning strikes cause forest fires and property damage annually.",
+    "ar": "تسبب صواعق البرق حرائق الغابات وأضرار الممتلكات سنويًا.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Agile methodology emphasizes iterative development and customer collaboration.",
+    "ar": "تشدد منهجية أجايل على التطوير التكراري والتعاون مع العميل.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Photorealism creates paintings that mimic high-resolution photographs.",
+    "ar": "يُنشئ الواقعية الفوتوغرافية لوحات تحاكي الصور الفوتوغرافية عالية الدقة.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Gettysburg Address was delivered in eighteen sixty-three.",
+    "ar": "أُلقي خطاب جيتيسبيرغ في عام 1863.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Drought conditions severely impact agricultural production and water supplies.",
+    "ar": "تؤثر ظروف الجفاف بشدة على الإنتاج الزراعي وإمدادات المياه.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Scrum framework manages complex product development through iterative sprints.",
+    "ar": "يدير إطار سكرم تطوير المنتجات المعقدة من خلال سباقات تكرارية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Gothic revival architecture features pointed arches and ornate details.",
+    "ar": "تتميز العمارة القوطية المتجددة بالقوس المدبب والتفاصيل الزخرفية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Homestead Act was passed in eighteen sixty-two.",
+    "ar": "أُقر قانون الاستيطان في عام 1862.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Flood events cause extensive property damage and displacement annually.",
+    "ar": "تسبب الفيضانات أضرارًا واسعة للممتلكات والتشريد سنويًا.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Kanban methodology visualizes workflow and limits work in progress.",
+    "ar": "يصور منهجية كانبان سير العمل ويحد من العمل قيد التنفيذ.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Mannerism art features elongated forms and complex compositions dramatically.",
+    "ar": "يتميز فن المانييريزم بالأشكال الممتدة والتركيبات المعقدة بشكل درامي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Transcontinental Railroad was completed in eighteen sixty-nine.",
+    "ar": "اكتمل السكك الحديدية العابرة للقارات في عام 1869.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Wildfire smoke affects air quality and respiratory health significantly.",
+    "ar": "يؤثر دخان حرائق الغابات على جودة الهواء والصحة التنفسية بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Test-driven development writes tests before implementing code functionality.",
+    "ar": "يكتب التطوير القائم على الاختبار الاختبارات قبل تنفيذ وظائف الكود.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Pre-Raphaelite art emphasizes medieval themes and vibrant colors.",
+    "ar": "يؤكد فن ما قبل رفائيل على المواضيع القوطية والألوان الزاهية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Sherman Antitrust Act was enacted in eighteen ninety.",
+    "ar": "أُقر قانون شيرمان لمكافحة الاحتكار في عام 1890.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Heat waves increase mortality rates and energy consumption dramatically.",
+    "ar": "ترفع موجات الحر معدلات الوفيات واستهلاك الطاقة بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Pair programming improves code quality through collaborative development.",
+    "ar": "يحسّن البرمجة الزوجية جودة الكود من خلال التطوير التعاوني.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Rococo art features ornate decoration and playful themes elegantly.",
+    "ar": "يتميز فن الروكوكو بالزخرفة المزخرفة والمواضيع المرحة بأناقة.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Pure Food and Drug Act passed in nineteen oh six.",
+    "ar": "أُقر قانون الغذاء والدواء النظيف في عام 1906.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Tornadoes cause severe structural damage and power outages frequently.",
+    "ar": "تسبب الأعاصير أضرارًا هيكلية شديدة وانقطاع التيار الكهربائي بشكل متكرر.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Code refactoring improves software design without changing functionality.",
+    "ar": "يحسّن إعادة هيكلة الكود تصميم البرنامج دون تغيير الوظائف.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Neoclassicism revives classical Greek and Roman artistic principles.",
+    "ar": "يحيي الكلاسيكية الجديدة المبادئ الفنية اليونانية والرومانية الكلاسيكية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Federal Reserve was established in nineteen thirteen.",
+    "ar": "تأسس الاحتياطي الفيدرالي في عام 1913.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Hurricanes devastate coastal communities and infrastructure extensively.",
+    "ar": "تدمر الأعاصير المجتمعات الساحلية والبنية التحتية بشكل واسع.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Static code analysis detects potential bugs before runtime execution.",
+    "ar": "يكتشف تحليل الكود الثابت الأخطاء المحتملة قبل التنفيذ.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Baroque music features complex polyphony and dramatic expression.",
+    "ar": "تتميز الموسيقى الباروكية بالتناغم المعقد والتعبير الدرامي.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The New Deal programs began in nineteen thirty-three.",
+    "ar": "بدأت برامج الصفقة الجديدة في عام 1933.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Earthquakes cause building collapses and infrastructure damage unpredictably.",
+    "ar": "تسبب الزلازل انهيار المباني وأضرار البنية التحتية بشكل غير متوقع.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Dynamic programming solves complex problems by breaking them down.",
+    "ar": "يحل البرمجة الديناميكية المشكلات المعقدة بتقسيمها.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Classical ballet emphasizes precise technique and graceful movement.",
+    "ar": "تشدد الباليه الكلاسيكي على التقنية الدقيقة والحركة الأنيقة.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Civil Rights Act was signed in nineteen sixty-four.",
+    "ar": "وُقّع قانون الحقوق المدنية في عام 1964.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Volcanic eruptions release ash and gases affecting climate.",
+    "ar": "تطلق الثورات البركانية الرماد والغازات المؤثرة على المناخ.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Greedy algorithms make locally optimal choices at each step.",
+    "ar": "تتخذ الخوارزميات الجشعة خيارات مثالية محلية في كل خطوة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Jazz music originated in early twentieth century America.",
+    "ar": "نشأ موسيقى الجاز في أمريكا أوائل القرن العشرين.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Voting Rights Act passed in nineteen sixty-five.",
+    "ar": "أُقر قانون حقوق التصويت في عام 1965.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Landslides destroy property and block transportation routes dangerously.",
+    "ar": "تدمر الانهيارات الأرضية الممتلكات وتسد طرق النقل بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Backtracking algorithms explore all possible solutions systematically.",
+    "ar": "تستكشف خوارزميات التراجع جميع الحلول الممكنة بشكل منهجي.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Opera combines music drama and theatrical performance grandly.",
+    "ar": "يجمع الأوبرا بين الموسيقى والدراما والأداء المسرحي بشكل عظيم.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Environmental Protection Agency was created in nineteen seventy.",
+    "ar": "أنشئت وكالة حماية البيئة في عام 1970.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Avalanches bury structures and endanger lives in mountainous regions.",
+    "ar": "تدفن الانهيارات الثلجية المنشآت وتشكل خطرًا على الأرواح في المناطق الجبلية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Divide and conquer algorithms solve problems recursively and efficiently.",
+    "ar": "تحل خوارزميات فرق تسد المشكلات بشكل تكراري وكفء.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Symphony orchestras perform complex musical compositions collaboratively.",
+    "ar": "تؤدي أوركسترات السيمفونية تراكيب موسيقية معقدة بشكل تعاوني.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Watergate scandal led to Nixon's resignation in nineteen seventy-four.",
+    "ar": "أدى فضيحة ووترغيت إلى استقالة نيكسون في عام 1974.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Sinkholes swallow buildings and infrastructure unexpectedly in vulnerable areas.",
+    "ar": "تبتلع الحفر الغارقة المباني والبنية التحتية بشكل غير متوقع في المناطق الضعيفة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Hash tables provide efficient data storage and retrieval operations.",
+    "ar": "توفر جداول التجزئة عمليات تخزين واسترجاع بيانات فعالة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Chamber music features small ensembles performing intimate compositions.",
+    "ar": "تتميز الموسيقى الحجرية بفرق صغيرة تؤدي تراكيب حميمية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The fall of the Berlin Wall symbolized Cold War's end.",
+    "ar": "رمز سقوط جدار برلين نهاية الحرب الباردة.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Tsunamis devastate coastal areas with massive destructive waves.",
+    "ar": "تدمر أمواج تسونامي المناطق الساحلية بأمواج مدمرة هائلة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Binary search trees enable efficient ordered data operations.",
+    "ar": "تمكّن أشجار البحث الثنائية عمليات بيانات مرتبة فعالة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Folk music preserves cultural traditions through generations orally.",
+    "ar": "تحافظ الموسيقى الشعبية على التقاليد الثقافية عبر الأجيال شفهيًا.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The September eleven attacks occurred in two thousand one.",
+    "ar": "وقعت هجمات الحادي عشر من سبتمبر في عام 2001.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Blizzards paralyze transportation and disrupt essential services severely.",
+    "ar": "تشل العواصف الثلجية وسائل النقل وتعطل الخدمات الأساسية بشدة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Graph algorithms solve network and relationship problems efficiently.",
+    "ar": "تحل خوارزميات الرسم البياني مشكلات الشبكة والعلاقات بكفاءة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Contemporary dance explores innovative movement and expression freely.",
+    "ar": "يستكشف الرقص المعاصر الحركة والتعبير المبتكر بحرية.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The invasion of Iraq began in two thousand three.",
+    "ar": "بدأ غزو العراق في عام 2003.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Dust storms reduce visibility and affect respiratory health significantly.",
+    "ar": "تقلل العواصف الترابية الرؤية وتؤثر على الصحة التنفسية بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Sorting algorithms arrange data elements in specific order efficiently.",
+    "ar": "ترتب خوارزميات الفرز عناصر البيانات بترتيب محدد بكفاءة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Hip hop culture includes music dance and visual art.",
+    "ar": "تشمل ثقافة الهيب هوب الموسيقى والرقص والفن البصري.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Arab Spring protests began in two thousand ten.",
+    "ar": "بدأت احتجاجات الربيع العربي في عام 2010.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Ice storms damage power lines and tree branches extensively.",
+    "ar": "تتلف العواصف الجليدية خطوط الكهرباء وأغصان الأشجار بشكل واسع.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Searching algorithms locate specific data within datasets quickly.",
+    "ar": "تحدد خوارزميات البحث بيانات محددة داخل مجموعات البيانات بسرعة.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Street art transforms urban spaces with creative public expression.",
+    "ar": "يحوّل فن الشارع المساحات الحضرية بالتعبير العام الإبداعي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Paris Agreement was adopted in two thousand fifteen.",
+    "ar": "اعتمد اتفاق باريس في عام 2015.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Hailstorms damage crops vehicles and buildings significantly.",
+    "ar": "تتلف عواصف البرد المحاصيل والمركبات والمباني بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Compression algorithms reduce file sizes for efficient storage.",
+    "ar": "تقلل خوارزميات الضغط أحجام الملفات للتخزين الفعال.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Digital art uses technology as primary creative medium innovatively.",
+    "ar": "يستخدم الفن الرقمي التكنولوجيا كوسيلة إبداعية رئيسية بشكل مبتكر.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The Brexit referendum occurred in two thousand sixteen.",
+    "ar": "حدث استفتاء البريكست في عام 2016.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Flash floods cause sudden dangerous water level rises rapidly.",
+    "ar": "تسبب الفيضانات المفاجئة ارتفاعات مفاجئة وخطيرة في منسوب المياه بسرعة.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Encryption algorithms protect data confidentiality through mathematical transformations.",
+    "ar": "تحمي خوارزميات التشفير سرية البيانات من خلال التحويلات الرياضية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Installation art creates immersive three-dimensional environmental experiences.",
+    "ar": "يخلق فن التركيب تجارب بيئية غامرة ثلاثية الأبعاد.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The pandemic began spreading globally in two thousand twenty.",
+    "ar": "بدأ الوباء بالانتشار عالميًا في عام 2020.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Extreme cold affects infrastructure and human health dangerously.",
+    "ar": "يؤثر البرد القارس على البنية التحتية والصحة البشرية بشكل خطير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Decryption algorithms recover original data from encrypted form.",
+    "ar": "تستعيد خوارزميات فك التشفير البيانات الأصلية من الشكل المشفر.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Performance art uses the artist's body as medium expressively.",
+    "ar": "يستخدم فن الأداء جسد الفنان كوسيلة تعبيرية.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The war in Afghanistan ended in two thousand twenty-one.",
+    "ar": "انتهت الحرب في أفغانستان في عام 2021.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Extreme heat causes infrastructure damage and health emergencies.",
+    "ar": "يسبب الحر الشديد أضرارًا بالبنية التحتية وحالات طوارئ صحية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Authentication protocols verify user identity securely and reliably.",
+    "ar": "تتحقق بروتوكولات المصادقة من هوية المستخدم بشكل آمن وموثوق.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Video art explores time-based visual narratives experimentally.",
+    "ar": "يستكشف فن الفيديو السرديات البصرية الزمنية بشكل تجريبي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "The conflict in Ukraine began in two thousand twenty-two.",
+    "ar": "بدأ الصراع في أوكرانيا في عام 2022.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Air quality deterioration affects urban populations' health significantly.",
+    "ar": "يؤثر تدهور جودة الهواء على صحة سكان المدن بشكل كبير.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Authorization protocols control access to protected resources effectively.",
+    "ar": "تحكم بروتوكولات التفويض الوصول إلى الموارد المحمية بفعالية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Sound art uses audio as primary artistic medium creatively.",
+    "ar": "يستخدم فن الصوت الصوت كوسيلة فنية رئيسية بشكل إبداعي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Technological innovation drives economic growth and societal change.",
+    "ar": "يدفع الابتكار التكنولوجي النمو الاقتصادي والتغيير المجتمعي.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Water pollution threatens aquatic biodiversity and human health.",
+    "ar": "يهدد تلوث المياه التنوع البيولوجي المائي والصحة البشرية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Historical preservation protects cultural heritage for future generations.",
+    "ar": "تحمي الحفاظ التاريخي التراث الثقافي للأجيال القادمة.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Financial literacy empowers individuals to make informed economic decisions.",
+    "ar": "يمكّن الإلمام المالي الأفراد من اتخاذ قرارات اقتصادية مستنيرة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Cultural exchange promotes mutual understanding between different societies.",
+    "ar": "يروّج التبادل الثقافي الفهم المتبادل بين المجتمعات المختلفة.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Scientific research advances human knowledge and technological capabilities.",
+    "ar": "يُقدّم البحث العلمي المعرفة البشرية والقدرات التكنولوجية.",
+    "topic": "science",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Political stability attracts foreign investment and economic development.",
+    "ar": "يجذب الاستقرار السياسي الاستثمار الأجنبي والتنمية الاقتصادية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Literary analysis interprets texts through various critical perspectives.",
+    "ar": "يفسر التحليل الأدبي النصوص من خلال وجهات نظر نقدية متنوعة.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Archaeological discoveries reveal ancient civilizations' daily life practices.",
+    "ar": "تكشف الاكتشافات الأثرية عن ممارسات الحياة اليومية للحضارات القديمة.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Renewable resources provide sustainable alternatives to fossil fuels.",
+    "ar": "توفر الموارد المتجددة بدائل مستدامة للوقود الأحفوري.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Digital transformation reshapes business models and customer experiences.",
+    "ar": "يُعيد التحول الرقمي تشكيل نماذج الأعمال وتجارب العملاء.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Artistic expression communicates complex emotions and ideas universally.",
+    "ar": "يُعبّر التعبير الفني عن المشاعر والأفكار المعقدة بشكل عالمي.",
+    "topic": "art",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Economic inequality affects social mobility and political stability.",
+    "ar": "يؤثر عدم المساواة الاقتصادية على الحراك الاجتماعي والاستقرار السياسي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Linguistic diversity enriches cultural heritage and global communication.",
+    "ar": "يُثري التنوع اللغوي التراث الثقافي والتواصل العالمي.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Historical documents provide primary evidence for past events.",
+    "ar": "توفر الوثائق التاريخية أدلة أولية للأحداث الماضية.",
+    "topic": "history",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Ecosystem services support human well-being and economic activities.",
+    "ar": "تدعم خدمات النظام البيئي رفاهية الإنسان والأنشطة الاقتصادية.",
+    "topic": "environment",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Cyber threats target critical infrastructure and personal data.",
+    "ar": "تستهدف التهديدات السيبرانية البنية التحتية الحيوية والبيانات الشخصية.",
+    "topic": "technology",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Musical composition combines melody harmony and rhythm creatively.",
+    "ar": "يجمع التأليف الموسيقي بين اللحن والانسجام والإيقاع بشكل إبداعي.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Globalization connects economies cultures and political systems worldwide.",
+    "ar": "يربط العولمة الاقتصادات والثقافات والأنظمة السياسية عالميًا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Philosophical inquiry examines fundamental questions about existence and knowledge.",
+    "ar": "يفحص الاستقصاء الفلسفي الأسئلة الأساسية حول الوجود والمعرفة.",
+    "topic": "culture",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Monetary policy influences inflation rates and employment levels.",
+    "ar": "يؤثر السياسة النقدية على معدلات التضخم ومستويات التوظيف.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Fiscal policy affects government spending and taxation decisions.",
+    "ar": "يؤثر السياسة المالية على قرارات الإنفاق الحكومي والضرائب.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Supply chain management optimizes product flow from source to consumer.",
+    "ar": "يحسّن إدارة سلسلة التوريد تدفق المنتج من المصدر إلى المستهلك.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Market competition drives innovation and improves product quality.",
+    "ar": "يدفع المنافسة السوقية الابتكار ويحسّن جودة المنتج.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Consumer behavior reflects cultural values and economic conditions.",
+    "ar": "يعكس سلوك المستهلك القيم الثقافية والظروف الاقتصادية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "International trade agreements facilitate cross-border commerce and cooperation.",
+    "ar": "تسهل اتفاقيات التجارة الدولية التجارة والتعاون عبر الحدود.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Economic indicators measure national economic performance and trends.",
+    "ar": "تقيس المؤشرات الاقتصادية أداء الاقتصاد الوطني والاتجاهات.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Labor markets connect employers with qualified workforce efficiently.",
+    "ar": "تربط أسواق العمل أصحاب العمل مع القوى العاملة المؤهلة بكفاءة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Capital investment fuels business expansion and technological advancement.",
+    "ar": "يغذي الاستثمار الرأسمالي توسع الأعمال والتقدم التكنولوجي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Financial markets allocate resources and manage investment risks.",
+    "ar": "تُخصص الأسواق المالية الموارد وتدير مخاطر الاستثمار.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Economic development improves living standards and reduces poverty.",
+    "ar": "يحسّن التنمية الاقتصادية مستويات المعيشة ويقلل الفقر.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Trade deficits reflect imbalance between imports and exports.",
+    "ar": "تعكس العجز التجاري عدم التوازن بين الواردات والصادرات.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Inflation erodes purchasing power and affects savings value.",
+    "ar": "يقلل التضخم القوة الشرائية ويؤثر على قيمة المدخرات.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Unemployment rates indicate labor market health and economic conditions.",
+    "ar": "تشير معدلات البطالة إلى صحة سوق العمل والظروف الاقتصادية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Gross domestic product measures national economic output annually.",
+    "ar": "يقيس الناتج المحلي الإجمالي الناتج الاقتصادي الوطني سنويًا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Exchange rates affect international trade competitiveness and tourism.",
+    "ar": "تؤثر أسعار الصرف على القدرة التنافسية للتجارة الدولية والسياحة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Interest rates influence borrowing costs and investment decisions.",
+    "ar": "تؤثر أسعار الفائدة على تكاليف الاقتراض وقرارات الاستثمار.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Budget deficits occur when government spending exceeds revenue.",
+    "ar": "تحدث العجز في الميزانية عندما يتجاوز الإنفاق الحكومي الإيرادات.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Public debt represents government obligations to creditors and citizens.",
+    "ar": "يمثل الدين العام التزامات الحكومة تجاه الدائنين والمواطنين.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Taxation policies fund public services and redistribute wealth.",
+    "ar": "تمول سياسات الضرائب الخدمات العامة وتُعيد توزيع الثروة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Economic sanctions restrict trade and financial transactions internationally.",
+    "ar": "تقيّد العقوبات الاقتصادية التجارة والمعاملات المالية دوليًا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Free trade zones promote export-oriented industrial development strategically.",
+    "ar": "تروّج مناطق التجارة الحرة التنمية الصناعية الموجهة للتصدير بشكل استراتيجي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Foreign direct investment brings capital technology and expertise.",
+    "ar": "يجلب الاستثمار الأجنبي المباشر رأس المال والتكنولوجيا والخبرة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Economic bubbles form when asset prices exceed intrinsic value.",
+    "ar": "تتشكل الفقاعات الاقتصادية عندما تتجاوز أسعار الأصول القيمة الجوهرية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Recession periods feature declining economic activity and rising unemployment.",
+    "ar": "تتميز فترات الركود بانخفاض النشاط الاقتصادي وارتفاع البطالة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Economic recovery follows recession through stimulus and growth.",
+    "ar": "يتبع الانتعاش الاقتصادي الركود من خلال التحفيز والنمو.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Productivity growth drives long-term economic prosperity and competitiveness.",
+    "ar": "يدفع نمو الإنتاجية الازدهار الاقتصادي طويل الأجل والقدرة التنافسية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Human capital investment enhances workforce skills and economic output.",
+    "ar": "يحسّن الاستثمار في رأس المال البشري مهارات القوى العاملة والناتج الاقتصادي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Infrastructure development supports economic growth and social progress.",
+    "ar": "يدعم تطوير البنية التحتية النمو الاقتصادي والتقدم الاجتماعي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Natural resources provide raw materials for industrial production processes.",
+    "ar": "توفر الموارد الطبيعية المواد الخام لعمليات الإنتاج الصناعي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Intellectual property rights protect innovation and creative works legally.",
+    "ar": "تحمي حقوق الملكية الفكرية الابتكار والأعمال الإبداعية قانونيًا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Entrepreneurship drives innovation job creation and economic dynamism.",
+    "ar": "يدفع ريادة الأعمال الابتكار وخلق الوظائف والديناميكية الاقتصادية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Small businesses contribute significantly to national employment and innovation.",
+    "ar": "تساهم المشاريع الصغيرة بشكل كبير في التوظيف الوطني والابتكار.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Corporate governance ensures accountability and ethical business practices.",
+    "ar": "يضمن الحوكمة المؤسسية المساءلة والممارسات التجارية الأخلاقية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Financial regulation maintains market stability and protects consumers.",
+    "ar": "تحافظ التنظيم المالي على استقرار السوق وتحمي المستهلكين.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Banking systems facilitate savings credit and payment transactions efficiently.",
+    "ar": "تسهل الأنظمة المصرفية المدخرات والائتمان ومعاملات الدفع بكفاءة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Insurance markets manage risk and provide financial protection services.",
+    "ar": "تدير أسواق التأمين المخاطر وتوفر خدمات الحماية المالية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Stock exchanges enable capital raising and investment opportunities publicly.",
+    "ar": "تمكّن بورصات الأوراق المالية جمع رأس المال وفرص الاستثمار علنًا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Bond markets provide long-term financing for governments and corporations.",
+    "ar": "توفر أسواق السندات تمويلًا طويل الأجل للحكومات والشركات.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Commodity markets trade raw materials and agricultural products globally.",
+    "ar": "تتداول أسواق السلع المواد الخام والمنتجات الزراعية عالميًا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Derivatives markets hedge against price volatility and financial risks.",
+    "ar": "تحمي أسواق المشتقات من تقلبات الأسعار والمخاطر المالية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Hedge funds employ sophisticated strategies for absolute returns generation.",
+    "ar": "تستخدم صناديق التحوط استراتيجيات متطورة لتوليد عوائد مطلقة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Private equity invests in companies for long-term value creation.",
+    "ar": "تستثمر الأسهم الخاصة في الشركات لإنشاء قيمة طويلة الأجل.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Venture capital funds support early-stage innovative startups financially.",
+    "ar": "تمول رأس المال المخاطر الشركات الناشئة المبتكرة في مراحلها المبكرة ماليًا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Microfinance provides financial services to underserved populations effectively.",
+    "ar": "يوفر التمويل الصغير الخدمات المالية للسكان غير المخدومين بشكل فعال.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Impact investing generates social environmental returns alongside financial profits.",
+    "ar": "يولد الاستثمار المؤثر عوائد اجتماعية وبيئية إلى جانب الأرباح المالية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Sustainable finance integrates environmental social governance factors responsibly.",
+    "ar": "يتكامل التمويل المستدام عوامل البيئة والمجتمع والحوكمة بشكل مسؤول.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Green bonds fund environmentally friendly projects and initiatives specifically.",
+    "ar": "تمول السندات الخضراء مشاريع ومبادرات صديقة للبيئة بشكل محدد.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Social entrepreneurship addresses societal challenges through innovative business models.",
+    "ar": "يتصدى ريادة الأعمال الاجتماعية للتحديات المجتمعية من خلال نماذج أعمال مبتكرة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Circular economy minimizes waste through reuse and recycling systems.",
+    "ar": "يقلل الاقتصاد الدائري النفايات من خلال أنظمة إعادة الاستخدام وإعادة التدوير.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Sharing economy platforms optimize resource utilization through peer-to-peer networks.",
+    "ar": "تحسّن منصات اقتصاد المشاركة استخدام الموارد من خلال شبكات الند للند.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Gig economy workers engage in flexible short-term employment arrangements.",
+    "ar": "يشارك عمال اقتصاد الوظائف المؤقتة في ترتيبات عمل مرنة قصيرة الأجل.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Digital economy transforms traditional business models through technology adoption.",
+    "ar": "يُحوّل الاقتصاد الرقمي نماذج الأعمال التقليدية من خلال اعتماد التكنولوجيا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Knowledge economy values intellectual capital over physical assets increasingly.",
+    "ar": "يُقدّر الاقتصاد المعرفي رأس المال الفكري أكثر من الأصول المادية بشكل متزايد.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Creative industries generate economic value through artistic and cultural production.",
+    "ar": "تولّد الصناعات الإبداعية قيمة اقتصادية من خلال الإنتاج الفني والثقافي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Cultural economics studies relationship between culture and economic behavior.",
+    "ar": "يدرس الاقتصاد الثقافي العلاقة بين الثقافة والسلوك الاقتصادي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Behavioral economics examines psychological factors in economic decision-making processes.",
+    "ar": "يفحص الاقتصاد السلوكي العوامل النفسية في عمليات اتخاذ القرار الاقتصادي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Development economics focuses on improving living standards in poorer nations.",
+    "ar": "يركز الاقتصاد التنموي على تحسين مستويات المعيشة في الدول الأفقر.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "International economics analyzes trade finance and global economic interactions.",
+    "ar": "يحلل الاقتصاد الدولي التجارة والتمويل والتفاعلات الاقتصادية العالمية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Labor economics studies workforce markets wages and employment policies.",
+    "ar": "يدرس الاقتصاد العمالي أسواق القوى العاملة والأجور وسياسات التوظيف.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Environmental economics evaluates costs and benefits of environmental policies.",
+    "ar": "يقيّم الاقتصاد البيئي التكاليف والفوائد للسياسات البيئية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Health economics analyzes healthcare systems resource allocation and outcomes.",
+    "ar": "يحلل الاقتصاد الصحي أنظمة الرعاية الصحية وتخصيص الموارد والنتائج.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Education economics examines relationship between education and economic outcomes.",
+    "ar": "يفحص الاقتصاد التعليمي العلاقة بين التعليم والنتائج الاقتصادية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Urban economics studies cities land use and spatial economic patterns.",
+    "ar": "يدرس الاقتصاد الحضري المدن واستخدام الأراضي والأنماط الاقتصادية المكانية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Regional economics analyzes economic activity within specific geographical areas.",
+    "ar": "يحلل الاقتصاد الإقليمي النشاط الاقتصادي ضمن مناطق جغرافية محددة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Agricultural economics focuses on food production distribution and policy.",
+    "ar": "يركز الاقتصاد الزراعي على إنتاج وتوزيع الغذاء والسياسات.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Industrial organization examines market structures and firm behavior strategically.",
+    "ar": "يفحص التنظيم الصناعي هياكل السوق وسلوك الشركات بشكل استراتيجي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Public economics studies government taxation spending and fiscal policy effects.",
+    "ar": "يدرس الاقتصاد العام الضرائب والإنفاق الحكومي وآثار السياسة المالية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Monetary economics analyzes money supply interest rates and inflation dynamics.",
+    "ar": "يحلل الاقتصاد النقدي عرض النقود وأسعار الفائدة وديناميكيات التضخم.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Financial economics studies asset pricing risk management and market efficiency.",
+    "ar": "يدرس الاقتصاد المالي تسعير الأصول وإدارة المخاطر وكفاءة السوق.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Game theory models strategic interactions between rational decision-makers mathematically.",
+    "ar": "نمذج نظرية الألعاب التفاعلات الاستراتيجية بين صانعي القرار العقلانيين رياضيًا.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Econometrics applies statistical methods to economic data for analysis.",
+    "ar": "تطبق القياسات الاقتصادية الأساليب الإحصائية على البيانات الاقتصادية للتحليل.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Mathematical economics uses mathematical models to represent economic theories.",
+    "ar": "يستخدم الاقتصاد الرياضي نماذج رياضية لتمثيل النظريات الاقتصادية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Computational economics employs computer simulations for economic modeling and analysis.",
+    "ar": "تستخدم الاقتصاد الحاسوبي محاكاة الحاسوب للنمذجة والتحليل الاقتصادي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Experimental economics tests economic theories through controlled laboratory experiments.",
+    "ar": "تختبر الاقتصاد التجريبي النظريات الاقتصادية من خلال تجارب معملية محكمة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Institutional economics examines role of institutions in economic development processes.",
+    "ar": "يفحص الاقتصاد المؤسسي دور المؤسسات في عمليات التنمية الاقتصادية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Evolutionary economics studies economic change through innovation and adaptation processes.",
+    "ar": "يدرس الاقتصاد التطوري التغيير الاقتصادي من خلال عمليات الابتكار والتكيف.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Complexity economics analyzes economic systems as complex adaptive networks dynamically.",
+    "ar": "يحلل الاقتصاد التعقيد الأنظمة الاقتصادية كشبكات تكيفية معقدة بشكل ديناميكي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Neoclassical economics assumes rational agents maximizing utility under constraints.",
+    "ar": "يفترض الاقتصاد الكلاسيكي الجديد أن الوكلاء العقلانيين يعظمون المنفعة تحت القيود.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Keynesian economics emphasizes government intervention during economic downturns actively.",
+    "ar": "يشدد الاقتصاد الكينزي على التدخل الحكومي خلال فترات الركود الاقتصادي بشكل نشط.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Monetarist economics focuses on money supply control for price stability.",
+    "ar": "يركز الاقتصاد النقدي على التحكم في عرض النقود لتحقيق استقرار الأسعار.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Austrian economics emphasizes individual choice and market processes spontaneously.",
+    "ar": "يشدد الاقتصاد النمساوي على الاختيار الفردي وعمليات السوق بشكل تلقائي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Marxist economics analyzes capitalism through labor theory of value critically.",
+    "ar": "يحلل الاقتصاد الماركسي الرأسمالية من خلال نظرية القيمة العمل بشكل نقدي.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Institutional economics studies how institutions shape economic behavior and outcomes.",
+    "ar": "يدرس الاقتصاد المؤسسي كيف تشكل المؤسسات السلوك الاقتصادي والنتائج.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Feminist economics examines gender inequalities in economic systems and policies.",
+    "ar": "يفحص الاقتصاد النسوي عدم المساواة بين الجنسين في الأنظمة والسياسات الاقتصادية.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Ecological economics integrates ecology and economics for sustainability analysis.",
+    "ar": "يتكامل الاقتصاد البيئي علم البيئة والاقتصاد لتحليل الاستدامة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Post-Keynesian economics challenges neoclassical assumptions about markets and equilibrium.",
+    "ar": "يتحدى الاقتصاد ما بعد الكينزي الافتراضات الكلاسيكية الجديدة حول الأسواق والتوازن.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  },
+  {
+    "en": "Heterodox economics encompasses alternative approaches beyond mainstream economic theories.",
+    "ar": "يشمل الاقتصاد غير التقليدي نُهجًا بديلة خارج النظريات الاقتصادية السائدة.",
+    "topic": "economy",
+    "level": "B1",
+    "tags": []
+  }
+]
