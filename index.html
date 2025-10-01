@@ -144,7 +144,7 @@
         #word-bank { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1rem; }
         #word-bank .word-chip { padding: 0.5rem 1rem; background: var(--surface); border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; }
 
-        /* Order Words Container (New) */
+        /* Order Words Container */
         #order-words-container { text-align: center; }
         #ordered-sentence-area { 
             min-height: 60px; border-bottom: 2px solid var(--border-color); margin-bottom: 1rem;
@@ -253,6 +253,7 @@
     <audio id="success-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-success-505.mp3" preload="auto"></audio>
     <audio id="fail-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-223.mp3" preload="auto"></audio>
     <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mp3" preload="auto"></audio>
+    <audio id="tts-fallback-audio" preload="auto"></audio> 
 
     <script>
     (function() {
@@ -266,7 +267,7 @@
             sentences: {}, userData: {}, settings: {},
             currentSession: null, pendingSession: {},
             isInitialized: false, ttsVoices: [],
-            orderWordsUserSequence: [], // New state for OrderWords mode
+            orderWordsUserSequence: [], 
         };
         const DOMElements = {
             splashScreen: document.getElementById('splash-screen'),
@@ -297,7 +298,6 @@
                 typingContainer: document.getElementById('typing-container'),
                 listenContainer: document.getElementById('listen-container'),
                 fillBlankContainer: document.getElementById('fill-blank-container'),
-                // New Order Words elements
                 orderWordsContainer: document.getElementById('order-words-container'),
                 orderedSentenceArea: document.getElementById('ordered-sentence-area'),
                 wordSelectionBank: document.getElementById('word-selection-bank'),
@@ -311,6 +311,7 @@
                 success: document.getElementById('success-sound'),
                 fail: document.getElementById('fail-sound'),
                 click: document.getElementById('click-sound'),
+                ttsFallback: document.getElementById('tts-fallback-audio'), // New element reference
             }
         };
         
@@ -324,7 +325,7 @@
         };
         
         // --- 2. DATA MANAGEMENT ---
-        const LS_KEYS = { USER_DATA: 'esj_userData_v8', SETTINGS: 'esj_settings_v8' }; // Updated version key
+        const LS_KEYS = { USER_DATA: 'esj_userData_v8', SETTINGS: 'esj_settings_v8' }; 
         function getDefaultUserData() { 
             return { 
                 unlockedSubLevels: { 'A1': ['1'] }, 
@@ -357,16 +358,41 @@
             setTimeout(() => { document.body.classList.remove(`${type}-flash`); }, 300);
         }
 
+        // MODIFIED SPEAK FUNCTION: Added Fallback logic
         function speak(text) {
-            if (!app.settings.ttsEnabled || !('speechSynthesis' in window)) return;
-            speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = app.settings.ttsSpeed;
-            if (app.ttsVoices.length > 0) {
-                 utterance.voice = app.ttsVoices.find(v => v.lang.startsWith('en')) || app.ttsVoices[0];
+            if (!app.settings.ttsEnabled) return;
+            
+            const useWebSpeech = 'speechSynthesis' in window;
+            
+            if (useWebSpeech) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = app.settings.ttsSpeed;
+                
+                // Prioritize finding an English voice
+                if (app.ttsVoices.length > 0) {
+                     utterance.voice = app.ttsVoices.find(v => v.lang.startsWith('en')) || app.ttsVoices[0];
+                }
+                
+                // Using Web Speech API (Primary)
+                speechSynthesis.speak(utterance);
+            } else {
+                // Using Google Translate TTS as Fallback (Secondary)
+                // This method requires an internet connection
+                const encodedText = encodeURIComponent(text);
+                const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=en&client=tw-ob`;
+                
+                const audio = DOMElements.audio.ttsFallback;
+                
+                // Stop any current playback
+                audio.pause();
+                audio.currentTime = 0;
+                
+                // Set the new source and play
+                audio.src = ttsUrl;
+                audio.play().catch(e => console.error("Fallback TTS playback failed:", e));
             }
-            speechSynthesis.speak(utterance);
         }
 
         function vibrate(d=50) { if(app.settings.hapticsEnabled && 'vibrate' in navigator) navigator.vibrate(d); }
@@ -478,7 +504,6 @@
                         const btn = document.createElement('button');
                         btn.className = 'btn';
                         btn.textContent = opt;
-                        // Directly assign onclick for MCQ
                         btn.onclick = (e) => checkAnswer(opt, e.target); 
                         DOMElements.game.mcqOptions.appendChild(btn);
                     });
@@ -525,7 +550,6 @@
                     DOMElements.game.orderedSentenceArea.innerHTML = '';
                     DOMElements.game.wordSelectionBank.innerHTML = '';
                     
-                    // Split sentence into words, keeping punctuation attached to words
                     const wordsOW = sentence.en.match(/\b(\w+)\b|[^\s]/g) || [];
                     const shuffledWordsOW = shuffleArray([...wordsOW]);
 
@@ -533,7 +557,7 @@
                         const chip = document.createElement('div');
                         chip.className = 'word-to-select';
                         chip.textContent = word;
-                        chip.dataset.index = index; // Use index to track chip identity
+                        chip.dataset.index = index; 
                         chip.onclick = () => selectWord(chip, word);
                         DOMElements.game.wordSelectionBank.appendChild(chip);
                     });
@@ -544,7 +568,6 @@
         
         function selectWord(chip, word) {
             playSound('click');
-            // Move word to ordered area
             chip.classList.add('disabled');
             chip.onclick = null;
 
@@ -559,15 +582,13 @@
         }
 
         function unselectWord(orderedChip) {
-            playSound('fail'); // Use fail sound as a simple feedback
-            // Move word back to selection bank
+            playSound('fail'); 
             const originalChip = DOMElements.game.wordSelectionBank.querySelector(`[data-index="${orderedChip.dataset.originalIndex}"]`);
             if (originalChip) {
                 originalChip.classList.remove('disabled');
                 originalChip.onclick = () => selectWord(originalChip, orderedChip.textContent);
             }
 
-            // Remove from ordered area and user sequence
             const wordToRemove = orderedChip.textContent;
             const index = app.orderWordsUserSequence.lastIndexOf(wordToRemove);
             if (index > -1) {
@@ -577,7 +598,6 @@
             orderedChip.remove();
         }
 
-        // ... (showSettings, showStats, showAchievements functions remain unchanged)
         function showSettings() {
             DOMElements.genericScreen.title.textContent = "الإعدادات";
             DOMElements.genericScreen.content.innerHTML = `
@@ -659,7 +679,6 @@
             const subLevelNumber = parseInt(subLevel);
             const allSubLevelsInLevel = Object.keys(app.sentences[level]).length;
             
-            // Show quiz button after every 20 sub-levels AND at the very last sub-level of the main level
             if (subLevelNumber > 0 && subLevelNumber % QUIZ_LEVEL_INTERVAL === 0 || subLevelNumber === allSubLevelsInLevel) {
                 const newQuizBtn = document.createElement('button');
                 newQuizBtn.className = 'btn';
@@ -675,7 +694,6 @@
             playSound('click');
             let questions;
             if (mode === 'Quiz') {
-                 // Quiz questions are a random subset of all sentences in the level
                  const allSentencesInLevel = Object.values(app.sentences[level]).flat();
                  questions = shuffleArray(allSentencesInLevel).slice(0, 10);
             } else {
@@ -736,7 +754,7 @@
             document.getElementById('summary-score').textContent = `النقاط: ${app.currentSession.score}`;
             document.getElementById('summary-accuracy').textContent = `الدقة: ${accuracy.toFixed(0)}%`;
             saveData();
-            checkAchievements(true); // Check for level master achievements
+            checkAchievements(true); 
         }
 
         function checkAnswer(userAnswer, targetElement) {
@@ -746,7 +764,6 @@
 
             if (app.currentSession.currentModeForQuestion === 'FillBlank') {
                 const originalWords = app.currentSession.currentSentence.en.split(/\s+/).filter(w => w.trim() !== '');
-                // Check if the cleaned version of the user's word matches the cleaned version of any original word
                 const correctWord = originalWords.find(w => cleanString(w) === cleanString(userAnswer));
                 isCorrect = !!correctWord;
             } else if (app.currentSession.currentModeForQuestion === 'OrderWords') {
@@ -755,11 +772,9 @@
                 const correctSentence = correctSentenceWords.join(' ');
                 isCorrect = cleanString(userSentence) === cleanString(correctSentence);
             } else {
-                // MCQ, Typing, ListenType
                 isCorrect = cleanString(userAnswer) === correctEn;
             }
 
-            // UI Feedback (OrderWords is handled separately below)
             if (app.currentSession.currentModeForQuestion !== 'OrderWords') {
                 if (isCorrect) {
                     app.currentSession.score++;
@@ -781,7 +796,6 @@
                 DOMElements.game.nextBtn.classList.remove('hidden');
                 DOMElements.game.sentenceEn.textContent = app.currentSession.currentSentence.en;
 
-                // Disable inputs after check
                 if (app.currentSession.currentModeForQuestion === 'MCQ') {
                     document.querySelectorAll('#mcq-options .btn').forEach(btn => {
                         btn.disabled = true;
@@ -799,13 +813,13 @@
                         placeholder.style.color = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
                     }
                 }
-            } else { // Handle OrderWords logic
+            } else { 
                 if (isCorrect) {
                     app.currentSession.score++;
                     playSound('success');
                     flashScreen('correct');
                     showToast('إجابة صحيحة! 🎉', 'success', '✅');
-                    speak(app.currentSession.currentSentence.en); // Speak sentence on correct
+                    speak(app.currentSession.currentSentence.en); 
                     DOMElements.game.orderedSentenceArea.style.borderBottomColor = 'var(--success-color)';
                 } else {
                     app.currentSession.mistakes.push({ ...app.currentSession.currentSentence, user_answer: app.orderWordsUserSequence.join(' ') });
@@ -815,14 +829,12 @@
                     DOMElements.game.orderedSentenceArea.style.borderBottomColor = 'var(--error-color)';
                 }
 
-                // Disable all interaction and show correct sentence
                 DOMElements.game.checkBtn.classList.add('hidden');
                 DOMElements.game.nextBtn.classList.remove('hidden');
                 DOMElements.game.sentenceEn.textContent = app.currentSession.currentSentence.en;
                 document.querySelectorAll('#word-selection-bank .word-to-select').forEach(chip => chip.style.pointerEvents = 'none');
                 document.querySelectorAll('#ordered-sentence-area .ordered-word-chip').forEach(chip => chip.onclick = null);
 
-                // For order words, always show the correct answer and allow moving on.
                 DOMElements.game.orderedSentenceArea.innerHTML = '';
                 app.currentSession.currentSentence.en.split(/\s+/).forEach(word => {
                     const chip = document.createElement('div');
@@ -846,7 +858,6 @@
                     DOMElements.game.typingInput.value = sentence.substring(0, currentInput.length + 1);
                 }
             } else if (effectiveMode === 'OrderWords') {
-                 // For OrderWords, move the next correct word into the sequence
                  const correctWords = app.currentSession.currentSentence.en.match(/\b(\w+)\b|[^\s]/g) || [];
                  const nextCorrectWord = correctWords[app.orderWordsUserSequence.length];
 
@@ -882,7 +893,16 @@
                     checkAnswer(app.orderWordsUserSequence.join(' '));
                 }
             };
-            DOMElements.game.nextBtn.onclick = () => { playSound('click'); app.currentSession.currentIndex++; renderQuestion(); };
+            DOMElements.game.nextBtn.onclick = () => { 
+                // Stop fallback audio playback when moving to the next question
+                if (DOMElements.audio.ttsFallback) {
+                    DOMElements.audio.ttsFallback.pause();
+                    DOMElements.audio.ttsFallback.currentTime = 0;
+                }
+                playSound('click'); 
+                app.currentSession.currentIndex++; 
+                renderQuestion(); 
+            };
             DOMElements.game.hintBtn.onclick = () => { playSound('click'); useHint(); };
             document.getElementById('replay-sound-btn').onclick = () => speak(app.currentSession?.currentSentence?.en);
             document.getElementById('summary-close-btn').onclick = () => { playSound('click'); DOMElements.modals.summary.classList.add('hidden'); renderMainMenu(); };
@@ -897,16 +917,15 @@
 
             if ('speechSynthesis' in window) {
                 speechSynthesis.onvoiceschanged = () => { app.ttsVoices = speechSynthesis.getVoices(); };
+                // Also load voices right away if available
+                app.ttsVoices = speechSynthesis.getVoices(); 
             }
 
             const levels = ['A1', 'A2', 'B1', 'B2'];
-            // Mocking data loading for demonstration (assuming these files exist)
             const files = ['sentences1.json', 'sentences2.json', 'sentences3.json', 'sentences4.json']; 
             for(let i=0; i < files.length; i++) {
                 try {
                     document.getElementById('loading-status').textContent = `Loading ${levels[i]}...`;
-                    // Fetch data here. For a standalone HTML file, you must replace this with actual data structures 
-                    // or ensure the JSON files are available in the same directory.
                     const response = await fetch(files[i]); 
                     if(!response.ok) throw new Error(`Failed to load`);
                     const data = await response.json();
@@ -916,8 +935,8 @@
                         const subLevelKey = (j / SUB_LEVEL_SIZE) + 1;
                         app.sentences[levelKey][subLevelKey] = data.slice(j, j + SUB_LEVEL_SIZE).map(s => ({...s, subLevel: `${subLevelKey}`}));
                     }
-                } catch(e) { document.getElementById('loading-status').textContent = `Error loading data for ${levels[i]}. Please check JSON files.`; 
-                // Using dummy data if loading fails (replace with your actual structure or remove if you use real files)
+                } catch(e) { document.getElementById('loading-status').textContent = `Error loading data for ${levels[i]}. Using dummy data.`; 
+                // Dummy data if loading fails
                 if(!app.sentences[levels[i]]) {
                     app.sentences[levels[i]] = {
                         '1': [{en: "I am happy", ar: "أنا سعيد"}, {en: "You are smart", ar: "أنت ذكي"}],
