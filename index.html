@@ -151,7 +151,7 @@
         .level-card-header { 
             display: flex; align-items: center; justify-content: space-between; 
             margin-bottom: 1rem; 
-            cursor: pointer; /* Suggests expand/collapse functionality */
+            cursor: pointer; 
         }
         .level-info { display: flex; align-items: center; gap: 1rem; }
         .level-icon { font-size: 2.5rem; }
@@ -190,30 +190,64 @@
         }
         .sub-level.completed { border-color: var(--success-color); color: var(--success-color); }
         .sub-level.locked { background-color: var(--border-color); color: var(--text-secondary); opacity: 0.7; }
-        
-        /* Game Controls */
-        #game-controls { 
-            display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; 
-            padding: 1rem 0; border-top: 1px solid var(--border-color); 
-        }
-        #game-controls-left { display: flex; gap: 1rem; }
 
-        /* Generic Screen Styles for Favorites, Settings, Stats */
-        .setting-row, .stat-item, .achievement-item, .favorite-sentence-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem; margin-bottom: 1rem;
-            background: var(--surface); border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
+        /* Game Screen Elements */
+        #game-screen header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding-bottom: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color);
         }
-        .favorite-sentence-item {
-            flex-direction: column; align-items: flex-start;
+        #session-progress-bar { 
+            flex-grow: 1; margin: 0 1rem; height: 8px; background: var(--border-color); border-radius: 4px; overflow: hidden;
         }
-        .favorite-sentence-item p { margin-bottom: 0.5rem; }
-        .favorite-sentence-item .en { font-family: var(--font-en); font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
-        .favorite-sentence-item .ar { font-family: var(--font-ar); color: var(--text-secondary); }
+        #session-progress-fill { height: 100%; width: 0; background: var(--accent); transition: width 0.3s; }
+        #score-display, #streak-display { font-weight: 700; font-size: 1.2rem; }
         
-        /* Modal Style (retained) */
+        .sentence-box { 
+            background: var(--surface); padding: 1.5rem; border-radius: 15px; margin-bottom: 1rem; 
+            box-shadow: var(--box-shadow); text-align: center;
+        }
+        #sentence-en-box { 
+            border: 2px solid var(--accent); 
+            font-family: var(--font-en); font-size: 1.3rem; font-weight: 600;
+        }
+        #sentence-ar-box { 
+            color: var(--text-secondary); 
+            font-family: var(--font-ar); font-size: 1.1rem;
+        }
+        
+        #typing-input {
+            width: 100%; padding: 1rem; border: 2px solid var(--border-color); 
+            border-radius: 12px; font-size: 1.2rem; font-family: var(--font-en);
+            background: var(--bg); color: var(--text-primary);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        #typing-input:focus {
+            outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(76, 124, 255, 0.3);
+        }
+        
+        #mcq-options, #word-bank, #word-selection-bank {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2rem;
+        }
+        #mcq-options .btn { width: 100%; padding: 1rem 1.5rem; font-size: 1rem; }
+        
+        .word-chip, .word-to-select {
+            padding: 0.7rem 1rem; border-radius: 8px; background: var(--surface);
+            border: 1px solid var(--border-color); cursor: pointer; text-align: center;
+            font-family: var(--font-en); font-weight: 600; transition: all 0.2s;
+        }
+        .word-to-select:hover { background-color: var(--bg); border-color: var(--accent); color: var(--accent); }
+        
+        #ordered-sentence-area {
+            min-height: 60px; border: 2px dashed var(--border-color); border-radius: 12px;
+            padding: 10px; margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 8px;
+            align-items: center;
+        }
+        .selected-word {
+            background-color: var(--accent); color: white; padding: 5px 10px; border-radius: 6px;
+            cursor: pointer; font-family: var(--font-en); font-weight: 600; transition: background-color 0.2s;
+        }
+        
+        /* Modal Style */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0, 0, 0, 0.7); z-index: 999; 
@@ -230,7 +264,7 @@
         
         #mode-selection-modal .modal-title { color: var(--accent); font-size: 2rem; font-weight: 900; margin-bottom: 2rem; }
         #mode-selection-modal .modal-body { 
-            display: grid; grid-template-columns: 1fr; gap: 1rem; 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; 
             max-height: 70vh; overflow-y: auto;
         }
         #mode-selection-modal .btn {
@@ -239,16 +273,31 @@
             justify-content: flex-start;
             background-color: var(--surface);
             color: var(--text-primary);
-            box-shadow: var(--shadow-light);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             border: 1px solid var(--border-color);
         }
         #mode-selection-modal .btn:hover {
             border-color: var(--accent);
-            transform: translateX(5px);
+            transform: scale(1.03);
             background-color: var(--bg);
         }
-        
-        @media (min-width: 400px) { #mode-selection-modal .modal-body { grid-template-columns: 1fr 1fr; } }
+
+        /* Generic Screen Styles for Favorites, Settings, Stats */
+        .setting-row, .stat-item, .achievement-item, .favorite-sentence-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem; margin-bottom: 1rem;
+            background: var(--surface); border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            position: relative; /* Needed for absolute positioning of the remove button */
+        }
+        .favorite-sentence-item {
+            flex-direction: column; align-items: flex-start;
+            padding-right: 40px; /* Space for the remove button */
+        }
+        .favorite-sentence-item p { margin-bottom: 0.5rem; }
+        .favorite-sentence-item .en { font-family: var(--font-en); font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
+        .favorite-sentence-item .ar { font-family: var(--font-ar); color: var(--text-secondary); }
     </style>
 </head>
 <body data-theme="light">
@@ -293,7 +342,7 @@
                 <div id="game-mode-container">
                     <div id="typing-container" class="hidden"><input type="text" id="typing-input" placeholder="اكتب الجملة الإنجليزية..."></div>
                     <div id="dictation-container" class="hidden" style="text-align: center;">
-                        <div id="dictation-word-display" style="text-align: center;">?</div>
+                        <button id="dictation-play-btn" class="btn-icon" style="font-size: 2.5rem; padding: 1.2rem; border-radius: 50%;">🔊</button>
                     </div>
                     <div id="mcq-container" class="hidden"><div id="mcq-options"></div></div>
                     <div id="listen-container" class="hidden" style="text-align: center; margin-bottom: 1rem;"><button id="play-sound-btn" class="btn-icon" style="font-size: 2.5rem; padding: 1.2rem; border-radius: 50%;">🔊</button></div>
@@ -318,7 +367,7 @@
         
         <div id="generic-screen" class="screen hidden"><header><button id="generic-back-btn" class="btn-icon">↩️</button><h2 id="generic-title" style="flex-grow: 1;"></h2></header><main id="generic-content"></main></div>
 
-        <div id="summary-modal" class="hidden"><div class="modal-overlay"></div><div class="modal"><div class="modal-header"><h2 class="modal-title">ملخص الجلسة</h2></div><div class="modal-body"><p id="summary-score"></p><p id="summary-accuracy"></p></div><div class="modal-footer"><button id="review-mistakes-btn" class="btn btn-secondary">راجع أخطائي</button><button id="summary-close-btn" class="btn">إغلاق</button></div></div></div>
+        <div id="summary-modal" class="hidden"><div class="modal-overlay"></div><div class="modal"><div class="modal-header"><h2 class="modal-title">ملخص الجلسة</h2></div><div class="modal-body"><p id="summary-score"></p><p id="summary-accuracy"></p><div id="review-mistakes-area"></div></div><div class="modal-footer"><button id="review-mistakes-btn" class="btn btn-secondary">راجع أخطائي</button><button id="summary-close-btn" class="btn">إغلاق</button></div></div></div>
         
         <div id="mode-selection-modal" class="hidden">
             <div class="modal-overlay"></div>
@@ -331,7 +380,7 @@
                     <button class="btn" data-mode="ListenType">🎧 تدريب الاستماع (MCQ)</button>
                     <button class="btn" data-mode="FillBlank">✍️ املأ الفراغ</button>
                     <button class="btn" data-mode="OrderWords">📝 ترتيب الكلمات</button>
-                    <button class="btn" data-mode="Dictation">🎤 إملاء الكلمات (الكلمة الواحدة)</button>
+                    <button class="btn" data-mode="Dictation">🎤 إملاء (الكلمة الواحدة)</button>
                     <button class="btn btn-secondary" data-mode="Challenge">🎲 تحدي متنوع</button>
                 </div>
             </div>
@@ -357,6 +406,7 @@
             { level: 'B2', file: 'sentences4.json' }
         ];
 
+        // Retained LS version for continuity
         const LS_KEYS = { USER_DATA: 'esj_userData_v15_fav', SETTINGS: 'esj_settings_v15_fav' }; 
         
         const app = {
@@ -399,7 +449,7 @@
                 orderedSentenceArea: document.getElementById('ordered-sentence-area'),
                 wordSelectionBank: document.getElementById('word-selection-bank'),
                 dictationContainer: document.getElementById('dictation-container'),
-                dictationWordDisplay: document.getElementById('dictation-word-display'),
+                dictationPlayBtn: document.getElementById('dictation-play-btn'),
                 sentenceEnBox: document.getElementById('sentence-en-box'),
                 sentenceArBox: document.getElementById('sentence-ar-box'),
                 favBtn: document.getElementById('fav-btn'),
@@ -409,6 +459,8 @@
                 summary: document.getElementById('summary-modal'),
                 modeSelection: document.getElementById('mode-selection-modal'),
                 modeSelectionButtons: document.getElementById('mode-selection-buttons'),
+                summaryReviewArea: document.getElementById('review-mistakes-area'),
+                reviewMistakesBtn: document.getElementById('review-mistakes-btn'),
             },
             audio: {
                 success: document.getElementById('success-sound'),
@@ -444,7 +496,7 @@
             app.userData = { ...getDefaultUserData(), ...JSON.parse(localStorage.getItem(LS_KEYS.USER_DATA) || '{}') };
         }
 
-        // --- 3. CORE UTILITIES (Retained) ---
+        // --- 3. CORE UTILITIES (TTS FIXED) ---
         function playSound(type) {
             if (!app.settings.soundEffects) return;
             const sound = DOMElements.audio[type];
@@ -459,19 +511,27 @@
             setTimeout(() => { document.body.classList.remove(`${type}-flash`); }, 300);
         }
 
+        // IMPROVED TTS (Text-to-Speech) function
         function speak(text) {
-            if (!app.settings.ttsEnabled) return;
+            if (!app.settings.ttsEnabled || !text) return;
             const useWebSpeech = 'speechSynthesis' in window;
             if (useWebSpeech) {
-                speechSynthesis.cancel();
+                // Check if already speaking and stop before starting new
+                if (speechSynthesis.speaking) {
+                    speechSynthesis.cancel();
+                }
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'en-US';
                 utterance.rate = app.settings.ttsSpeed;
+                
+                // Prioritize English voices if available
                 if (app.ttsVoices.length > 0) {
                      utterance.voice = app.ttsVoices.find(v => v.lang.startsWith('en')) || app.ttsVoices[0];
                 }
+                
                 speechSynthesis.speak(utterance);
             } else {
+                // Fallback for devices without Web Speech API (e.g., some older browsers/mobile OS)
                 const encodedText = encodeURIComponent(text);
                 const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=en&client=tw-ob`;
                 const audio = DOMElements.audio.ttsFallback;
@@ -506,10 +566,16 @@
         }
         
         function cleanString(str) {
+            // Remove all punctuation (except space) and convert to lowercase for better comparison
             return str.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
         }
+        
+        function simplifyString(str) {
+            // Used for looser comparison in typing mode (e.g. ignoring 'a' vs 'an' issues)
+            return cleanString(str).replace(/\b(a|an|the|is|are|am)\b/g, '').replace(/\s+/g, ' ').trim();
+        }
 
-        // --- 4. UI RENDERING (FIXED) ---
+        // --- 4. UI RENDERING (FIXED Sub-Level Click) ---
         function renderMainMenu() {
             const container = DOMElements.levelContainer;
             container.innerHTML = ''; 
@@ -546,8 +612,7 @@
                     subLevelEl.textContent = key;
 
                     if (app.userData.unlockedSubLevels[level].includes(key)) {
-                        // --- FIX APPLIED HERE ---
-                        // Attach the event handler directly to the unlocked sub-level element
+                        // CORRECT: Assign click handler to unlocked sub-levels
                         subLevelEl.onclick = () => { playSound('click'); showModeSelectionModal(level, key); };
                         
                         const levelKey = `${level}-${key}`;
@@ -557,7 +622,6 @@
 
                     } else {
                         subLevelEl.classList.add('locked');
-                        // Prevent click on locked levels
                         subLevelEl.onclick = () => { vibrate(50); showToast('هذا المستوى مقفل. أكمل المراحل السابقة!', 'error', '🔒'); };
                     }
                     subLevelContainer.appendChild(subLevelEl);
@@ -567,7 +631,7 @@
                 const header = levelCard.querySelector('.level-card-header');
                 const expandIcon = header.querySelector('.expand-icon');
                 header.onclick = (e) => {
-                    // Check if the click target is the sub-level itself
+                    // Prevent header click from triggering if a child sub-level was the target
                     if (e.target.closest('.sub-level')) return; 
                     
                     levelCard.classList.toggle('expanded');
@@ -579,25 +643,201 @@
             showScreen('main-menu-screen');
         }
 
-        // --- 5. GAME LOGIC (Retained) ---
+        // --- 5. GAME LOGIC (FIXED Mode Switching, Check Answer, and TTS Integration) ---
+
+        function updateStreak(isCorrect) {
+            if (isCorrect) {
+                app.currentStreak++;
+                if (app.currentStreak > app.userData.longestStreak) {
+                    app.userData.longestStreak = app.currentStreak;
+                }
+            } else {
+                app.currentStreak = 0;
+            }
+            DOMElements.game.streakDisplay.textContent = `🔥${app.currentStreak}`;
+        }
+
+        function updateScore(isCorrect) {
+             if (isCorrect) {
+                const points = 10 + Math.min(app.currentStreak, 5) * 2; // Bonus for streak
+                app.currentSession.score += points;
+                app.userData.stats.totalScore += points;
+            } else {
+                app.userData.stats.totalMistakes++;
+            }
+            DOMElements.game.scoreDisplay.textContent = app.currentSession.score;
+            saveData();
+        }
+
+        function endSession() {
+            const session = app.currentSession;
+            const accuracy = session.questions.length > 0 ? ((session.questions.length - session.mistakes.length) / session.questions.length) * 100 : 0;
+            const levelKey = `${session.level}-${session.subLevel}`;
+
+            DOMElements.modals.summary.classList.remove('hidden');
+            document.getElementById('summary-score').textContent = `النقاط: ${session.score}`;
+            document.getElementById('summary-accuracy').textContent = `الدقة: ${accuracy.toFixed(1)}%`;
+            DOMElements.modals.summaryReviewArea.innerHTML = '';
+            
+            if (session.mistakes.length === 0) {
+                 DOMElements.modals.summaryReviewArea.innerHTML = '<p style="text-align: center; color: var(--success-color); margin-top: 1rem;">أداء مثالي! لا توجد أخطاء.</p>';
+                 DOMElements.modals.reviewMistakesBtn.classList.add('hidden');
+            } else {
+                 DOMElements.modals.reviewMistakesBtn.classList.remove('hidden');
+            }
+
+            // Unlocking logic
+            if (accuracy >= UNLOCK_PERCENTAGE && !app.userData.stats.completedLevels.includes(levelKey)) {
+                app.userData.stats.completedLevels.push(levelKey);
+                unlockNextSubLevel(session.level, session.subLevel);
+            }
+            
+            checkAchievements();
+            saveData();
+        }
+        
+        function unlockNextSubLevel(currentLevel, currentSubLevel) {
+            const nextSubLevel = String(parseInt(currentSubLevel) + 1);
+            if (app.sentences[currentLevel][nextSubLevel]) {
+                if (!app.userData.unlockedSubLevels[currentLevel].includes(nextSubLevel)) {
+                    app.userData.unlockedSubLevels[currentLevel].push(nextSubLevel);
+                    showToast(`تم فتح المرحلة ${currentLevel}-${nextSubLevel}!`, 'success', '🔓');
+                }
+            } else {
+                // Try to unlock the next main level (e.g., A2-1)
+                const nextLevel = LEVELS_FILES[LEVELS_FILES.findIndex(l => l.level === currentLevel) + 1]?.level;
+                if (nextLevel && app.sentences[nextLevel]?.['1']) {
+                     if (!app.userData.unlockedSubLevels[nextLevel]?.includes('1')) {
+                         app.userData.unlockedSubLevels[nextLevel].push('1');
+                         showToast(`تهانينا! تم فتح مستوى ${nextLevel}!`, 'success', '🎉');
+                     }
+                }
+            }
+        }
+        
+        function checkAchievements() {
+            // Example of A1 master achievement check
+            const allA1SubLevels = Object.keys(app.sentences['A1'] || {});
+            const completedA1 = app.userData.stats.completedLevels.filter(l => l.startsWith('A1-')).length;
+
+            if (completedA1 === allA1SubLevels.length && !app.userData.achievements.A1_LEVEL_MASTER) {
+                app.userData.achievements.A1_LEVEL_MASTER = true;
+                showToast(ACHIEVEMENTS.A1_LEVEL_MASTER.name, 'success', ACHIEVEMENTS.A1_LEVEL_MASTER.icon);
+            }
+        }
+        
+        function reviewMistakes() {
+            DOMElements.modals.summaryReviewArea.innerHTML = '<h3>الأخطاء:</h3>';
+            app.currentSession.mistakes.forEach(mistake => {
+                const div = document.createElement('div');
+                div.className = 'favorite-sentence-item';
+                div.style.backgroundColor = 'var(--error-color)';
+                div.style.color = 'white';
+                div.style.border = 'none';
+                div.innerHTML = `<p class="en" style="color: white; font-weight: 700;">${mistake.en}</p><p class="ar" style="color: #eee;">${mistake.ar}</p><p style="color: #ffdddd;">إجابتك: ${mistake.userAnswer}</p>`;
+                DOMElements.modals.summaryReviewArea.appendChild(div);
+            });
+            DOMElements.modals.reviewMistakesBtn.classList.add('hidden');
+        }
+
+        function checkAnswer(userAnswer, optionElement = null) {
+            const session = app.currentSession;
+            const sentence = session.currentSentence;
+            const mode = session.currentModeForQuestion;
+            let isCorrect = false;
+            let expectedAnswer = cleanString(sentence.en);
+            
+            // Disable inputs/options to prevent double-checking
+            DOMElements.game.typingInput.disabled = true;
+            document.querySelectorAll('#mcq-options .btn').forEach(btn => btn.disabled = true);
+            document.querySelectorAll('#word-bank .word-chip').forEach(chip => chip.disabled = true);
+            DOMElements.game.checkBtn.classList.add('hidden');
+            DOMElements.game.nextBtn.classList.remove('hidden');
+
+            const cleanUserAnswer = cleanString(userAnswer);
+
+            switch (mode) {
+                case 'MCQ':
+                case 'ListenType':
+                case 'FillBlank':
+                    isCorrect = cleanUserAnswer === expectedAnswer;
+                    if (mode === 'FillBlank') {
+                        // In FillBlank, userAnswer is the single word chip
+                        const correctWord = cleanString(sentence.en.match(/\b(\w+)\b/g).find(w => sentence.en.includes(w)) || sentence.en);
+                        isCorrect = cleanUserAnswer === correctWord;
+                    }
+                    if (optionElement) {
+                        // Highlight correct/incorrect MC/FillBlank option
+                        optionElement.style.backgroundColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
+                        optionElement.style.color = 'white';
+                        if (!isCorrect) {
+                             document.querySelectorAll('#mcq-options .btn, #word-bank .word-chip').forEach(el => {
+                                 if (cleanString(el.textContent) === expectedAnswer) {
+                                      el.style.border = '2px solid var(--success-color)';
+                                 }
+                             });
+                        }
+                    }
+                    break;
+                case 'Typing':
+                    isCorrect = simplifyString(userAnswer) === simplifyString(sentence.en);
+                    DOMElements.game.typingInput.style.borderColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
+                    DOMElements.game.sentenceEn.textContent = sentence.en; // Reveal correct answer
+                    break;
+                case 'Dictation':
+                    // Check only the one word chosen in renderQuestion
+                    const expectedWord = cleanString(sentence.en.match(/\b(\w+)\b/g)[0] || sentence.en); 
+                    isCorrect = cleanUserAnswer === app.currentSession.correctDictationWord;
+                    break;
+                case 'OrderWords':
+                    // userAnswer is the joined sequence from app.orderWordsUserSequence
+                    isCorrect = simplifyString(userAnswer) === simplifyString(sentence.en);
+                    DOMElements.game.orderedSentenceArea.style.border = isCorrect ? '2px solid var(--success-color)' : '2px solid var(--error-color)';
+                    DOMElements.game.sentenceEn.textContent = sentence.en; // Reveal correct answer
+                    break;
+                default:
+                    return; // Should not happen
+            }
+
+            if (isCorrect) {
+                playSound('success');
+                flashScreen('correct');
+                updateStreak(true);
+                updateScore(true);
+            } else {
+                playSound('fail');
+                flashScreen('incorrect');
+                updateStreak(false);
+                if (session.mistakes.every(m => cleanString(m.en) !== cleanString(sentence.en))) {
+                    session.mistakes.push({ en: sentence.en, ar: sentence.ar, mode: mode, userAnswer: userAnswer });
+                }
+                updateScore(false);
+            }
+            
+            // Speak the correct English sentence after check
+            if (isCorrect || mode !== 'Learning') {
+                speak(sentence.en);
+            }
+        }
+        
         function renderQuestion() {
-            // ... (The rest of renderQuestion is retained) ...
             if (app.currentSession.currentIndex >= app.currentSession.questions.length) return endSession();
+            
             const sentence = app.currentSession.questions[app.currentSession.currentIndex];
             app.currentSession.currentSentence = sentence;
             
             updateFavoriteButton(); 
-
             DOMElements.gameScreen.dataset.sessionMode = app.currentSession.mode;
             DOMElements.game.sessionProgressBar.style.width = `${((app.currentSession.currentIndex + 1) / app.currentSession.questions.length) * 100}%`;
             
-            // Reset question UI (rest of the renderQuestion function retained)
+            // --- UI RESET ---
             DOMElements.game.sentenceEn.textContent = '';
             DOMElements.game.sentenceAr.textContent = sentence.ar;
             DOMElements.game.typingInput.value = '';
             DOMElements.game.typingInput.disabled = false;
             DOMElements.game.typingInput.style.borderColor = 'var(--border-color)';
             
+            // Hide all mode containers and control buttons
             ['mcq-container', 'typing-container', 'listen-container', 'fill-blank-container', 'order-words-container', 'dictation-container'].forEach(c => document.getElementById(c).classList.add('hidden'));
             DOMElements.game.nextBtn.classList.add('hidden');
             DOMElements.game.checkBtn.classList.remove('hidden');
@@ -605,6 +845,7 @@
             
             DOMElements.game.sentenceEnBox.classList.remove('hidden');
             DOMElements.game.sentenceArBox.classList.remove('hidden');
+            DOMElements.game.replaySoundBtn.onclick = () => speak(sentence.en); // Default replay
 
             let mode = app.currentSession.mode;
             if (mode === 'Challenge') {
@@ -617,7 +858,7 @@
             DOMElements.game.orderedSentenceArea.innerHTML = '';
             DOMElements.game.wordSelectionBank.innerHTML = '';
             
-            // ... (switch case for modes retained)
+            // --- MODE SETUP ---
             switch (mode) {
                 case 'Learning':
                     DOMElements.game.sentenceEn.textContent = sentence.en;
@@ -635,6 +876,7 @@
                     if (mode === 'ListenType') {
                         DOMElements.game.sentenceArBox.classList.add('hidden'); 
                         DOMElements.game.listenContainer.classList.remove('hidden');
+                        DOMElements.game.playSoundBtn.onclick = () => speak(sentence.en);
                         speak(sentence.en); 
                     } else {
                         DOMElements.game.sentenceEnBox.classList.add('hidden'); 
@@ -662,34 +904,39 @@
                 case 'Dictation': 
                     DOMElements.game.dictationContainer.classList.remove('hidden');
                     DOMElements.game.typingContainer.classList.remove('hidden'); 
+                    DOMElements.game.typingInput.placeholder = "اكتب الجملة الإنجليزية...";
                     DOMElements.game.typingInput.style.textAlign = 'center'; 
                     DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                     DOMElements.game.sentenceArBox.classList.add('hidden'); 
                     
-                    const words = sentence.en.match(/\b(\w+)\b/g) || [];
-                    const selectedWord = words.length > 0 ? words[Math.floor(Math.random() * words.length)] : sentence.en.split(/\s+/).filter(w => w.trim() !== '')[0];
-                    app.currentSession.correctDictationWord = cleanString(selectedWord);
-                    
-                    DOMElements.game.dictationWordDisplay.textContent = '...'; 
-                    DOMElements.game.typingInput.placeholder = "اكتب الكلمة التي سمعتها...";
+                    DOMElements.game.dictationPlayBtn.onclick = () => speak(sentence.en);
+                    DOMElements.game.replaySoundBtn.onclick = () => speak(sentence.en);
+
+                    speak(sentence.en);
                     DOMElements.game.typingInput.focus();
-                    
-                    speak(selectedWord);
-                    DOMElements.game.replaySoundBtn.onclick = () => speak(selectedWord);
                     break;
                 case 'FillBlank':
                     DOMElements.game.fillBlankContainer.classList.remove('hidden');
                     DOMElements.game.wordBank.innerHTML = '';
                     DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                     
-                    const wordsFB = sentence.en.split(/\s+/).filter(w => w.trim() !== '');
-                    const blankIndex = Math.floor(Math.random() * wordsFB.length);
-                    const correctWordFB = wordsFB[blankIndex];
-                    wordsFB[blankIndex] = `<span id="blank-placeholder" style="color:var(--text-secondary)">[....]</span>`;
-                    DOMElements.game.wordBlanks.innerHTML = wordsFB.join(' ');
+                    const wordsFB = sentence.en.match(/\b(\w+)\b|[^\s]/g) || [];
+                    const wordIndices = wordsFB.map((w, i) => (/\w/.test(w) ? i : -1)).filter(i => i !== -1);
+                    if (wordIndices.length === 0) {
+                        DOMElements.game.sentenceAr.textContent = "خطأ في الجملة (لا توجد كلمات).";
+                        DOMElements.game.checkBtn.classList.add('hidden');
+                        DOMElements.game.nextBtn.classList.remove('hidden');
+                        return;
+                    }
                     
-                    const allWordsFB = new Set(Object.values(app.sentences).flatMap(levels => Object.values(levels)).flat().flatMap(s => s.en.match(/\b(\w+)\b/g) || []));
-                    const incorrectWordsFB = shuffleArray(Array.from(allWordsFB).filter(w => cleanString(w) !== cleanString(correctWordFB))).slice(0, 3);
+                    const blankIndex = wordIndices[Math.floor(Math.random() * wordIndices.length)];
+                    const correctWordFB = wordsFB[blankIndex];
+                    const displayedSentence = [...wordsFB];
+                    displayedSentence[blankIndex] = `<span id="blank-placeholder" style="color:var(--text-secondary); padding: 0 10px;">[....]</span>`;
+                    DOMElements.game.wordBlanks.innerHTML = displayedSentence.join(' ').replace(/\s+/g, ' ').replace(/\s([.,?!;])/g, '$1');
+                    
+                    const allWords = Object.values(app.sentences).flatMap(levels => Object.values(levels)).flat().flatMap(s => s.en.match(/\b(\w+)\b/g) || []);
+                    const incorrectWordsFB = shuffleArray(Array.from(new Set(allWords.filter(w => cleanString(w) !== cleanString(correctWordFB))))).slice(0, 3);
                     const bankWordsFB = shuffleArray([correctWordFB, ...incorrectWordsFB].filter(w => w.trim() !== ''));
                     
                     bankWordsFB.forEach(word => {
@@ -708,7 +955,7 @@
                     DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                     
                     const wordsOW = sentence.en.match(/\b(\w+)\b|[^\s]/g) || [];
-                    const shuffledWordsOW = shuffleArray([...wordsOW].filter(w => w.trim() !== ''));
+                    const shuffledWordsOW = shuffleArray([...wordsOW].filter(w => w.trim() !== '').map(w => w.replace(/[.,?!;]/g, ''))); // Remove punctuation for chips only
 
                     shuffledWordsOW.forEach((word, index) => {
                         const chip = document.createElement('div');
@@ -723,6 +970,34 @@
             }
         }
 
+        function selectWord(chip, word) {
+            playSound('click');
+            chip.classList.add('hidden');
+            const selectedChip = document.createElement('div');
+            selectedChip.className = 'selected-word';
+            selectedChip.textContent = word;
+            selectedChip.dataset.originalIndex = chip.dataset.index;
+            selectedChip.onclick = () => unselectWord(selectedChip);
+            DOMElements.game.orderedSentenceArea.appendChild(selectedChip);
+            
+            app.orderWordsUserSequence.push(word);
+        }
+
+        function unselectWord(selectedChip) {
+            playSound('click');
+            const originalChip = document.querySelector(`.word-to-select[data-index="${selectedChip.dataset.originalIndex}"]`);
+            if (originalChip) {
+                originalChip.classList.remove('hidden');
+            }
+            // Remove from sequence array (important for checkAnswer)
+            const wordToRemove = selectedChip.textContent;
+            const indexInSequence = app.orderWordsUserSequence.indexOf(wordToRemove);
+            if (indexInSequence > -1) {
+                app.orderWordsUserSequence.splice(indexInSequence, 1);
+            }
+            selectedChip.remove();
+        }
+
         function showModeSelectionModal(level, subLevel) {
             vibrate();
             playSound('click');
@@ -730,7 +1005,7 @@
             DOMElements.modals.modeSelection.classList.remove('hidden');
         }
 
-        // --- FAVORITES, STATS, SETTINGS, INIT (Retained) ---
+        // --- FAVORITES, STATS, SETTINGS (Retained) ---
         
         function updateFavoriteButton() {
             if (!app.currentSession || !app.currentSession.currentSentence) {
@@ -776,26 +1051,34 @@
             if (app.userData.favorites.length === 0) {
                 DOMElements.genericScreen.content.innerHTML = '<p style="text-align: center; color: var(--text-secondary); margin-top: 3rem;">قائمة المفضلة فارغة حالياً.</p>';
             } else {
-                app.userData.favorites.forEach((fav, index) => {
+                // IMPORTANT: Use a deep copy to avoid modifying the array while iterating
+                const favoritesCopy = [...app.userData.favorites];
+                
+                favoritesCopy.forEach((fav, index) => {
                     const item = document.createElement('div');
                     item.className = 'favorite-sentence-item';
+                    item.dataset.index = index; // Store original index for removal
                     item.innerHTML = `
                         <p class="en">${fav.en}</p>
                         <p class="ar">${fav.ar}</p>
-                        <button class="btn-icon" data-index="${index}" style="position: absolute; left: 10px; top: 10px; font-size: 1rem; padding: 0.5rem;" title="إزالة">❌</button>
+                        <button class="btn-icon remove-fav-btn" style="position: absolute; left: 10px; top: 10px; font-size: 1rem; padding: 0.5rem;" title="إزالة">❌</button>
                     `;
                     DOMElements.genericScreen.content.appendChild(item);
                 });
                 
-                DOMElements.genericScreen.content.addEventListener('click', e => {
-                    if (e.target.matches('.btn-icon')) {
-                        const index = parseInt(e.target.dataset.index);
+                // Add event listener for remove buttons using event delegation on the content area
+                DOMElements.genericScreen.content.onclick = (e) => {
+                    if (e.target.matches('.remove-fav-btn')) {
+                        const item = e.target.closest('.favorite-sentence-item');
+                        const index = parseInt(item.dataset.index);
+                        
+                        // Use the original index from the data attribute to remove from the live array
                         app.userData.favorites.splice(index, 1);
                         saveData();
                         showToast('تم الحذف بنجاح.', 'info', '🗑️');
-                        showFavorites(); 
+                        showFavorites(); // Re-render the list immediately
                     }
-                });
+                };
             }
             
             showScreen('generic-screen');
@@ -809,7 +1092,7 @@
                 <div class="setting-row"><span>المظهر (داكن/فاتح)</span><input type="checkbox" id="theme-toggle" class="toggle-switch"></div>
                 <div class="setting-row"><span>تأثيرات صوتية</span><input type="checkbox" id="sfx-toggle" class="toggle-switch"></div>
                 <div class="setting-row"><span>تشغيل النطق التلقائي (TTS)</span><input type="checkbox" id="tts-toggle" class="toggle-switch"></div>
-                <div class="setting-row"><span>سرعة النطق (TTS Speed): ${app.settings.ttsSpeed.toFixed(1)}</span><input type="range" id="tts-speed-range" min="0.5" max="2.0" step="0.1" value="${app.settings.ttsSpeed}"></div>
+                <div class="setting-row"><span>سرعة النطق (TTS Speed): <span id="tts-speed-value">${app.settings.ttsSpeed.toFixed(1)}</span></span><input type="range" id="tts-speed-range" min="0.5" max="2.0" step="0.1" value="${app.settings.ttsSpeed}"></div>
                 <div class="setting-row" id="about-btn-row"><span>حول التطبيق والإرشادات</span><button class="btn-icon">ℹ️</button></div>
             `;
             
@@ -827,10 +1110,10 @@
             document.getElementById('tts-toggle').onchange = e => { app.settings.ttsEnabled = e.target.checked; saveSettings(); };
             
             const ttsSpeedRange = document.getElementById('tts-speed-range');
-            const speedLabel = ttsSpeedRange.previousElementSibling.querySelector('span:first-child');
+            const speedLabel = document.getElementById('tts-speed-value');
             ttsSpeedRange.oninput = e => {
                 app.settings.ttsSpeed = parseFloat(e.target.value);
-                speedLabel.textContent = `سرعة النطق (TTS Speed): ${app.settings.ttsSpeed.toFixed(1)}`;
+                speedLabel.textContent = app.settings.ttsSpeed.toFixed(1);
                 saveSettings();
             };
             
@@ -865,28 +1148,21 @@
             showScreen('generic-screen');
         }
 
-        function showAchievements() {
-            DOMElements.genericScreen.title.textContent = "🏆 الإنجازات";
-            DOMElements.genericScreen.content.innerHTML = '';
-            
-            Object.values(ACHIEVEMENTS).forEach(achievement => {
-                const isUnlocked = app.userData.achievements[achievement.id];
-                const achEl = document.createElement('div');
-                achEl.className = `achievement-item ${isUnlocked ? 'unlocked' : ''}`;
-                achEl.innerHTML = `<div class="achievement-icon">${achievement.icon}</div><div><h3>${achievement.name}</h3><p>${achievement.description}</p></div>`;
-                DOMElements.genericScreen.content.appendChild(achEl);
-            });
-
-            showScreen('generic-screen');
-        }
-
         function startSession(mode) {
             const { level, subLevel } = app.pendingSession;
             vibrate();
             playSound('click');
             
-            const questions = shuffleArray([...app.sentences[level][subLevel]]);
+            // Fix: Ensure sentences exist for the selected level/subLevel
+            const questions = app.sentences[level] && app.sentences[level][subLevel] ? 
+                              shuffleArray([...app.sentences[level][subLevel]]) : [];
             
+            if (questions.length === 0) {
+                 DOMElements.modals.modeSelection.classList.add('hidden');
+                 showToast('لا توجد جمل متوفرة لهذه المرحلة.', 'error', '⚠️');
+                 return;
+            }
+
             app.currentStreak = 0;
             
             app.currentSession = {
@@ -900,9 +1176,8 @@
             showScreen('game-screen');
             renderQuestion();
         }
-        
-        // ... (other functions retained) ...
 
+        // --- 6. EVENT LISTENERS (Cleaned up and fixed) ---
         function setupEventListeners() {
             document.getElementById('settings-btn').onclick = () => { playSound('click'); vibrate(); showSettings(); };
             document.getElementById('stats-btn').onclick = () => { playSound('click'); vibrate(); showStats(); };
@@ -915,6 +1190,8 @@
             };
             document.getElementById('back-to-menu-btn').onclick = () => { playSound('click'); renderMainMenu(); };
             document.getElementById('summary-close-btn').onclick = () => { playSound('click'); DOMElements.modals.summary.classList.add('hidden'); renderMainMenu(); };
+            DOMElements.modals.reviewMistakesBtn.onclick = () => { playSound('click'); reviewMistakes(); };
+
 
             document.querySelector('#mode-selection-modal .modal-overlay').onclick = () => { playSound('click'); DOMElements.modals.modeSelection.classList.add('hidden'); };
             DOMElements.modals.modeSelectionButtons.addEventListener('click', e => {
@@ -922,6 +1199,7 @@
             });
             
             DOMElements.game.checkBtn.onclick = () => {
+                playSound('click');
                 const mode = app.currentSession.currentModeForQuestion;
                 if (mode === 'Typing' || mode === 'Dictation') {
                     checkAnswer(DOMElements.game.typingInput.value);
@@ -930,7 +1208,10 @@
                 }
             };
             DOMElements.game.nextBtn.onclick = () => { 
+                // Stop any speaking audio before moving to the next question
+                if ('speechSynthesis' in window) speechSynthesis.cancel();
                 if (DOMElements.audio.ttsFallback) { DOMElements.audio.ttsFallback.pause(); DOMElements.audio.ttsFallback.currentTime = 0; }
+                
                 DOMElements.game.typingInput.disabled = false;
                 DOMElements.game.typingInput.style.borderColor = 'var(--border-color)';
                 playSound('click'); 
@@ -938,7 +1219,15 @@
                 renderQuestion(); 
             };
             
+            // New: Favorite Button Listener
             DOMElements.game.favBtn.onclick = toggleFavorite;
+            
+            // New: Dictation replay button listener
+            DOMElements.game.dictationPlayBtn.onclick = () => {
+                 if (app.currentSession && app.currentSession.currentSentence) {
+                    speak(app.currentSession.currentSentence.en);
+                 }
+            };
             
             DOMElements.game.typingInput.addEventListener('keydown', (e) => {
                 const mode = app.currentSession?.currentModeForQuestion;
@@ -951,21 +1240,25 @@
             DOMElements.game.hintBtn.onclick = () => { playSound('click'); showToast("خاصية التلميح قيد التطوير.", 'info', '💡'); };
         }
 
+        // --- 7. INITIALIZATION ---
         async function init() {
             if (app.isInitialized) return;
             app.isInitialized = true;
             loadData();
             document.body.dataset.theme = app.settings.theme;
 
+            // Initialize TTS voices
             if ('speechSynthesis' in window) {
                 speechSynthesis.onvoiceschanged = () => { app.ttsVoices = speechSynthesis.getVoices(); };
                 app.ttsVoices = speechSynthesis.getVoices(); 
             }
 
+            // Load data from JSON files
             for(let i=0; i < LEVELS_FILES.length; i++) {
                 const { level, file } = LEVELS_FILES[i];
                 try {
                     document.getElementById('loading-status').textContent = `جاري تحميل مستوى ${level} من ${file}...`;
+                    // NOTE: This assumes the JSON files are available at the path specified
                     const response = await fetch(file); 
                     if(!response.ok) throw new Error(`Failed to load ${file}: ${response.statusText}`);
                     const data = await response.json();
@@ -979,9 +1272,9 @@
                 } catch(e) { 
                     document.getElementById('loading-status').textContent = `❌ خطأ في تحميل ملف ${file}. (تأكد من وجود الملفات في نفس المجلد)`;
                     console.error(`Initialization Error: Could not load data for ${level}`, e);
-                    if (!app.sentences['A1'] && i === 0) {
-                        app.sentences['A1'] = { '1': [{en: "Error loading files.", ar: "خطأ في تحميل الملفات."}] };
-                        app.userData.unlockedSubLevels['A1'] = ['1'];
+                    // Add fallback to prevent crash if data is completely missing
+                    if (app.sentences[level] === undefined) { 
+                        app.sentences[level] = {};
                     }
                 }
                 document.getElementById('loading-progress').style.width = `${((i+1)/LEVELS_FILES.length) * 100}%`;
@@ -989,10 +1282,14 @@
             
             document.getElementById('loading-status').textContent = `تم تحميل جميع المستويات بنجاح.`;
             
-            if (Object.keys(app.sentences).length > 0 && (!app.userData.unlockedSubLevels['A1'] || app.userData.unlockedSubLevels['A1'].length === 0)) {
-                 app.userData.unlockedSubLevels['A1'] = ['1'];
-                 saveData();
+            // Ensure A1-1 is unlocked by default if data was loaded
+            if (app.sentences['A1'] && Object.keys(app.sentences['A1']).length > 0) {
+                 if (!app.userData.unlockedSubLevels['A1'] || !app.userData.unlockedSubLevels['A1'].includes('1')) {
+                      app.userData.unlockedSubLevels['A1'] = ['1'];
+                      saveData();
+                 }
             }
+
 
             setupEventListeners();
             DOMElements.splashScreen.style.opacity = '0';
