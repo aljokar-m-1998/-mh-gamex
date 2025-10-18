@@ -164,10 +164,8 @@
             padding: 0.5rem 1rem; background: var(--surface); border: 2px solid var(--border-color); 
             border-radius: 20px; cursor: pointer; transition: all 0.2s;
         }
+        .word-to-select:hover { background-color: var(--border-color); }
         .word-to-select.disabled { opacity: 0.5; pointer-events: none; }
-
-        /* Dictation Mode specific styles */
-        #dictation-container #dictation-word-display { font-family: var(--font-en); font-size: 2rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; }
 
         #typing-input { width: 100%; padding: 1rem; font-size: 1.2rem; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg); color: var(--text-primary); text-align: left; }
         #listen-container { text-align: center; }
@@ -231,10 +229,6 @@
                 <div id="ordered-sentence-area"></div>
                 <div id="word-selection-bank"></div>
             </div>
-            <div id="dictation-container" class="hidden">
-                <div id="dictation-word-display" style="text-align: center;">?</div>
-                <input type="text" id="dictation-input" placeholder="اكتب الكلمة التي سمعتها...">
-            </div>
         </div><div id="game-controls"><div id="game-controls-left"><button id="hint-btn" class="btn btn-secondary">تلميح</button><button id="fav-btn" class="btn-icon">🤍</button><button id="replay-sound-btn" class="btn-icon">🔊</button></div><button id="check-btn" class="btn">تحقق</button><button id="next-btn" class="btn hidden">التالي</button></div></main></div>
         <div id="generic-screen" class="screen hidden" style="animation: slideIn 0.4s;"><header><button id="generic-back-btn" class="btn-icon">↩️</button><h2 id="generic-title"></h2></header><main id="generic-content"></main></div>
 
@@ -247,10 +241,9 @@
                     <button class="btn" data-mode="Learning">🎓 وضع التعلم</button>
                     <button class="btn" data-mode="MCQ">🔠 اختيار من متعدد</button>
                     <button class="btn" data-mode="Typing">⌨️ تدريب الكتابة</button>
-                    <button class="btn" data-mode="ListenType">🎧 تدريب الاستماع (MCQ)</button>
+                    <button class="btn" data-mode="ListenType">🎧 تدريب الاستماع</button>
                     <button class="btn" data-mode="FillBlank">✍️ املأ الفراغ</button>
                     <button class="btn" data-mode="OrderWords">📝 ترتيب الكلمات</button>
-                    <button class="btn" data-mode="Dictation">🎤 إملاء الكلمات</button>
                     <button class="btn btn-secondary" data-mode="Challenge">🎲 تحدي متنوع</button>
                 </div>
             </div>
@@ -259,7 +252,7 @@
     <div id="toast-container"></div>
     <audio id="success-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-success-505.mp3" preload="auto"></audio>
     <audio id="fail-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-223.mp3" preload="auto"></audio>
-    <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mpod" preload="auto"></audio>
+    <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mp3" preload="auto"></audio>
     <audio id="tts-fallback-audio" preload="auto"></audio> 
 
     <script>
@@ -269,13 +262,12 @@
         // --- 1. STATE & CONSTANTS ---
         const SUB_LEVEL_SIZE = 20;
         const UNLOCK_PERCENTAGE = 75;
-        // const QUIZ_LEVEL_INTERVAL = 20; // Removed as requested
+        const QUIZ_LEVEL_INTERVAL = 20;
         const app = {
             sentences: {}, userData: {}, settings: {},
             currentSession: null, pendingSession: {},
             isInitialized: false, ttsVoices: [],
             orderWordsUserSequence: [], 
-            currentStreak: 0, // State for the streak counter
         };
         const DOMElements = {
             splashScreen: document.getElementById('splash-screen'),
@@ -309,10 +301,6 @@
                 orderWordsContainer: document.getElementById('order-words-container'),
                 orderedSentenceArea: document.getElementById('ordered-sentence-area'),
                 wordSelectionBank: document.getElementById('word-selection-bank'),
-                // Dictation Mode elements
-                dictationContainer: document.getElementById('dictation-container'),
-                dictationWordDisplay: document.getElementById('dictation-word-display'),
-                dictationInput: document.getElementById('dictation-input'),
             },
             modals: {
                 summary: document.getElementById('summary-modal'),
@@ -323,13 +311,13 @@
                 success: document.getElementById('success-sound'),
                 fail: document.getElementById('fail-sound'),
                 click: document.getElementById('click-sound'),
-                ttsFallback: document.getElementById('tts-fallback-audio'), 
+                ttsFallback: document.getElementById('tts-fallback-audio'), // New element reference
             }
         };
         
         const ACHIEVEMENTS = {
             FIRST_CORRECT: { id: 'FIRST_CORRECT', name: 'أول إجابة صحيحة', description: 'أول إجابة صحيحة', icon: '🎯' },
-            // FIRST_QUIZ_COMPLETION removed as Quiz mode is removed
+[A            FIRST_QUIZ_COMPLETION: { id: 'FIRST_QUIZ_COMPLETION', name: 'أول اختبار', description: 'إكمال أول اختبار', icon: '📝' },
             A1_LEVEL_MASTER: { id: 'A1_LEVEL_MASTER', name: 'خبير مستوى A1', description: 'أكمل جميع المستويات الفرعية في A1', icon: '🎓' },
             A2_LEVEL_MASTER: { id: 'A2_LEVEL_MASTER', name: 'خبير مستوى A2', description: 'أكمل جميع المستويات الفرعية في A2', icon: '🌟' },
             B1_LEVEL_MASTER: { id: 'B1_LEVEL_MASTER', name: 'خبير مستوى B1', description: 'أكمل جميع المستويات الفرعية في B1', icon: '🏅' },
@@ -337,7 +325,7 @@
         };
         
         // --- 2. DATA MANAGEMENT ---
-        const LS_KEYS = { USER_DATA: 'esj_userData_v9', SETTINGS: 'esj_settings_v9' }; // Updated version key
+        const LS_KEYS = { USER_DATA: 'esj_userData_v8', SETTINGS: 'esj_settings_v8' }; 
         function getDefaultUserData() { 
             return { 
                 unlockedSubLevels: { 'A1': ['1'] }, 
@@ -370,6 +358,7 @@
             setTimeout(() => { document.body.classList.remove(`${type}-flash`); }, 300);
         }
 
+        // MODIFIED SPEAK FUNCTION: Added Fallback logic
         function speak(text) {
             if (!app.settings.ttsEnabled) return;
             
@@ -381,20 +370,26 @@
                 utterance.lang = 'en-US';
                 utterance.rate = app.settings.ttsSpeed;
                 
+                // Prioritize finding an English voice
                 if (app.ttsVoices.length > 0) {
                      utterance.voice = app.ttsVoices.find(v => v.lang.startsWith('en')) || app.ttsVoices[0];
                 }
                 
+                // Using Web Speech API (Primary)
                 speechSynthesis.speak(utterance);
             } else {
+                // Using Google Translate TTS as Fallback (Secondary)
+                // This method requires an internet connection
                 const encodedText = encodeURIComponent(text);
                 const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=en&client=tw-ob`;
                 
                 const audio = DOMElements.audio.ttsFallback;
                 
+                // Stop any current playback
                 audio.pause();
                 audio.currentTime = 0;
                 
+                // Set the new source and play
                 audio.src = ttsUrl;
                 audio.play().catch(e => console.error("Fallback TTS playback failed:", e));
             }
@@ -470,24 +465,21 @@
 
             DOMElements.gameScreen.dataset.sessionMode = app.currentSession.mode;
             DOMElements.game.sessionProgressBar.style.width = `${((app.currentSession.currentIndex + 1) / app.currentSession.questions.length) * 100}%`;
-            
-            // Reset question UI
             DOMElements.game.sentenceEn.textContent = '';
             DOMElements.game.sentenceAr.textContent = sentence.ar;
             
-            ['mcq-container', 'typing-container', 'listen-container', 'fill-blank-container', 'order-words-container', 'dictation-container'].forEach(c => document.getElementById(c).classList.add('hidden'));
+            ['mcq-container', 'typing-container', 'listen-container', 'fill-blank-container', 'order-words-container'].forEach(c => document.getElementById(c).classList.add('hidden'));
             DOMElements.game.nextBtn.classList.add('hidden');
             DOMElements.game.checkBtn.classList.remove('hidden');
 
             let mode = app.currentSession.mode;
             if (mode === 'Challenge') {
-                const availableModes = ['MCQ', 'Typing', 'ListenType', 'FillBlank', 'OrderWords', 'Dictation'];
+                const availableModes = ['MCQ', 'Typing', 'ListenType', 'FillBlank', 'OrderWords'];
                 mode = availableModes[Math.floor(Math.random() * availableModes.length)];
             }
             app.currentSession.currentModeForQuestion = mode;
             
             DOMElements.game.typingInput.value = '';
-            DOMElements.game.dictationInput.value = '';
             app.orderWordsUserSequence = [];
 
             switch (mode) {
@@ -501,18 +493,8 @@
                     speak(sentence.en);
                     break;
                 case 'MCQ':
-                case 'ListenType': // ListenType is now MCQ
                     DOMElements.game.mcqContainer.classList.remove('hidden');
                     DOMElements.game.mcqOptions.innerHTML = '';
-                    
-                    if (mode === 'ListenType') {
-                        DOMElements.game.sentenceAr.textContent = ''; // Hide Arabic in ListenType
-                        DOMElements.game.listenContainer.classList.remove('hidden');
-                        speak(sentence.en); // Speak the sentence
-                    } else {
-                        DOMElements.game.sentenceAr.textContent = sentence.ar; // Show Arabic in regular MCQ
-                    }
-
                     const allSentences = Object.values(app.sentences).flatMap(levels => Object.values(levels)).flat();
                     
                     const incorrectSentences = shuffleArray(allSentences.filter(s => cleanString(s.en) !== cleanString(sentence.en))).slice(0, 3);
@@ -525,30 +507,17 @@
                         btn.onclick = (e) => checkAnswer(opt, e.target); 
                         DOMElements.game.mcqOptions.appendChild(btn);
                     });
-                    DOMElements.game.checkBtn.classList.add('hidden');
                     break;
                 case 'Typing':
+                case 'ListenType':
                     DOMElements.game.typingContainer.classList.remove('hidden');
-                    DOMElements.game.typingInput.placeholder = "اكتب الجملة الإنجليزية...";
-                    DOMElements.game.sentenceAr.textContent = sentence.ar;
+                    DOMElements.game.typingInput.placeholder = mode === 'Typing' ? "اكتب الجملة الإنجليزية..." : "اكتب ما تسمعه...";
+                    DOMElements.game.sentenceAr.textContent = mode === 'Typing' ? sentence.ar : '';
+                    if (mode === 'ListenType') {
+                        DOMElements.game.listenContainer.classList.remove('hidden');
+                        speak(sentence.en);
+                    }
                     DOMElements.game.typingInput.focus();
-                    break;
-                case 'Dictation': // New Dictation Mode
-                    DOMElements.game.dictationContainer.classList.remove('hidden');
-                    DOMElements.game.sentenceAr.textContent = ''; // Hide Arabic for dictation
-                    
-                    // Select a random word from the sentence
-                    const words = sentence.en.match(/\b(\w+)\b/g) || [];
-                    const selectedWord = words.length > 0 ? words[Math.floor(Math.random() * words.length)] : sentence.en.split(/\s+/).filter(w => w.trim() !== '')[0];
-                    app.currentSession.correctDictationWord = cleanString(selectedWord);
-                    
-                    DOMElements.game.dictationWordDisplay.textContent = '...'; // Temporarily hide the word
-                    DOMElements.game.dictationInput.placeholder = "اكتب الكلمة التي سمعتها...";
-                    DOMElements.game.dictationInput.focus();
-                    
-                    // Speak the selected word
-                    speak(selectedWord);
-                    document.getElementById('replay-sound-btn').onclick = () => speak(selectedWord);
                     break;
                 case 'FillBlank':
                     DOMElements.game.fillBlankContainer.classList.remove('hidden');
@@ -654,7 +623,6 @@
             DOMElements.genericScreen.content.innerHTML = `
                 <div class="stat-item"><span class="stat-label">إجمالي النقاط</span><span class="stat-value">${app.userData.stats.totalScore}</span></div>
                 <div class="stat-item"><span class="stat-label">إجمالي الأخطاء</span><span class="stat-value">${app.userData.stats.totalMistakes}</span></div>
-                <div class="stat-item"><span class="stat-label">أطول حماس (Streak)</span><span class="stat-value">🔥${app.userData.longestStreak}</span></div>
             `;
             showScreen('generic-screen');
         }
@@ -676,26 +644,14 @@
 
 
         // --- 5. GAME LOGIC ---
-        
-        function updateStreak(isCorrect) {
-            if (app.currentSession.mode === 'Learning') return;
-            if (isCorrect) {
-                app.currentStreak++;
-                if (app.currentStreak > app.userData.longestStreak) {
-                    app.userData.longestStreak = app.currentStreak;
-                }
-                DOMElements.game.streakDisplay.classList.add('active');
-            } else {
-                app.currentStreak = 0;
-                DOMElements.game.streakDisplay.classList.remove('active');
-            }
-            DOMElements.game.streakDisplay.textContent = `🔥${app.currentStreak}`;
-        }
-        
         function checkAchievements(isCorrect) {
             if (isCorrect && !app.userData.achievements.FIRST_CORRECT) {
                 app.userData.achievements.FIRST_CORRECT = true;
                 showToast('إنجاز جديد: أول إجابة صحيحة! 🎉', 'info', '🎯');
+            }
+            if (app.currentSession.mode === 'Quiz' && app.currentSession.currentIndex >= app.currentSession.questions.length -1 && !app.userData.achievements.FIRST_QUIZ_COMPLETION) {
+                app.userData.achievements.FIRST_QUIZ_COMPLETION = true;
+                showToast('إنجاز جديد: أول اختبار! 📝', 'info', '📝');
             }
             
             const mainLevels = Object.keys(app.sentences).sort();
@@ -716,17 +672,33 @@
             playSound('click');
             app.pendingSession = { level, subLevel };
             DOMElements.modals.modeSelection.classList.remove('hidden');
+
+            const quizButton = DOMElements.modals.modeSelectionButtons.querySelector('[data-mode="Quiz"]');
+            if (quizButton) quizButton.remove();
+
+            const subLevelNumber = parseInt(subLevel);
+            const allSubLevelsInLevel = Object.keys(app.sentences[level]).length;
+            
+            if (subLevelNumber > 0 && subLevelNumber % QUIZ_LEVEL_INTERVAL === 0 || subLevelNumber === allSubLevelsInLevel) {
+                const newQuizBtn = document.createElement('button');
+                newQuizBtn.className = 'btn';
+                newQuizBtn.dataset.mode = 'Quiz';
+                newQuizBtn.textContent = '📝 اختبار شامل';
+                DOMElements.modals.modeSelectionButtons.appendChild(newQuizBtn);
+            }
         }
 
         function startSession(mode) {
             const { level, subLevel } = app.pendingSession;
             vibrate();
             playSound('click');
-            
-            const questions = shuffleArray([...app.sentences[level][subLevel]]);
-            
-            // Reset Streak
-            app.currentStreak = 0;
+            let questions;
+            if (mode === 'Quiz') {
+                 const allSentencesInLevel = Object.values(app.sentences[level]).flat();
+                 questions = shuffleArray(allSentencesInLevel).slice(0, 10);
+            } else {
+                questions = shuffleArray([...app.sentences[level][subLevel]]);
+            }
             
             app.currentSession = {
                 level, subLevel, mode,
@@ -767,14 +739,14 @@
         }
 
         function endSession() {
-            const totalQuestions = app.currentSession.questions.length;
-            const accuracy = (app.currentSession.score / totalQuestions) * 100;
+            const accuracy = (app.currentSession.score / app.currentSession.questions.length) * 100;
             app.userData.stats.totalScore += app.currentSession.score;
-            app.userData.stats.totalMistakes += (totalQuestions - app.currentSession.score);
-            
-            const levelKey = `${app.currentSession.level}-${app.currentSession.subLevel}`;
-            if (accuracy >= UNLOCK_PERCENTAGE && !app.userData.stats.completedLevels.includes(levelKey)) {
-                app.userData.stats.completedLevels.push(levelKey);
+            app.userData.stats.totalMistakes += (app.currentSession.questions.length - app.currentSession.score);
+            if (accuracy >= UNLOCK_PERCENTAGE && app.currentSession.mode !== 'Quiz') {
+                const levelKey = `${app.currentSession.level}-${app.currentSession.subLevel}`;
+                if(!app.userData.stats.completedLevels.includes(levelKey)) {
+                     app.userData.stats.completedLevels.push(levelKey);
+                }
                 unlockNextSubLevel();
             }
 
@@ -787,79 +759,79 @@
 
         function checkAnswer(userAnswer, targetElement) {
             if (app.currentSession.mode === 'Learning') return;
-            const mode = app.currentSession.currentModeForQuestion;
             const correctEn = cleanString(app.currentSession.currentSentence.en);
             let isCorrect = false;
 
-            if (mode === 'Dictation') {
-                isCorrect = cleanString(userAnswer) === app.currentSession.correctDictationWord;
-            } else if (mode === 'FillBlank') {
+            if (app.currentSession.currentModeForQuestion === 'FillBlank') {
                 const originalWords = app.currentSession.currentSentence.en.split(/\s+/).filter(w => w.trim() !== '');
                 const correctWord = originalWords.find(w => cleanString(w) === cleanString(userAnswer));
                 isCorrect = !!correctWord;
-            } else if (mode === 'OrderWords') {
+            } else if (app.currentSession.currentModeForQuestion === 'OrderWords') {
                 const correctSentenceWords = app.currentSession.currentSentence.en.match(/\b(\w+)\b|[^\s]/g) || [];
                 const userSentence = app.orderWordsUserSequence.join(' ');
                 const correctSentence = correctSentenceWords.join(' ');
                 isCorrect = cleanString(userSentence) === cleanString(correctSentence);
             } else {
-                // MCQ, Typing, ListenType
                 isCorrect = cleanString(userAnswer) === correctEn;
             }
-            
-            // --- Feedback and Scoring Logic ---
-            
-            updateStreak(isCorrect);
 
-            if (isCorrect) {
-                app.currentSession.score++;
-                playSound('success');
-                flashScreen('correct');
-                showToast('إجابة صحيحة! 🎉', 'success', '✅');
-                vibrate([50, 50, 50]);
+            if (app.currentSession.currentModeForQuestion !== 'OrderWords') {
+                if (isCorrect) {
+                    app.currentSession.score++;
+                    playSound('success');
+                    flashScreen('correct');
+                    showToast('إجابة صحيحة! 🎉', 'success', '✅');
+                    vibrate([50, 50, 50]);
+                } else {
+                    app.currentSession.mistakes.push({ ...app.currentSession.currentSentence, user_answer: userAnswer });
+                    playSound('fail');
+                    flashScreen('incorrect');
+                    showToast('إجابة خاطئة! 😔', 'error', '❌');
+                    vibrate(200);
+                }
                 
-                // NEW: Speak the full sentence on correct answer (except Dictation)
-                if (mode !== 'Dictation') {
-                    speak(app.currentSession.currentSentence.en);
-                }
-            } else {
-                const mistakeDetails = mode === 'OrderWords' ? app.orderWordsUserSequence.join(' ') : userAnswer;
-                app.currentSession.mistakes.push({ ...app.currentSession.currentSentence, user_answer: mistakeDetails });
-                playSound('fail');
-                flashScreen('incorrect');
-                showToast('إجابة خاطئة! 😔', 'error', '❌');
-                vibrate(200);
-            }
+                checkAchievements(isCorrect);
+                DOMElements.game.scoreDisplay.textContent = `${app.currentSession.score}`;
+                DOMElements.game.checkBtn.classList.add('hidden');
+                DOMElements.game.nextBtn.classList.remove('hidden');
+                DOMElements.game.sentenceEn.textContent = app.currentSession.currentSentence.en;
 
-            DOMElements.game.scoreDisplay.textContent = `${app.currentSession.score}`;
-            DOMElements.game.checkBtn.classList.add('hidden');
-            DOMElements.game.nextBtn.classList.remove('hidden');
-            DOMElements.game.sentenceEn.textContent = app.currentSession.currentSentence.en;
-
-            // Mode-specific UI updates
-            if (mode === 'Dictation') {
-                 DOMElements.game.dictationWordDisplay.textContent = app.currentSession.correctDictationWord;
-                 DOMElements.game.dictationWordDisplay.style.color = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
-                 DOMElements.game.dictationInput.disabled = true;
-            } else if (mode === 'MCQ' || mode === 'ListenType') {
-                document.querySelectorAll('#mcq-options .btn').forEach(btn => {
-                    btn.disabled = true;
-                    if (cleanString(btn.textContent) === correctEn) {
-                        btn.classList.add('correct');
-                    } else if (targetElement === btn) {
-                        btn.classList.add('incorrect');
+                if (app.currentSession.currentModeForQuestion === 'MCQ') {
+                    document.querySelectorAll('#mcq-options .btn').forEach(btn => {
+                        btn.disabled = true;
+                        if (cleanString(btn.textContent) === correctEn) {
+                            btn.classList.add('correct');
+                        } else if (targetElement === btn) {
+                            btn.classList.add('incorrect');
+                        }
+                    });
+                } else if (app.currentSession.currentModeForQuestion === 'FillBlank') {
+                    document.querySelectorAll('#word-bank .word-chip').forEach(chip => chip.style.pointerEvents = 'none');
+                    const placeholder = document.getElementById('blank-placeholder');
+                    if (placeholder) {
+                        placeholder.textContent = isCorrect ? userAnswer : '❌';
+                        placeholder.style.color = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
                     }
-                });
-            } else if (mode === 'FillBlank') {
-                document.querySelectorAll('#word-bank .word-chip').forEach(chip => chip.style.pointerEvents = 'none');
-                const placeholder = document.getElementById('blank-placeholder');
-                if (placeholder) {
-                    const correctWord = app.currentSession.currentSentence.en.split(/\s+/).filter(w => w.trim() !== '')[DOMElements.game.wordBlanks.innerHTML.split(/\s+/).findIndex(w => w.includes('[....]'))];
-                    placeholder.textContent = correctWord;
-                    placeholder.style.color = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
                 }
-            } else if (mode === 'OrderWords') { 
-                DOMElements.game.orderedSentenceArea.style.borderBottomColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
+            } else { 
+                if (isCorrect) {
+                    app.currentSession.score++;
+                    playSound('success');
+                    flashScreen('correct');
+                    showToast('إجابة صحيحة! 🎉', 'success', '✅');
+                    speak(app.currentSession.currentSentence.en); 
+                    DOMElements.game.orderedSentenceArea.style.borderBottomColor = 'var(--success-color)';
+                } else {
+                    app.currentSession.mistakes.push({ ...app.currentSession.currentSentence, user_answer: app.orderWordsUserSequence.join(' ') });
+                    playSound('fail');
+                    flashScreen('incorrect');
+                    showToast('إجابة خاطئة! 😔', 'error', '❌');
+                    DOMElements.game.orderedSentenceArea.style.borderBottomColor = 'var(--error-color)';
+                }
+
+                DOMElements.game.checkBtn.classList.add('hidden');
+                DOMElements.game.nextBtn.classList.remove('hidden');
+                DOMElements.game.sentenceEn.textContent = app.currentSession.currentSentence.en;
                 document.querySelectorAll('#word-selection-bank .word-to-select').forEach(chip => chip.style.pointerEvents = 'none');
                 document.querySelectorAll('#ordered-sentence-area .ordered-word-chip').forEach(chip => chip.onclick = null);
 
@@ -871,9 +843,10 @@
                     chip.style.backgroundColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
                     DOMElements.game.orderedSentenceArea.appendChild(chip);
                 });
+
+                checkAchievements(isCorrect);
+                DOMElements.game.scoreDisplay.textContent = `${app.currentSession.score}`;
             }
-            
-            checkAchievements(isCorrect);
         }
         
         function useHint() {
@@ -896,12 +869,6 @@
                         selectWord(chipToSelect, nextCorrectWord);
                     }
                  }
-            } else if (effectiveMode === 'Dictation') {
-                const correctWord = app.currentSession.correctDictationWord;
-                const currentInput = DOMElements.game.dictationInput.value;
-                 if (currentInput.length < correctWord.length) {
-                    DOMElements.game.dictationInput.value = correctWord.substring(0, currentInput.length + 1);
-                }
             }
         }
 
@@ -920,15 +887,14 @@
             document.getElementById('back-to-menu-btn').onclick = () => { playSound('click'); renderMainMenu(); };
             DOMElements.game.checkBtn.onclick = () => {
                 const mode = app.currentSession.currentModeForQuestion;
-                if (mode === 'Typing') {
+                if (mode === 'Typing' || mode === 'ListenType') {
                     checkAnswer(DOMElements.game.typingInput.value);
                 } else if (mode === 'OrderWords') {
                     checkAnswer(app.orderWordsUserSequence.join(' '));
-                } else if (mode === 'Dictation') {
-                    checkAnswer(DOMElements.game.dictationInput.value);
                 }
             };
             DOMElements.game.nextBtn.onclick = () => { 
+                // Stop fallback audio playback when moving to the next question
                 if (DOMElements.audio.ttsFallback) {
                     DOMElements.audio.ttsFallback.pause();
                     DOMElements.audio.ttsFallback.currentTime = 0;
@@ -938,14 +904,7 @@
                 renderQuestion(); 
             };
             DOMElements.game.hintBtn.onclick = () => { playSound('click'); useHint(); };
-            document.getElementById('replay-sound-btn').onclick = () => {
-                 const mode = app.currentSession?.currentModeForQuestion;
-                 if (mode === 'Dictation' && app.currentSession.correctDictationWord) {
-                    speak(app.currentSession.correctDictationWord);
-                 } else if (app.currentSession?.currentSentence?.en) {
-                    speak(app.currentSession.currentSentence.en);
-                 }
-            };
+            document.getElementById('replay-sound-btn').onclick = () => speak(app.currentSession?.currentSentence?.en);
             document.getElementById('summary-close-btn').onclick = () => { playSound('click'); DOMElements.modals.summary.classList.add('hidden'); renderMainMenu(); };
         }
 
@@ -958,6 +917,7 @@
 
             if ('speechSynthesis' in window) {
                 speechSynthesis.onvoiceschanged = () => { app.ttsVoices = speechSynthesis.getVoices(); };
+                // Also load voices right away if available
                 app.ttsVoices = speechSynthesis.getVoices(); 
             }
 
@@ -976,6 +936,7 @@
                         app.sentences[levelKey][subLevelKey] = data.slice(j, j + SUB_LEVEL_SIZE).map(s => ({...s, subLevel: `${subLevelKey}`}));
                     }
                 } catch(e) { document.getElementById('loading-status').textContent = `Error loading data for ${levels[i]}. Using dummy data.`; 
+                // Dummy data if loading fails
                 if(!app.sentences[levels[i]]) {
                     app.sentences[levels[i]] = {
                         '1': [{en: "I am happy", ar: "أنا سعيد"}, {en: "You are smart", ar: "أنت ذكي"}],
