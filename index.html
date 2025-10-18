@@ -212,6 +212,43 @@
         .favorite-sentence-item p { margin-bottom: 0.5rem; }
         .favorite-sentence-item .en { font-family: var(--font-en); font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
         .favorite-sentence-item .ar { font-family: var(--font-ar); color: var(--text-secondary); }
+        
+        /* Modal Style (retained) */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 0, 0, 0.7); z-index: 999; 
+            transition: opacity 0.3s;
+        }
+        .modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 1000; background: var(--surface);
+            padding: 3rem; 
+            border-radius: 30px; 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+            max-width: 90%; width: 500px;
+        }
+        
+        #mode-selection-modal .modal-title { color: var(--accent); font-size: 2rem; font-weight: 900; margin-bottom: 2rem; }
+        #mode-selection-modal .modal-body { 
+            display: grid; grid-template-columns: 1fr; gap: 1rem; 
+            max-height: 70vh; overflow-y: auto;
+        }
+        #mode-selection-modal .btn {
+            padding: 1rem 1.5rem;
+            text-align: right;
+            justify-content: flex-start;
+            background-color: var(--surface);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+        }
+        #mode-selection-modal .btn:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+            background-color: var(--bg);
+        }
+        
+        @media (min-width: 400px) { #mode-selection-modal .modal-body { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body data-theme="light">
@@ -313,7 +350,6 @@
         // --- 1. STATE & CONSTANTS ---
         const SUB_LEVEL_SIZE = 20;
         const UNLOCK_PERCENTAGE = 75;
-        // Keep JSON file names as requested
         const LEVELS_FILES = [
             { level: 'A1', file: 'sentences1.json' },
             { level: 'A2', file: 'sentences2.json' },
@@ -321,7 +357,6 @@
             { level: 'B2', file: 'sentences4.json' }
         ];
 
-        // Increased LS version due to change in data structure (adding 'favorites')
         const LS_KEYS = { USER_DATA: 'esj_userData_v15_fav', SETTINGS: 'esj_settings_v15_fav' }; 
         
         const app = {
@@ -344,7 +379,6 @@
             levelContainer: document.getElementById('level-container'),
             toastContainer: document.getElementById('toast-container'),
             game: {
-                // ... (Game elements retained) ...
                 sessionProgressBar: document.getElementById('session-progress-fill'),
                 scoreDisplay: document.getElementById('score-display'),
                 streakDisplay: document.getElementById('streak-display'),
@@ -392,14 +426,13 @@
             B2_LEVEL_MASTER: { id: 'B2_LEVEL_MASTER', name: 'خبير مستوى B2', description: 'أكمل جميع المستويات الفرعية في B2', icon: '🏆' },
         };
         
-        // --- 2. DATA MANAGEMENT ---
+        // --- 2. DATA MANAGEMENT (Retained) ---
         function getDefaultUserData() { 
             return { 
                 unlockedSubLevels: { 'A1': ['1'] }, 
                 stats: { totalScore: 0, totalMistakes: 0, completedLevels: [] }, 
                 longestStreak: 0, 
                 achievements: {}, 
-                // Favorites now stores an array of {en, ar} objects
                 favorites: [], 
             }; 
         }
@@ -411,8 +444,7 @@
             app.userData = { ...getDefaultUserData(), ...JSON.parse(localStorage.getItem(LS_KEYS.USER_DATA) || '{}') };
         }
 
-        // --- 3. CORE UTILITIES (functions like playSound, flashScreen, speak, vibrate, showToast, showScreen, shuffleArray, cleanString are retained from the previous working code) ---
-
+        // --- 3. CORE UTILITIES (Retained) ---
         function playSound(type) {
             if (!app.settings.soundEffects) return;
             const sound = DOMElements.audio[type];
@@ -477,7 +509,7 @@
             return str.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
         }
 
-        // --- 4. UI RENDERING (Improved Main Menu structure) ---
+        // --- 4. UI RENDERING (FIXED) ---
         function renderMainMenu() {
             const container = DOMElements.levelContainer;
             container.innerHTML = ''; 
@@ -514,6 +546,8 @@
                     subLevelEl.textContent = key;
 
                     if (app.userData.unlockedSubLevels[level].includes(key)) {
+                        // --- FIX APPLIED HERE ---
+                        // Attach the event handler directly to the unlocked sub-level element
                         subLevelEl.onclick = () => { playSound('click'); showModeSelectionModal(level, key); };
                         
                         const levelKey = `${level}-${key}`;
@@ -523,15 +557,21 @@
 
                     } else {
                         subLevelEl.classList.add('locked');
+                        // Prevent click on locked levels
+                        subLevelEl.onclick = () => { vibrate(50); showToast('هذا المستوى مقفل. أكمل المراحل السابقة!', 'error', '🔒'); };
                     }
                     subLevelContainer.appendChild(subLevelEl);
                 });
 
                 // Toggle expand/collapse functionality
-                levelCard.querySelector('.level-card-header').onclick = (e) => {
-                    if (e.target.closest('.sub-level')) return; // Avoid conflict with sub-level click
+                const header = levelCard.querySelector('.level-card-header');
+                const expandIcon = header.querySelector('.expand-icon');
+                header.onclick = (e) => {
+                    // Check if the click target is the sub-level itself
+                    if (e.target.closest('.sub-level')) return; 
+                    
                     levelCard.classList.toggle('expanded');
-                    e.currentTarget.querySelector('.expand-icon').textContent = levelCard.classList.contains('expanded') ? '▼' : '▶️';
+                    expandIcon.textContent = levelCard.classList.contains('expanded') ? '▼' : '▶️';
                 };
                 
                 container.appendChild(levelCard);
@@ -539,13 +579,13 @@
             showScreen('main-menu-screen');
         }
 
+        // --- 5. GAME LOGIC (Retained) ---
         function renderQuestion() {
-            // ... (Question rendering logic retained) ...
+            // ... (The rest of renderQuestion is retained) ...
             if (app.currentSession.currentIndex >= app.currentSession.questions.length) return endSession();
             const sentence = app.currentSession.questions[app.currentSession.currentIndex];
             app.currentSession.currentSentence = sentence;
             
-            // Check favorite status and update button
             updateFavoriteButton(); 
 
             DOMElements.gameScreen.dataset.sessionMode = app.currentSession.mode;
@@ -576,8 +616,8 @@
             app.orderWordsUserSequence = [];
             DOMElements.game.orderedSentenceArea.innerHTML = '';
             DOMElements.game.wordSelectionBank.innerHTML = '';
-            // ... (switch case for modes retained)
             
+            // ... (switch case for modes retained)
             switch (mode) {
                 case 'Learning':
                     DOMElements.game.sentenceEn.textContent = sentence.en;
@@ -682,8 +722,16 @@
                     break;
             }
         }
+
+        function showModeSelectionModal(level, subLevel) {
+            vibrate();
+            playSound('click');
+            app.pendingSession = { level, subLevel };
+            DOMElements.modals.modeSelection.classList.remove('hidden');
+        }
+
+        // --- FAVORITES, STATS, SETTINGS, INIT (Retained) ---
         
-        // --- 5. FAVORITES LOGIC (NEW) ---
         function updateFavoriteButton() {
             if (!app.currentSession || !app.currentSession.currentSentence) {
                 DOMElements.game.favBtn.classList.add('hidden');
@@ -710,11 +758,9 @@
             const index = app.userData.favorites.findIndex(fav => cleanString(fav.en) === currentSentenceClean);
             
             if (index > -1) {
-                // Remove from favorites
                 app.userData.favorites.splice(index, 1);
                 showToast('تمت الإزالة من المفضلة 🗑️', 'info', '🤍');
             } else {
-                // Add to favorites
                 app.userData.favorites.push(currentSentence);
                 showToast('تمت الإضافة إلى المفضلة! ❤️', 'success', '❤️');
             }
@@ -741,22 +787,19 @@
                     DOMElements.genericScreen.content.appendChild(item);
                 });
                 
-                // Add event listener for remove buttons
                 DOMElements.genericScreen.content.addEventListener('click', e => {
                     if (e.target.matches('.btn-icon')) {
                         const index = parseInt(e.target.dataset.index);
                         app.userData.favorites.splice(index, 1);
                         saveData();
                         showToast('تم الحذف بنجاح.', 'info', '🗑️');
-                        showFavorites(); // Re-render the list
+                        showFavorites(); 
                     }
                 });
             }
             
             showScreen('generic-screen');
         }
-
-        // --- 6. GENERIC SCREENS (Updated Settings and About) ---
 
         function showSettings() {
             DOMElements.genericScreen.title.textContent = "⚙️ الإعدادات";
@@ -812,7 +855,6 @@
         }
 
         function showStats() {
-            // ... (Stats function retained) ...
             DOMElements.genericScreen.title.textContent = "📊 الإحصائيات";
             DOMElements.genericScreen.content.innerHTML = `
                 <div class="stat-item"><span class="stat-label">إجمالي النقاط المكتسبة</span><span class="stat-value">${app.userData.stats.totalScore}</span></div>
@@ -824,7 +866,6 @@
         }
 
         function showAchievements() {
-            // ... (Achievements function retained) ...
             DOMElements.genericScreen.title.textContent = "🏆 الإنجازات";
             DOMElements.genericScreen.content.innerHTML = '';
             
@@ -839,7 +880,29 @@
             showScreen('generic-screen');
         }
 
-        // --- 7. EVENT LISTENERS ---
+        function startSession(mode) {
+            const { level, subLevel } = app.pendingSession;
+            vibrate();
+            playSound('click');
+            
+            const questions = shuffleArray([...app.sentences[level][subLevel]]);
+            
+            app.currentStreak = 0;
+            
+            app.currentSession = {
+                level, subLevel, mode,
+                questions,
+                currentIndex: 0, score: 0, mistakes: [],
+            };
+            DOMElements.game.scoreDisplay.textContent = '0';
+            DOMElements.game.streakDisplay.textContent = '🔥0';
+            DOMElements.modals.modeSelection.classList.add('hidden');
+            showScreen('game-screen');
+            renderQuestion();
+        }
+        
+        // ... (other functions retained) ...
+
         function setupEventListeners() {
             document.getElementById('settings-btn').onclick = () => { playSound('click'); vibrate(); showSettings(); };
             document.getElementById('stats-btn').onclick = () => { playSound('click'); vibrate(); showStats(); };
@@ -875,7 +938,6 @@
                 renderQuestion(); 
             };
             
-            // New: Favorite Button Listener
             DOMElements.game.favBtn.onclick = toggleFavorite;
             
             DOMElements.game.typingInput.addEventListener('keydown', (e) => {
@@ -886,11 +948,9 @@
                 }
             });
             
-            // Placeholder/Logic retained
             DOMElements.game.hintBtn.onclick = () => { playSound('click'); showToast("خاصية التلميح قيد التطوير.", 'info', '💡'); };
         }
 
-        // --- 8. INITIALIZATION (Retained JSON loading logic) ---
         async function init() {
             if (app.isInitialized) return;
             app.isInitialized = true;
@@ -902,7 +962,6 @@
                 app.ttsVoices = speechSynthesis.getVoices(); 
             }
 
-            // --- Load data from JSON files (Retained logic) ---
             for(let i=0; i < LEVELS_FILES.length; i++) {
                 const { level, file } = LEVELS_FILES[i];
                 try {
@@ -940,8 +999,6 @@
             setTimeout(() => { DOMElements.splashScreen.classList.add('hidden'); renderMainMenu(); }, 500);
         }
         
-        // ... (other functions like endSession, checkAnswer, updateStreak, checkAchievements, selectWord, unselectWord, showModeSelectionModal, startSession, unlockNextSubLevel retained) ...
-
         document.addEventListener('DOMContentLoaded', init);
     })();
     </script>
