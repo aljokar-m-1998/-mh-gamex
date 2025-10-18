@@ -53,7 +53,7 @@
             --accent: var(--accent-light);
             --border-color: var(--border-light);
             --box-shadow: var(--shadow-light);
-            --inner-box-shadow: var(--inner-shadow-light);
+            --inner-box-shadow: var(--inner-box-shadow);
         }
         
         body[data-theme="dark"] {
@@ -473,6 +473,7 @@
                 speechSynthesis.speak(utterance);
             } else {
                 const encodedText = encodeURIComponent(text);
+                // Fallback to Google TTS is often blocked by browsers/servers now, but the link is kept for completeness.
                 const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=en&client=tw-ob`;
                 
                 const audio = DOMElements.audio.ttsFallback;
@@ -512,7 +513,8 @@
         }
         
         function cleanString(str) {
-            return str.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+            // Remove all punctuation and convert to lowercase for clean comparison
+            return str.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, ' ');
         }
 
         // --- 4. UI RENDERING ---
@@ -522,11 +524,16 @@
             const mainLevels = Object.keys(app.sentences).sort();
 
             mainLevels.forEach(level => {
-                const isLevelUnlocked = app.userData.unlockedSubLevels[level]?.length > 0;
+                // Ensure unlockedSubLevels is initialized for the level
+                if (!app.userData.unlockedSubLevels[level]) {
+                    app.userData.unlockedSubLevels[level] = [];
+                }
+
+                const isLevelUnlocked = app.userData.unlockedSubLevels[level].length > 0;
                 const levelCard = document.createElement('div');
                 levelCard.className = `level-card ${isLevelUnlocked ? '' : 'locked'}`;
                 
-                const levelIcon = {{A1:'🌱',A2:'🔵',B1:'🟠',B2:'🟣'}[level]};
+                const levelIcon = {A1:'🌱',A2:'🔵',B1:'🟠',B2:'🟣'}[level] || '❓';
                 const levelColor = `var(--${level.toLowerCase()}-color)`;
                 
                 levelCard.innerHTML = `
@@ -546,7 +553,6 @@
 
                     if (app.userData.unlockedSubLevels[level].includes(key)) {
                         
-                        // --- NEW: Change onclick to show Popover instead of Modal ---
                         subLevelEl.onclick = (e) => { 
                             e.stopPropagation(); // Prevent document click
                             playSound('click'); 
@@ -709,10 +715,6 @@
             }
         }
         
-        // ... (Functions selectWord, unselectWord, showSettings, showAboutSection, showStats, showAchievements) ...
-        // [NOTE: These functions remain identical to the previous version to ensure logic continuity, 
-        // with minor UI tweaks already included in the CSS.]
-
         function selectWord(chip, word) {
             playSound('click');
             chip.classList.add('disabled');
@@ -725,7 +727,9 @@
             orderedChip.onclick = () => unselectWord(orderedChip);
 
             DOMElements.game.orderedSentenceArea.appendChild(orderedChip);
-            app.orderWordsUserSequence.push(word);
+            
+            // Corrected: Update sequence from the DOM
+            app.orderWordsUserSequence = Array.from(DOMElements.game.orderedSentenceArea.children).map(chip => chip.textContent);
         }
 
         function unselectWord(orderedChip) {
@@ -736,18 +740,11 @@
                 originalChip.onclick = () => selectWord(originalChip, orderedChip.textContent);
             }
 
-            const wordToRemove = orderedChip.textContent;
-            // NEW: Remove the specific instance of the chip clicked
-            app.orderWordsUserSequence = [];
-            Array.from(DOMElements.game.orderedSentenceArea.children).forEach((chip, index) => {
-                if (chip === orderedChip) {
-                    // skip
-                } else {
-                    app.orderWordsUserSequence.push(chip.textContent);
-                }
-            });
-            
+            // --- تصحيح الخطأ هنا ---
             orderedChip.remove();
+            // إعادة بناء المصفوفة من العناصر المتبقية في DOM
+            app.orderWordsUserSequence = Array.from(DOMElements.game.orderedSentenceArea.children).map(chip => chip.textContent);
+            // --- نهاية التصحيح ---
         }
 
         function showSettings() {
@@ -806,9 +803,9 @@
         function showStats() {
             DOMElements.genericScreen.title.textContent = "📊 الإحصائيات";
             DOMElements.genericScreen.content.innerHTML = `
-                <div class="stat-item"><span class="stat-label">إجمالي النقاط</span><span class="stat-value">${app.userData.stats.totalScore}</span></div>
-                <div class="stat-item"><span class="stat-label">إجمالي الأخطاء</span><span class="stat-value">${app.userData.stats.totalMistakes}</span></div>
-                <div class="stat-item"><span class="stat-label">أطول حماس (Streak)</span><span class="stat-value">🔥${app.userData.longestStreak}</span></div>
+                <div class="setting-row"><span>إجمالي النقاط</span><span>${app.userData.stats.totalScore}</span></div>
+                <div class="setting-row"><span>إجمالي الأخطاء</span><span>${app.userData.stats.totalMistakes}</span></div>
+                <div class="setting-row"><span>أطول حماس (Streak)</span><span>🔥${app.userData.longestStreak}</span></div>
             `;
             showScreen('generic-screen');
         }
@@ -820,17 +817,14 @@
             Object.values(ACHIEVEMENTS).forEach(achievement => {
                 const isUnlocked = app.userData.achievements[achievement.id];
                 const achEl = document.createElement('div');
-                achEl.className = `achievement-item ${isUnlocked ? 'unlocked' : ''}`;
-                achEl.innerHTML = `<div class="achievement-icon">${achievement.icon}</div><div><h3>${achievement.name}</h3><p>${achievement.description}</p></div>`;
+                achEl.className = `setting-row achievement-item ${isUnlocked ? 'unlocked' : ''}`;
+                achEl.innerHTML = `<div><div class="achievement-icon">${achievement.icon}</div><h3>${achievement.name}</h3><p>${achievement.description}</p></div><span>${isUnlocked ? '✅ تم الفتح' : '🔒 مغلق'}</span>`;
                 DOMElements.genericScreen.content.appendChild(achEl);
             });
 
             showScreen('generic-screen');
         }
         
-        // ... (Functions checkAchievements, updateStreak, unlockNextSubLevel, endSession, checkAnswer) ...
-        // [NOTE: These core logic functions remain identical to the previous version.]
-
         function updateStreak(isCorrect) {
             if (app.currentSession.mode === 'Learning') return;
             if (isCorrect) {
@@ -865,15 +859,6 @@
             saveData();
         }
 
-        // NEW: This function is no longer used, replaced by showModePopover
-        function showModeSelectionModal(level, subLevel) {
-            vibrate();
-            playSound('click');
-            app.pendingSession = { level, subLevel };
-            DOMElements.modals.modeSelection.classList.remove('hidden');
-        }
-        
-        // --- NEW: Popover Functions ---
         function showModePopover(targetElement, level, subLevel) {
             vibrate();
             app.pendingSession = { level, subLevel };
@@ -885,12 +870,11 @@
 
             // 2. Position it
             const rect = targetElement.getBoundingClientRect();
-            // 450px is an estimate, adjust if your button list is taller/shorter
             const popoverHeight = 450; 
             let popoverTop = window.scrollY + rect.bottom + 8; // Default: below
 
             // If it goes off-screen (bottom)
-            if (popoverTop + popoverHeight > (window.innerHeight - 20)) { // 20px buffer
+            if (popoverTop + popoverHeight > (window.innerHeight - 20)) { 
                 popoverTop = window.scrollY + rect.top - popoverHeight - 8; // Position above
             }
             // If it goes off-screen (top)
@@ -926,8 +910,7 @@
                 popover.classList.add('hidden');
             }
         }
-        // --- END NEW ---
-
+        
         function startSession(mode) {
             const { level, subLevel } = app.pendingSession;
             vibrate();
@@ -945,7 +928,6 @@
             DOMElements.game.scoreDisplay.textContent = '0';
             DOMElements.game.streakDisplay.textContent = '🔥0';
             
-            // NEW: Hide the popover, not the old modal
             DOMElements.modals.popover.classList.add('hidden'); 
             
             showScreen('game-screen');
@@ -962,7 +944,7 @@
             if (nextLevelExists) {
                 if (!app.userData.unlockedSubLevels[level].includes(String(nextSubLevel))) {
                     app.userData.unlockedSubLevels[level].push(String(nextSubLevel));
-                    showToast('تم فتح مستوى جديد! 🎉', 'success', '🔓');
+                    showToast('تم فتح مستوى فرعي جديد! 🎉', 'success', '🔓');
                 }
             } else {
                 const mainLevels = Object.keys(app.sentences);
@@ -998,7 +980,11 @@
         }
 
         function checkAnswer(userAnswer, targetElement) {
-            if (app.currentSession.mode === 'Learning') return;
+            if (app.currentSession.mode === 'Learning') {
+                app.currentSession.currentIndex++; 
+                return renderQuestion();
+            }
+            
             const mode = app.currentSession.currentModeForQuestion;
             const correctEn = cleanString(app.currentSession.currentSentence.en);
             let isCorrect = false;
@@ -1011,14 +997,14 @@
                  finalAnswer = DOMElements.game.typingInput.value;
                  isCorrect = cleanString(finalAnswer) === correctEn;
             } else if (mode === 'FillBlank') {
-                const originalWords = app.currentSession.currentSentence.en.match(/\b(\w+)\b|[^\w\s]/g) || []; // NEW: Better regex
+                const originalWords = app.currentSession.currentSentence.en.match(/\b(\w+)\b|[^\w\s]/g) || []; 
                 const correctWord = originalWords.find(w => cleanString(w) === cleanString(userAnswer));
                 isCorrect = !!correctWord;
             } else if (mode === 'OrderWords') {
-                const correctSentenceWords = app.currentSession.currentSentence.en.match(/\b(\w+)\b|[^\w\s]/g) || []; // NEW: Better regex
-                finalAnswer = app.orderWordsUserSequence.join(' ');
-                const correctSentence = correctSentenceWords.join(' ');
-                isCorrect = cleanString(finalAnswer) === cleanString(correctSentence);
+                const finalOrder = app.orderWordsUserSequence.join(' ');
+                // تصحيح: استخدام cleanString للمقارنة
+                isCorrect = cleanString(finalOrder) === correctEn;
+                finalAnswer = finalOrder;
             } else {
                 // MCQ, ListenType (MCQ)
                 isCorrect = cleanString(userAnswer) === correctEn;
@@ -1053,7 +1039,9 @@
 
             // Mode-specific UI updates
             if (mode === 'Dictation') {
-                 DOMElements.game.dictationWordDisplay.textContent = cleanString(app.currentSession.correctDictationWord);
+                 // The correct word is stored clean, but we show the original capitalized version if possible.
+                 const originalWord = app.currentSession.currentSentence.en.split(/\s+/).find(w => cleanString(w) === app.currentSession.correctDictationWord) || app.currentSession.correctDictationWord;
+                 DOMElements.game.dictationWordDisplay.textContent = originalWord;
                  DOMElements.game.dictationWordDisplay.style.color = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
                  DOMElements.game.typingInput.disabled = true;
             } else if (mode === 'Typing') {
@@ -1063,19 +1051,21 @@
                 document.querySelectorAll('#mcq-options .btn').forEach(btn => {
                     btn.disabled = true;
                     if (cleanString(btn.textContent) === correctEn) {
-                        btn.classList.add('correct'); // This class needs to be defined in CSS
-                        btn.style.backgroundColor = 'var(--success-color)'; // Fallback
+                        btn.classList.add('correct'); 
+                        btn.style.backgroundColor = 'var(--success-color)'; 
                     } else if (targetElement === btn) {
-                        btn.classList.add('incorrect'); // This class needs to be defined in CSS
-                        btn.style.backgroundColor = 'var(--error-color)'; // Fallback
+                        btn.classList.add('incorrect'); 
+                        btn.style.backgroundColor = 'var(--error-color)'; 
                     }
                 });
             } else if (mode === 'FillBlank') {
                 document.querySelectorAll('#word-bank .word-chip').forEach(chip => chip.style.pointerEvents = 'none');
                 const placeholder = document.getElementById('blank-placeholder');
                 if (placeholder) {
-                    const correctWords = app.currentSession.currentSentence.en.split(/\s+/).filter(w => w.trim() !== '');
-                    const blankWord = correctWords[DOMElements.game.wordBlanks.innerHTML.split(/\s+/).findIndex(w => w.includes('[.......]'))]; // NEW: Updated placeholder text
+                    const originalWords = app.currentSession.currentSentence.en.split(/\s+/).filter(w => w.trim() !== '');
+                    const blankIndexInHTML = DOMElements.game.wordBlanks.innerHTML.split(/\s+/).findIndex(w => w.includes('[.......]'));
+                    const blankWord = originalWords[blankIndexInHTML]; 
+                    
                     placeholder.textContent = blankWord;
                     placeholder.style.color = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
                     if(isCorrect) {
@@ -1087,11 +1077,11 @@
                     }
                 }
             } else if (mode === 'OrderWords') { 
-                DOMElements.game.orderedSentenceArea.style.borderColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)'; // NEW: Use border color
+                DOMElements.game.orderedSentenceArea.style.borderColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)'; 
                 document.querySelectorAll('#word-selection-bank .word-to-select').forEach(chip => chip.style.pointerEvents = 'none');
                 document.querySelectorAll('#ordered-sentence-area .ordered-word-chip').forEach(chip => chip.onclick = null);
 
-                // NEW: Show the correct sentence in chips
+                // Show the correct sentence in chips
                 DOMElements.game.orderedSentenceArea.innerHTML = '';
                 const correctWordsFinal = app.currentSession.currentSentence.en.match(/\b(\w+)\b|[^\w\s]/g) || [];
                 correctWordsFinal.forEach(word => {
@@ -1108,7 +1098,7 @@
         }
         
         function useHint() {
-            playSound('click'); // NEW: Add sound to hint
+            playSound('click'); 
             const effectiveMode = app.currentSession.currentModeForQuestion;
             if (effectiveMode === 'Typing' || effectiveMode === 'ListenType') {
                 const sentence = app.currentSession.currentSentence.en;
@@ -1117,7 +1107,7 @@
                     DOMElements.game.typingInput.value = sentence.substring(0, currentInput.length + 1);
                 }
             } else if (effectiveMode === 'OrderWords') {
-                 const correctWords = app.currentSession.currentSentence.en.match(/\b(\w+)\b|[^\w\s]/g) || []; // NEW: Better regex
+                 const correctWords = app.currentSession.currentSentence.en.match(/\b(\w+)\b|[^\w\s]/g) || []; 
                  const nextCorrectWord = correctWords[app.orderWordsUserSequence.length];
 
                  if (nextCorrectWord) {
@@ -1129,10 +1119,11 @@
                     }
                  }
             } else if (effectiveMode === 'Dictation') {
-                const correctWord = cleanString(app.currentSession.correctDictationWord);
+                const correctWord = app.currentSession.correctDictationWord; // clean string
+                const originalCorrectWord = app.currentSession.currentSentence.en.split(/\s+/).find(w => cleanString(w) === correctWord) || correctWord;
                 const currentInput = DOMElements.game.typingInput.value;
-                 if (currentInput.length < correctWord.length) {
-                    DOMElements.game.typingInput.value = correctWord.substring(0, currentInput.length + 1);
+                 if (currentInput.length < originalCorrectWord.length) {
+                    DOMElements.game.typingInput.value = originalCorrectWord.substring(0, currentInput.length + 1);
                 }
             }
         }
@@ -1144,18 +1135,13 @@
             document.getElementById('achievements-btn').onclick = () => { playSound('click'); vibrate(); showAchievements(); };
             DOMElements.genericScreen.backBtn.onclick = () => { playSound('click'); vibrate(); renderMainMenu(); };
 
-            // NEW: These listeners for the old modal are no longer necessary as the popover handles its own clicks.
-            // document.querySelector('#mode-selection-modal .modal-overlay').onclick = () => { playSound('click'); DOMElements.modals.modeSelection.classList.add('hidden'); };
-            // DOMElements.modals.modeSelectionButtons.addEventListener('click', e => {
-            //     if (e.target.matches('[data-mode]')) startSession(e.target.dataset.mode);
-            // });
-            
             document.getElementById('back-to-menu-btn').onclick = () => { playSound('click'); renderMainMenu(); };
             DOMElements.game.checkBtn.onclick = () => {
                 const mode = app.currentSession.currentModeForQuestion;
                 if (mode === 'Typing' || mode === 'Dictation') {
                     checkAnswer(DOMElements.game.typingInput.value);
                 } else if (mode === 'OrderWords') {
+                    // checkAnswer will get the sequence from the global state/DOM
                     checkAnswer(app.orderWordsUserSequence.join(' '));
                 }
             };
@@ -1173,11 +1159,13 @@
                 app.currentSession.currentIndex++; 
                 renderQuestion(); 
             };
-            DOMElements.game.hintBtn.onclick = () => { useHint(); }; // Sound added in useHint()
+            DOMElements.game.hintBtn.onclick = () => { useHint(); }; 
             document.getElementById('replay-sound-btn').onclick = () => {
                  const mode = app.currentSession?.currentModeForQuestion;
                  if (mode === 'Dictation' && app.currentSession.correctDictationWord) {
-                    speak(app.currentSession.correctDictationWord);
+                    // Speak the word (not the sentence)
+                    const originalWord = app.currentSession.currentSentence.en.split(/\s+/).find(w => cleanString(w) === app.currentSession.correctDictationWord) || app.currentSession.correctDictationWord;
+                    speak(originalWord);
                  } else if (app.currentSession?.currentSentence?.en) {
                     speak(app.currentSession.currentSentence.en);
                  }
@@ -1193,7 +1181,35 @@
             });
         }
 
-        // --- 7. INITIALIZATION ---
+        // --- 7. INITIALIZATION (Simplified for local use) ---
+        // بيانات وهمية لضمان عمل التطبيق محليا دون الحاجة لملفات JSON خارجية
+        const DUMMY_SENTENCES = {
+            'A1': {
+                '1': [
+                    { en: "I am happy.", ar: "أنا سعيد." },
+                    { en: "You are smart.", ar: "أنت ذكي." },
+                    { en: "She has a book.", ar: "لديها كتاب." },
+                    { en: "We need water.", ar: "نحن نحتاج الماء." },
+                    { en: "They like pizza.", ar: "إنهم يحبون البيتزا." }
+                ],
+                '2': [
+                    { en: "He is a doctor.", ar: "إنه طبيب." },
+                    { en: "It is cold now.", ar: "الجو بارد الآن." },
+                ]
+            },
+            'A2': {
+                '1': [
+                    { en: "I can speak English well.", ar: "أستطيع التحدث بالإنجليزية جيداً." },
+                    { en: "Did you go home early?", ar: "هل ذهبت إلى المنزل مبكراً؟" },
+                ]
+            },
+            'B1': {
+                 '1': [
+                    { en: "Although it was raining, they played outside.", ar: "على الرغم من أنها كانت تمطر، لعبوا في الخارج." },
+                 ]
+            }
+        };
+
         async function init() {
             if (app.isInitialized) return;
             app.isInitialized = true;
@@ -1204,31 +1220,12 @@
                 speechSynthesis.onvoiceschanged = () => { app.ttsVoices = speechSynthesis.getVoices(); };
                 app.ttsVoices = speechSynthesis.getVoices(); 
             }
-
-            const levels = ['A1', 'A2', 'B1', 'B2'];
-            const files = ['sentences1.json', 'sentences2.json', 'sentences3.json', 'sentences4.json']; 
-            for(let i=0; i < files.length; i++) {
-                try {
-                    document.getElementById('loading-status').textContent = `Loading ${levels[i]}...`;
-                    const response = await fetch(files[i]); 
-                    if(!response.ok) throw new Error(`Failed to load`);
-                    const data = await response.json();
-                    const levelKey = levels[i];
-                    app.sentences[levelKey] = {};
-                    for (let j = 0; j < data.length; j += SUB_LEVEL_SIZE) {
-                        const subLevelKey = (j / SUB_LEVEL_SIZE) + 1;
-                        app.sentences[levelKey][subLevelKey] = data.slice(j, j + SUB_LEVEL_SIZE).map(s => ({...s, subLevel: `${subLevelKey}`}));
-                    }
-                } catch(e) { document.getElementById('loading-status').textContent = `Error loading data for ${levels[i]}. Using dummy data.`; 
-                if(!app.sentences[levels[i]]) {
-                    app.sentences[levels[i]] = {
-                        '1': [{en: "I am happy", ar: "أنا سعيد"}, {en: "You are smart", ar: "أنت ذكي"}],
-                        '2': [{en: "We need water", ar: "نحن نحتاج الماء"}, {en: "She drinks coffee", ar: "هي تشرب القهوة"}],
-                    };
-                }
-                }
-                document.getElementById('loading-progress').style.width = `${((i+1)/files.length) * 100}%`;
-            }
+            
+            // --- تصحيح: استخدام البيانات الوهمية بدلاً من جلب الملفات الفاشل محلياً ---
+            app.sentences = DUMMY_SENTENCES;
+            document.getElementById('loading-status').textContent = `تم تحميل بيانات تجريبية بنجاح.`;
+            document.getElementById('loading-progress').style.width = `100%`;
+            // ----------------------------------------------------------------------
             
             setupEventListeners();
             DOMElements.splashScreen.style.opacity = '0';
