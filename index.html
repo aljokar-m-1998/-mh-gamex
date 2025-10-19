@@ -44,6 +44,7 @@
             /* Feedback Colors */
             --success-color: #38c172;
             --error-color: #e3342f;
+            --timer-color: #ff5722; /* Deep Orange for Timer */
             
             /* Apply theme */
             --bg: var(--bg-light);
@@ -195,12 +196,24 @@
         /* Game Screen Elements */
         #game-screen header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding-bottom: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color);
         }
+        
+        #progress-timer-container {
+            display: flex; align-items: center; flex-grow: 1; margin: 0 1rem;
+        }
+
         #session-progress-bar { 
-            flex-grow: 1; margin: 0 1rem; height: 8px; background: var(--border-color); border-radius: 4px; overflow: hidden;
+            flex-grow: 1; height: 8px; background: var(--border-color); border-radius: 4px; overflow: hidden;
         }
         #session-progress-fill { height: 100%; width: 0; background: var(--accent); transition: width 0.3s; }
+        
+        #timer-display {
+            font-weight: 900; font-size: 1.2rem; margin-left: 1rem; color: var(--timer-color);
+            min-width: 30px; /* Ensure space for two digits */
+            text-align: center;
+        }
+
         #score-display, #streak-display { font-weight: 700; font-size: 1.2rem; }
         
         .sentence-box { 
@@ -258,6 +271,8 @@
         #game-controls-left {
             display: flex; gap: 0.5rem;
         }
+        /* Hidden hint button since it's removed */
+        #hint-btn { display: none !important; }
 
         /* Modal Style */
         .modal-overlay { 
@@ -340,7 +355,10 @@
         <div id="game-screen" class="screen hidden">
             <header>
                 <button id="back-to-menu-btn" class="btn-icon" title="العودة للقائمة">↩️</button>
-                <div id="session-progress-bar"><div id="session-progress-fill"></div></div>
+                <div id="progress-timer-container">
+                    <div id="session-progress-bar"><div id="session-progress-fill"></div></div>
+                    <div id="timer-display" class="hidden">30</div>
+                </div>
                 <div id="score-display">0</div>
                 <div id="streak-display">🔥0</div>
             </header>
@@ -367,7 +385,6 @@
                 
                 <div id="game-controls">
                     <div id="game-controls-left">
-                        <button id="hint-btn" class="btn btn-secondary">💡 تلميح</button>
                         <button id="fav-btn" class="btn-icon">🤍</button>
                         <button id="replay-sound-btn" class="btn-icon" title="إعادة النطق">🔊</button>
                     </div>
@@ -393,7 +410,7 @@
                     <button class="btn" data-mode="Dictation">🎤 إملاء (استماع وكتابة)</button>
                     <button class="btn" data-mode="OrderWords">📝 ترتيب الكلمات</button>
                     <button class="btn" data-mode="FillBlank">✍️ املأ الفراغ</button>
-                    <button class="btn btn-secondary" data-mode="Challenge">🎲 تحدي متنوع</button>
+                    <button class="btn" data-mode="TypingChallenge">⏱️ تحدي الكتابة</button> <button class="btn btn-secondary" data-mode="Challenge">🎲 تحدي متنوع</button>
                 </div>
             </div>
         </div>
@@ -411,6 +428,8 @@
         // --- 1. STATE & CONSTANTS ---
         const SUB_LEVEL_SIZE = 20;
         const UNLOCK_PERCENTAGE = 75;
+        const TIMER_DURATION_SEC = 30; // 30 seconds for timed modes
+        const TYPING_CHALLENGE_DURATION_SEC = 10; // 10 seconds for the new challenge mode
         // هنا تم تحديد ملفات JSON
         const LEVELS_FILES = [
             { level: 'A1', file: 'sentences1.json' },
@@ -420,7 +439,7 @@
         ];
 
         // Retained LS version for continuity
-        const LS_KEYS = { USER_DATA: 'esj_userData_v16_fix', SETTINGS: 'esj_settings_v16_fix' }; 
+        const LS_KEYS = { USER_DATA: 'esj_userData_v17_fix', SETTINGS: 'esj_settings_v17_fix' }; 
         
         const app = {
             sentences: {}, userData: {}, settings: {},
@@ -428,6 +447,8 @@
             isInitialized: false, ttsVoices: [],
             orderWordsUserSequence: [], 
             currentStreak: 0, 
+            timerInterval: null, // NEW: Timer interval handler
+            timerSeconds: 0, // NEW: Current timer seconds
         };
         const DOMElements = {
             splashScreen: document.getElementById('splash-screen'),
@@ -443,6 +464,7 @@
             toastContainer: document.getElementById('toast-container'),
             game: {
                 sessionProgressBar: document.getElementById('session-progress-fill'),
+                timerDisplay: document.getElementById('timer-display'), // NEW
                 scoreDisplay: document.getElementById('score-display'),
                 streakDisplay: document.getElementById('streak-display'),
                 sentenceEn: document.getElementById('sentence-en'),
@@ -453,11 +475,11 @@
                 wordBank: document.getElementById('word-bank'),
                 checkBtn: document.getElementById('check-btn'),
                 nextBtn: document.getElementById('next-btn'),
-                hintBtn: document.getElementById('hint-btn'),
+                // hintBtn: document.getElementById('hint-btn'), // REMOVED
                 mcqContainer: document.getElementById('mcq-container'),
                 typingContainer: document.getElementById('typing-container'),
                 listenContainer: document.getElementById('listen-container'),
-                playAudioBtn: document.getElementById('play-sound-btn'), // FIX: Renamed for clarity
+                playAudioBtn: document.getElementById('play-sound-btn'), 
                 fillBlankContainer: document.getElementById('fill-blank-container'),
                 orderWordsContainer: document.getElementById('order-words-container'),
                 orderedSentenceArea: document.getElementById('ordered-sentence-area'),
@@ -606,6 +628,9 @@
 
         // --- 4. UI RENDERING ---
         function renderMainMenu() {
+            // Clear any running timer before rendering main menu
+            clearTimer(); 
+
             const container = DOMElements.levelContainer;
             container.innerHTML = ''; 
             const mainLevels = Object.keys(app.sentences).filter(l => Object.keys(app.sentences[l] || {}).length > 0).sort();
@@ -672,6 +697,41 @@
         }
 
         // --- 5. GAME LOGIC ---
+        
+        // NEW: Timer Functions
+        function startTimer(duration, onTimeout) {
+            clearTimer();
+            DOMElements.game.timerDisplay.classList.remove('hidden');
+            app.timerSeconds = duration;
+            DOMElements.game.timerDisplay.textContent = app.timerSeconds;
+
+            app.timerInterval = setInterval(() => {
+                app.timerSeconds--;
+                DOMElements.game.timerDisplay.textContent = app.timerSeconds;
+
+                if (app.timerSeconds <= 5) {
+                    DOMElements.game.timerDisplay.style.color = 'var(--error-color)';
+                } else {
+                    DOMElements.game.timerDisplay.style.color = 'var(--timer-color)';
+                }
+
+                if (app.timerSeconds <= 0) {
+                    clearTimer();
+                    onTimeout();
+                }
+            }, 1000);
+        }
+
+        function clearTimer() {
+            if (app.timerInterval) {
+                clearInterval(app.timerInterval);
+                app.timerInterval = null;
+            }
+            DOMElements.game.timerDisplay.classList.add('hidden');
+            DOMElements.game.timerDisplay.textContent = '';
+            DOMElements.game.timerDisplay.style.color = 'var(--timer-color)';
+        }
+
 
         function updateStreak(isCorrect) {
             if (isCorrect) {
@@ -698,6 +758,8 @@
         }
 
         function endSession() {
+            clearTimer(); // NEW: Ensure timer is stopped
+            
             // Stop any speaking audio
             if ('speechSynthesis' in window) speechSynthesis.cancel();
             if (DOMElements.audio.ttsFallback) { DOMElements.audio.ttsFallback.pause(); DOMElements.audio.ttsFallback.currentTime = 0; }
@@ -794,19 +856,52 @@
             DOMElements.modals.reviewMistakesBtn.classList.add('hidden');
         }
 
-        function checkAnswer(userAnswer, optionElement = null) {
-            const session = app.currentSession;
-            const sentence = session.currentSentence;
-            const mode = session.currentModeForQuestion;
-            let isCorrect = false;
-            let expectedAnswer = cleanString(sentence.en);
-            
-            // Disable inputs/options to prevent double-checking
+        // NEW: Centralized function to disable controls after a check or timeout
+        function disableGameControls() {
+            clearTimer(); // Stop timer immediately
             DOMElements.game.typingInput.disabled = true;
             document.querySelectorAll('#mcq-options .btn').forEach(btn => btn.disabled = true);
             document.querySelectorAll('#word-bank .word-chip').forEach(chip => chip.onclick = null); 
             document.querySelectorAll('#word-selection-bank .word-to-select').forEach(chip => chip.onclick = null); 
             document.querySelectorAll('#ordered-sentence-area .selected-word').forEach(chip => chip.onclick = null); 
+            DOMElements.game.dictationPlayBtn.disabled = true;
+        }
+
+        function handleTimeout(mode) {
+            disableGameControls();
+            flashScreen('incorrect');
+            updateStreak(false);
+            updateScore(false);
+            
+            const sentence = app.currentSession.currentSentence;
+            // Record mistake without a user answer
+            if (app.currentSession.mistakes.every(m => cleanString(m.en) !== cleanString(sentence.en))) {
+                app.currentSession.mistakes.push({ en: sentence.en, ar: sentence.ar, mode: mode, userAnswer: 'انتهى الوقت!' });
+            }
+            
+            showToast('انتهى الوقت!', 'error', '⌛');
+            
+            // Reveal correct answer and allow moving next
+            DOMElements.game.sentenceEn.textContent = sentence.en;
+            DOMElements.game.sentenceEnBox.classList.remove('hidden');
+            DOMElements.game.sentenceArBox.classList.remove('hidden');
+
+            DOMElements.game.checkBtn.classList.add('hidden');
+            DOMElements.game.nextBtn.classList.remove('hidden');
+            speak(sentence.en);
+        }
+
+
+        function checkAnswer(userAnswer, optionElement = null) {
+            if (!app.currentSession) return; // Safety check
+            
+            disableGameControls(); // Disable controls immediately upon check
+
+            const session = app.currentSession;
+            const sentence = session.currentSentence;
+            const mode = session.currentModeForQuestion;
+            let isCorrect = false;
+            let expectedAnswer = cleanString(sentence.en);
             
             DOMElements.game.checkBtn.classList.add('hidden');
             DOMElements.game.nextBtn.classList.remove('hidden');
@@ -817,6 +912,7 @@
                 case 'MCQ':
                 case 'ListenType':
                     isCorrect = cleanUserAnswer === expectedAnswer;
+                    // Highlight correct/incorrect option
                     if (optionElement) {
                         optionElement.style.backgroundColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
                         optionElement.style.color = 'white';
@@ -833,6 +929,7 @@
                     break;
                 case 'Typing':
                 case 'Dictation':
+                case 'TypingChallenge': // NEW Mode
                     // Use a looser comparison for typing to be more forgiving
                     isCorrect = simplifyString(userAnswer) === simplifyString(sentence.en);
                     DOMElements.game.typingInput.style.borderColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
@@ -853,6 +950,7 @@
                             placeholder.style.color = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
                         }
                     }
+                    DOMElements.game.sentenceEnBox.classList.remove('hidden'); // Reveal English sentence
                     break;
                 case 'OrderWords':
                     isCorrect = simplifyString(userAnswer) === simplifyString(sentence.en);
@@ -879,18 +977,18 @@
                 updateScore(false);
             }
             
-            // Speak the correct English sentence after check (unless it's just a learning mode read)
-            if (isCorrect || mode !== 'Learning') {
-                speak(sentence.en);
-            }
+            // Speak the correct English sentence after check
+            speak(sentence.en);
         }
         
         function renderQuestion() {
+            clearTimer(); // Clear any existing timer before starting the next question
+
             if (app.currentSession.currentIndex >= app.currentSession.questions.length) return endSession();
             
             const sentence = app.currentSession.questions[app.currentSession.currentIndex];
-            // NEW: Add a hint field (even if empty) to the sentence object for consistency
-            if (!sentence.hint) sentence.hint = 'لم يتم إضافة تلميح لهذا السؤال بعد.'; 
+            // The hint field is now a remnant but kept for structure, since hints are removed.
+            if (!sentence.hint) sentence.hint = ''; 
             app.currentSession.currentSentence = sentence;
             
             updateFavoriteButton(); 
@@ -910,19 +1008,18 @@
             DOMElements.game.nextBtn.classList.add('hidden');
             DOMElements.game.checkBtn.classList.remove('hidden');
             DOMElements.game.typingInput.style.textAlign = 'left'; 
+            DOMElements.game.dictationPlayBtn.disabled = false;
             
-            // By default, show both boxes
+            // By default, show both boxes (will be hidden/shown by mode)
             DOMElements.game.sentenceEnBox.classList.remove('hidden');
             DOMElements.game.sentenceArBox.classList.remove('hidden');
             DOMElements.game.replaySoundBtn.onclick = () => speak(sentence.en); 
             
-            // Set Hint button click listener (NOW USES THE SENTENCE HINT FIELD)
-            DOMElements.game.hintBtn.onclick = () => { playSound('click'); showToast(sentence.hint, 'info', '💡'); };
-
+            // REMOVED: DOMElements.game.hintBtn.onclick = ...
 
             let mode = app.currentSession.mode;
             if (mode === 'Challenge') {
-                const availableModes = ['MCQ', 'Typing', 'ListenType', 'FillBlank', 'OrderWords', 'Dictation'];
+                const availableModes = ['MCQ', 'Typing', 'ListenType', 'FillBlank', 'OrderWords', 'Dictation', 'TypingChallenge']; // Added new mode
                 mode = availableModes[Math.floor(Math.random() * availableModes.length)];
             }
             app.currentSession.currentModeForQuestion = mode;
@@ -947,14 +1044,16 @@
                     DOMElements.game.mcqOptions.innerHTML = '';
                     
                     if (mode === 'ListenType') {
-                        DOMElements.game.sentenceArBox.classList.remove('hidden'); // Show AR for context
                         DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN
                         DOMElements.game.listenContainer.classList.remove('hidden');
                         DOMElements.game.playAudioBtn.onclick = () => speak(sentence.en);
                         speak(sentence.en); 
-                    } else { // MCQ
-                        DOMElements.game.sentenceEnBox.classList.add('hidden'); 
+                    } else { // MCQ (Translation mode EN -> AR)
+                        DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN - Question is the AR translation
                     }
+
+                    // Start 30s timer for MCQ
+                    startTimer(TIMER_DURATION_SEC, () => handleTimeout(mode));
 
                     // FIX: Get all sentences and filter for 3 distinct distractors
                     const allSentences = Object.values(app.sentences).flatMap(levels => Object.values(levels)).flat();
@@ -976,7 +1075,18 @@
                 case 'Typing':
                     DOMElements.game.typingContainer.classList.remove('hidden');
                     DOMElements.game.typingInput.placeholder = "اكتب الجملة الإنجليزية...";
-                    DOMElements.game.sentenceEnBox.classList.add('hidden'); 
+                    DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN - Focus on AR to EN translation
+                    DOMElements.game.typingInput.focus();
+                    break;
+                case 'TypingChallenge': // NEW Mode: Timer is the challenge
+                    DOMElements.game.typingContainer.classList.remove('hidden');
+                    DOMElements.game.sentenceEn.textContent = sentence.en; // Show EN sentence to copy
+                    DOMElements.game.typingInput.placeholder = "اكتب الجملة بسرعة!";
+                    DOMElements.game.sentenceArBox.classList.add('hidden'); // Hide AR translation
+                    
+                    // Start 10s challenge timer
+                    startTimer(TYPING_CHALLENGE_DURATION_SEC, () => handleTimeout(mode));
+
                     DOMElements.game.typingInput.focus();
                     break;
                 case 'Dictation': 
@@ -995,8 +1105,11 @@
                 case 'FillBlank':
                     DOMElements.game.fillBlankContainer.classList.remove('hidden');
                     DOMElements.game.wordBank.innerHTML = '';
-                    DOMElements.game.sentenceEnBox.classList.add('hidden'); 
+                    DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN - Question is the AR translation
                     
+                    // Start 30s timer for FillBlank
+                    startTimer(TIMER_DURATION_SEC, () => handleTimeout(mode));
+
                     // Match words, including contractions and simple punctuation as separate tokens for now
                     const wordsFB = sentence.en.match(/\b(\w+'?\w*)\b|[^a-zA-Z\s]/g) || [];
                     const wordIndices = wordsFB.map((w, i) => (/\w/.test(w) ? i : -1)).filter(i => i !== -1);
@@ -1005,6 +1118,7 @@
                         DOMElements.game.wordBlanks.textContent = "خطأ في الجملة (لا توجد كلمات كافية لملء الفراغ).";
                         DOMElements.game.checkBtn.classList.add('hidden');
                         DOMElements.game.nextBtn.classList.remove('hidden');
+                        clearTimer();
                         return;
                     }
                     
@@ -1037,7 +1151,10 @@
                     break;
                 case 'OrderWords':
                     DOMElements.game.orderWordsContainer.classList.remove('hidden');
-                    DOMElements.game.sentenceEnBox.classList.add('hidden'); 
+                    DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN - Question is the AR translation
+                    
+                    // Start 30s timer for OrderWords
+                    startTimer(TIMER_DURATION_SEC, () => handleTimeout(mode));
                     
                     // Match words and include punctuation as separate tokens for ordering/display purposes
                     const wordsOW = sentence.en.match(/\b(\w+'?\w*)\b|[^a-zA-Z\s]/g) || [];
@@ -1121,7 +1238,7 @@
             const currentSentence = { 
                 en: app.currentSession.currentSentence.en, 
                 ar: app.currentSession.currentSentence.ar,
-                hint: app.currentSession.currentSentence.hint, // Include hint for completeness
+                // hint: app.currentSession.currentSentence.hint, // REMOVED HINT FIELD IN FAV
             };
             const currentSentenceClean = cleanString(currentSentence.en);
             
@@ -1315,6 +1432,7 @@
                 // Stop any audio before leaving
                 if ('speechSynthesis' in window) speechSynthesis.cancel();
                 if (DOMElements.audio.ttsFallback) { DOMElements.audio.ttsFallback.pause(); DOMElements.audio.ttsFallback.currentTime = 0; }
+                clearTimer(); // NEW: Clear timer
                 playSound('click'); 
                 renderMainMenu(); 
             };
@@ -1335,7 +1453,7 @@
             DOMElements.game.checkBtn.onclick = () => {
                 playSound('click');
                 const mode = app.currentSession?.currentModeForQuestion;
-                if (mode === 'Typing' || mode === 'Dictation') {
+                if (mode === 'Typing' || mode === 'Dictation' || mode === 'TypingChallenge') { // Added TypingChallenge
                     checkAnswer(DOMElements.game.typingInput.value);
                 } else if (mode === 'OrderWords') {
                     checkAnswer(app.orderWordsUserSequence.join(' ')); 
@@ -1346,6 +1464,7 @@
                 if ('speechSynthesis' in window) speechSynthesis.cancel();
                 if (DOMElements.audio.ttsFallback) { DOMElements.audio.ttsFallback.pause(); DOMElements.audio.ttsFallback.currentTime = 0; }
                 
+                clearTimer(); // NEW: Clear timer before next question
                 DOMElements.game.typingInput.disabled = false;
                 DOMElements.game.typingInput.style.borderColor = 'var(--border-color)';
                 playSound('click'); 
@@ -1357,7 +1476,8 @@
             
             DOMElements.game.typingInput.addEventListener('keydown', (e) => {
                 const mode = app.currentSession?.currentModeForQuestion;
-                if (e.key === 'Enter' && (mode === 'Typing' || mode === 'Dictation') && !DOMElements.game.checkBtn.classList.contains('hidden')) {
+                // Trigger check on Enter for typing modes (if check button is visible)
+                if (e.key === 'Enter' && (mode === 'Typing' || mode === 'Dictation' || mode === 'TypingChallenge') && !DOMElements.game.checkBtn.classList.contains('hidden')) {
                     e.preventDefault();
                     DOMElements.game.checkBtn.click();
                 }
@@ -1396,7 +1516,7 @@
                         const sentencesChunk = data.slice(j, j + SUB_LEVEL_SIZE).map(s => ({
                             ...s, 
                             subLevel: subLevelKey,
-                            hint: s.hint || 'لم يتم إضافة تلميح لهذا السؤال بعد.', // Ensure hint exists
+                            hint: s.hint || '', // Hint is removed from feature but kept in data structure
                         }));
                         app.sentences[level][subLevelKey] = sentencesChunk;
                     }
@@ -1433,4 +1553,3 @@
     </script>
 </body>
 </html>
-
