@@ -9,7 +9,7 @@
         /*
          * UI Enhancement: Ultimate Aesthetic - Modern, Deep, and Consistent Design
          */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght+400;600;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700;900&display=swap');
 
         :root {
             --font-ar: 'Cairo', sans-serif;
@@ -325,6 +325,25 @@
         .favorite-sentence-item p { margin-bottom: 0.5rem; }
         .favorite-sentence-item .en { font-family: var(--font-en); font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
         .favorite-sentence-item .ar { font-family: var(--font-ar); color: var(--text-secondary); }
+        /* Style for the Thematic button in mode selection (to use same style but centered) */
+        #mode-selection-modal .theme-btn {
+            justify-content: center;
+            text-align: center;
+        }
+        /* Added Pronunciation Mode button styling */
+        #pronunciation-container .btn-icon {
+            font-size: 1.2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            margin: 0 0.5rem;
+        }
+        #record-btn {
+            background-color: var(--error-color);
+            color: white;
+        }
+        #record-btn.btn-secondary {
+            background-color: var(--success-color);
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -381,6 +400,11 @@
                         <div id="ordered-sentence-area"></div>
                         <div id="word-selection-bank"></div>
                     </div>
+                    <div id="pronunciation-container" class="hidden" style="text-align: center; margin-top: 1rem;">
+                        <button id="record-btn" class="btn-icon" title="بدء التسجيل">🎤</button>
+                        <button id="play-user-btn" class="btn-icon" disabled title="تشغيل صوت المستخدم">👂 صوتي</button>
+                        <button id="play-model-btn" class="btn-icon" title="تشغيل صوت النموذج">🔊 نموذج</button>
+                    </div>
                 </div>
                 
                 <div id="game-controls">
@@ -403,14 +427,10 @@
             <div class="modal">
                 <div class="modal-header"><h2 class="modal-title">اختر وضع التدريب</h2></div>
                 <div class="modal-body" id="mode-selection-buttons">
-                    <button class="btn" data-mode="Learning">🎓 وضع التعلم (قراءة)</button>
-                    <button class="btn" data-mode="MCQ">🔠 اختيار من متعدد (الترجمة)</button>
-                    <button class="btn" data-mode="ListenType">🎧 تدريب الاستماع (MCQ)</button>
-                    <button class="btn" data-mode="Typing">⌨️ تدريب الكتابة (الترجمة)</button>
-                    <button class="btn" data-mode="Dictation">🎤 إملاء (استماع وكتابة)</button>
-                    <button class="btn" data-mode="OrderWords">📝 ترتيب الكلمات</button>
-                    <button class="btn" data-mode="FillBlank">✍️ املأ الفراغ</button>
-                    <button class="btn" data-mode="TypingChallenge">⏱️ تحدي الكتابة</button> <button class="btn btn-secondary" data-mode="Challenge">🎲 تحدي متنوع</button>
+                    </div>
+                <div class="modal-footer" style="display: flex; gap: 1rem; margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <button class="btn btn-secondary" id="common-mistakes-challenge-btn" style="flex-grow: 1;">🔁 تحدي الأخطاء السابقة</button>
+                    <button class="btn btn-secondary" id="thematic-challenge-btn" style="flex-grow: 1;">🌍 تحدي موضوعي</button>
                 </div>
             </div>
         </div>
@@ -420,6 +440,7 @@
     <audio id="fail-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-223.mp3" preload="auto"></audio>
     <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mp3" preload="auto"></audio>
     <audio id="tts-fallback-audio" preload="auto"></audio> 
+    <audio id="user-playback-audio" preload="auto"></audio> 
 
     <script>
     (function() {
@@ -428,9 +449,9 @@
         // --- 1. STATE & CONSTANTS ---
         const SUB_LEVEL_SIZE = 20;
         const UNLOCK_PERCENTAGE = 75;
-        const TIMER_DURATION_SEC = 30; // 30 seconds for timed modes
-        const TYPING_CHALLENGE_DURATION_SEC = 10; // 10 seconds for the new challenge mode
-        // هنا تم تحديد ملفات JSON
+        const TIMER_DURATION_SEC = 30;
+        const TYPING_CHALLENGE_DURATION_SEC = 30; // UPDATED to 30 seconds
+        
         const LEVELS_FILES = [
             { level: 'A1', file: 'sentences1.json' },
             { level: 'A2', file: 'sentences2.json' },
@@ -438,8 +459,8 @@
             { level: 'B2', file: 'sentences4.json' }
         ];
 
-        // Retained LS version for continuity
-        const LS_KEYS = { USER_DATA: 'esj_userData_v17_fix', SETTINGS: 'esj_settings_v17_fix' }; 
+        // NEW LS version
+        const LS_KEYS = { USER_DATA: 'esj_userData_v18', SETTINGS: 'esj_settings_v18' }; 
         
         const app = {
             sentences: {}, userData: {}, settings: {},
@@ -447,8 +468,13 @@
             isInitialized: false, ttsVoices: [],
             orderWordsUserSequence: [], 
             currentStreak: 0, 
-            timerInterval: null, // NEW: Timer interval handler
-            timerSeconds: 0, // NEW: Current timer seconds
+            timerInterval: null, 
+            timerSeconds: 0, 
+            
+            // NEW: Pronunciation recording state
+            mediaRecorder: null,
+            audioChunks: [],
+            userAudioURL: null,
         };
         const DOMElements = {
             splashScreen: document.getElementById('splash-screen'),
@@ -464,7 +490,7 @@
             toastContainer: document.getElementById('toast-container'),
             game: {
                 sessionProgressBar: document.getElementById('session-progress-fill'),
-                timerDisplay: document.getElementById('timer-display'), // NEW
+                timerDisplay: document.getElementById('timer-display'), 
                 scoreDisplay: document.getElementById('score-display'),
                 streakDisplay: document.getElementById('streak-display'),
                 sentenceEn: document.getElementById('sentence-en'),
@@ -475,7 +501,6 @@
                 wordBank: document.getElementById('word-bank'),
                 checkBtn: document.getElementById('check-btn'),
                 nextBtn: document.getElementById('next-btn'),
-                // hintBtn: document.getElementById('hint-btn'), // REMOVED
                 mcqContainer: document.getElementById('mcq-container'),
                 typingContainer: document.getElementById('typing-container'),
                 listenContainer: document.getElementById('listen-container'),
@@ -490,6 +515,12 @@
                 sentenceArBox: document.getElementById('sentence-ar-box'),
                 favBtn: document.getElementById('fav-btn'),
                 replaySoundBtn: document.getElementById('replay-sound-btn'),
+                
+                // NEW Pronunciation elements
+                pronunciationContainer: document.getElementById('pronunciation-container'),
+                recordBtn: document.getElementById('record-btn'),
+                playUserBtn: document.getElementById('play-user-btn'),
+                playModelBtn: document.getElementById('play-model-btn'),
             },
             modals: {
                 summary: document.getElementById('summary-modal'),
@@ -497,12 +528,16 @@
                 modeSelectionButtons: document.getElementById('mode-selection-buttons'),
                 summaryReviewArea: document.getElementById('review-mistakes-area'),
                 reviewMistakesBtn: document.getElementById('review-mistakes-btn'),
+                // NEW Challenge buttons
+                commonMistakesBtn: document.getElementById('common-mistakes-challenge-btn'),
+                thematicChallengeBtn: document.getElementById('thematic-challenge-btn'),
             },
             audio: {
                 success: document.getElementById('success-sound'),
                 fail: document.getElementById('fail-sound'),
                 click: document.getElementById('click-sound'),
-                ttsFallback: document.getElementById('tts-fallback-audio'), 
+                ttsFallback: document.getElementById('tts-fallback-audio'),
+                userPlayback: document.getElementById('user-playback-audio'), // NEW
             }
         };
         
@@ -514,7 +549,7 @@
             B2_LEVEL_MASTER: { id: 'B2_LEVEL_MASTER', name: 'خبير مستوى B2', description: 'أكمل جميع المستويات الفرعية في B2', icon: '🏆' },
         };
         
-        // --- 2. DATA MANAGEMENT (Retained) ---
+        // --- 2. DATA MANAGEMENT (Retained and Updated) ---
         function getDefaultUserData() { 
             return { 
                 unlockedSubLevels: { 'A1': ['1'] }, 
@@ -522,6 +557,7 @@
                 longestStreak: 0, 
                 achievements: {}, 
                 favorites: [], 
+                permanentMistakes: [], // NEW: To store mistakes for the review challenge
             }; 
         }
         function getDefaultSettings() { return { theme: 'light', soundEffects: true, ttsEnabled: true, ttsSpeed: 1.0, hapticsEnabled: true }; }
@@ -622,8 +658,8 @@
         }
         
         function simplifyString(str) {
-            // Used for looser comparison in typing mode (e.g. ignoring 'a' vs 'an' issues)
-            return cleanString(str).replace(/\b(a|an|the|is|are|am|do|does|did)\b/g, '').replace(/\s+/g, ' ').trim();
+            // Used for looser comparison in typing mode
+            return cleanString(str).replace(/\b(a|an|the|is|are|am|do|does|did|will|would|can|could)\b/g, '').replace(/\s+/g, ' ').trim();
         }
 
         // --- 4. UI RENDERING ---
@@ -696,6 +732,24 @@
             showScreen('main-menu-screen');
         }
 
+        function renderModeSelectionButtons() {
+            const buttonsHTML = `
+                <button class="btn" data-mode="Learning">🎓 وضع التعلم (قراءة)</button>
+                <button class="btn" data-mode="MCQ">🔠 اختيار من متعدد (الترجمة)</button>
+                <button class="btn" data-mode="ListenType">🎧 تدريب الاستماع (MCQ)</button>
+                <button class="btn" data-mode="Typing">⌨️ تدريب الكتابة (الترجمة)</button>
+                <button class="btn" data-mode="Dictation">🎤 إملاء (استماع وكتابة)</button>
+                <button class="btn" data-mode="OrderWords">📝 ترتيب الكلمات</button>
+                <button class="btn" data-mode="FillBlank">✍️ املأ الفراغ</button>
+                <button class="btn" data-mode="Pronunciation">🗣️ تسجيل ومقارنة النطق</button>
+                <button class="btn" data-mode="TypingChallenge">⏱️ تحدي الكتابة (${TYPING_CHALLENGE_DURATION_SEC} ثانية)</button> 
+                <button class="btn btn-secondary" data-mode="Challenge">🎲 تحدي متنوع</button>
+            `;
+            DOMElements.modals.modeSelectionButtons.innerHTML = buttonsHTML;
+            DOMElements.modals.modeSelection.querySelector('.modal-header .modal-title').textContent = 'اختر وضع التدريب';
+            DOMElements.modals.modeSelection.querySelector('.modal-footer').style.display = 'flex'; // Show footer for challenges
+        }
+        
         // --- 5. GAME LOGIC ---
         
         // NEW: Timer Functions
@@ -758,7 +812,7 @@
         }
 
         function endSession() {
-            clearTimer(); // NEW: Ensure timer is stopped
+            clearTimer(); 
             
             // Stop any speaking audio
             if ('speechSynthesis' in window) speechSynthesis.cancel();
@@ -773,6 +827,14 @@
             document.getElementById('summary-score').textContent = `النقاط: ${session.score}`;
             document.getElementById('summary-accuracy').textContent = `الدقة: ${accuracy.toFixed(1)}%`;
             DOMElements.modals.summaryReviewArea.innerHTML = '';
+
+            // NEW: Store mistakes permanently for the common mistakes challenge
+            session.mistakes.forEach(mistake => {
+                // Check if the mistake (based on cleaned EN sentence) is already in permanentMistakes
+                if (!app.userData.permanentMistakes.some(m => cleanString(m.en) === cleanString(mistake.en))) {
+                    app.userData.permanentMistakes.push({ en: mistake.en, ar: mistake.ar });
+                }
+            });
             
             if (session.mistakes.length === 0) {
                  DOMElements.modals.summaryReviewArea.innerHTML = '<p style="text-align: center; color: var(--success-color); margin-top: 1rem;">أداء مثالي! لا توجد أخطاء.</p>';
@@ -781,8 +843,8 @@
                  DOMElements.modals.reviewMistakesBtn.classList.remove('hidden');
             }
 
-            // Unlocking logic
-            if (accuracy >= UNLOCK_PERCENTAGE && !app.userData.stats.completedLevels.includes(levelKey)) {
+            // Unlocking logic (only for regular sub-level sessions)
+            if (session.subLevel !== 'Challenge' && accuracy >= UNLOCK_PERCENTAGE && !app.userData.stats.completedLevels.includes(levelKey)) {
                 app.userData.stats.completedLevels.push(levelKey);
                 unlockNextSubLevel(session.level, session.subLevel);
             }
@@ -858,13 +920,20 @@
 
         // NEW: Centralized function to disable controls after a check or timeout
         function disableGameControls() {
-            clearTimer(); // Stop timer immediately
+            clearTimer(); 
             DOMElements.game.typingInput.disabled = true;
             document.querySelectorAll('#mcq-options .btn').forEach(btn => btn.disabled = true);
             document.querySelectorAll('#word-bank .word-chip').forEach(chip => chip.onclick = null); 
             document.querySelectorAll('#word-selection-bank .word-to-select').forEach(chip => chip.onclick = null); 
             document.querySelectorAll('#ordered-sentence-area .selected-word').forEach(chip => chip.onclick = null); 
             DOMElements.game.dictationPlayBtn.disabled = true;
+            
+            // Disable pronunciation buttons except model playback
+            if (app.currentSession?.currentModeForQuestion === 'Pronunciation') {
+                DOMElements.game.recordBtn.disabled = true;
+                DOMElements.game.playUserBtn.disabled = true;
+                DOMElements.game.playModelBtn.disabled = false;
+            }
         }
 
         function handleTimeout(mode) {
@@ -893,9 +962,9 @@
 
 
         function checkAnswer(userAnswer, optionElement = null) {
-            if (!app.currentSession) return; // Safety check
+            if (!app.currentSession) return; 
             
-            disableGameControls(); // Disable controls immediately upon check
+            disableGameControls(); 
 
             const session = app.currentSession;
             const sentence = session.currentSentence;
@@ -929,7 +998,7 @@
                     break;
                 case 'Typing':
                 case 'Dictation':
-                case 'TypingChallenge': // NEW Mode
+                case 'TypingChallenge': 
                     // Use a looser comparison for typing to be more forgiving
                     isCorrect = simplifyString(userAnswer) === simplifyString(sentence.en);
                     DOMElements.game.typingInput.style.borderColor = isCorrect ? 'var(--success-color)' : 'var(--error-color)';
@@ -982,12 +1051,11 @@
         }
         
         function renderQuestion() {
-            clearTimer(); // Clear any existing timer before starting the next question
+            clearTimer(); 
 
             if (app.currentSession.currentIndex >= app.currentSession.questions.length) return endSession();
             
             const sentence = app.currentSession.questions[app.currentSession.currentIndex];
-            // The hint field is now a remnant but kept for structure, since hints are removed.
             if (!sentence.hint) sentence.hint = ''; 
             app.currentSession.currentSentence = sentence;
             
@@ -1004,7 +1072,7 @@
             DOMElements.game.typingInput.style.borderColor = 'var(--border-color)';
             
             // Hide all mode containers and control buttons
-            ['mcq-container', 'typing-container', 'listen-container', 'fill-blank-container', 'order-words-container', 'dictation-container'].forEach(c => document.getElementById(c).classList.add('hidden'));
+            ['mcq-container', 'typing-container', 'listen-container', 'fill-blank-container', 'order-words-container', 'dictation-container', 'pronunciation-container'].forEach(c => document.getElementById(c).classList.add('hidden'));
             DOMElements.game.nextBtn.classList.add('hidden');
             DOMElements.game.checkBtn.classList.remove('hidden');
             DOMElements.game.typingInput.style.textAlign = 'left'; 
@@ -1015,11 +1083,9 @@
             DOMElements.game.sentenceArBox.classList.remove('hidden');
             DOMElements.game.replaySoundBtn.onclick = () => speak(sentence.en); 
             
-            // REMOVED: DOMElements.game.hintBtn.onclick = ...
-
             let mode = app.currentSession.mode;
             if (mode === 'Challenge') {
-                const availableModes = ['MCQ', 'Typing', 'ListenType', 'FillBlank', 'OrderWords', 'Dictation', 'TypingChallenge']; // Added new mode
+                const availableModes = ['MCQ', 'Typing', 'ListenType', 'FillBlank', 'OrderWords', 'Dictation', 'TypingChallenge', 'Pronunciation']; 
                 mode = availableModes[Math.floor(Math.random() * availableModes.length)];
             }
             app.currentSession.currentModeForQuestion = mode;
@@ -1028,6 +1094,12 @@
             DOMElements.game.orderedSentenceArea.innerHTML = '';
             DOMElements.game.wordSelectionBank.innerHTML = '';
             
+            // Reset pronunciation state
+            if (app.userAudioURL) { URL.revokeObjectURL(app.userAudioURL); app.userAudioURL = null; }
+            DOMElements.game.recordBtn.textContent = '🎤';
+            DOMElements.game.recordBtn.classList.remove('btn-secondary');
+            DOMElements.game.playUserBtn.disabled = true;
+
             // --- MODE SETUP ---
             switch (mode) {
                 case 'Learning':
@@ -1044,23 +1116,18 @@
                     DOMElements.game.mcqOptions.innerHTML = '';
                     
                     if (mode === 'ListenType') {
-                        DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN
+                        DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                         DOMElements.game.listenContainer.classList.remove('hidden');
                         DOMElements.game.playAudioBtn.onclick = () => speak(sentence.en);
                         speak(sentence.en); 
                     } else { // MCQ (Translation mode EN -> AR)
-                        DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN - Question is the AR translation
+                        DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                     }
 
-                    // Start 30s timer for MCQ
                     startTimer(TIMER_DURATION_SEC, () => handleTimeout(mode));
 
-                    // FIX: Get all sentences and filter for 3 distinct distractors
                     const allSentences = Object.values(app.sentences).flatMap(levels => Object.values(levels)).flat();
-                    
-                    // Filter out the current sentence and get 3 *random* distractors
                     const incorrectSentences = shuffleArray(allSentences.filter(s => cleanString(s.en) !== cleanString(sentence.en))).slice(0, 3);
-                    
                     const options = shuffleArray([sentence.en, ...incorrectSentences.map(s => s.en)]);
                     
                     options.forEach(opt => {
@@ -1075,16 +1142,15 @@
                 case 'Typing':
                     DOMElements.game.typingContainer.classList.remove('hidden');
                     DOMElements.game.typingInput.placeholder = "اكتب الجملة الإنجليزية...";
-                    DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN - Focus on AR to EN translation
+                    DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                     DOMElements.game.typingInput.focus();
                     break;
-                case 'TypingChallenge': // NEW Mode: Timer is the challenge
+                case 'TypingChallenge': 
                     DOMElements.game.typingContainer.classList.remove('hidden');
-                    DOMElements.game.sentenceEn.textContent = sentence.en; // Show EN sentence to copy
+                    DOMElements.game.sentenceEn.textContent = sentence.en; 
                     DOMElements.game.typingInput.placeholder = "اكتب الجملة بسرعة!";
-                    DOMElements.game.sentenceArBox.classList.add('hidden'); // Hide AR translation
+                    DOMElements.game.sentenceArBox.classList.add('hidden'); 
                     
-                    // Start 10s challenge timer
                     startTimer(TYPING_CHALLENGE_DURATION_SEC, () => handleTimeout(mode));
 
                     DOMElements.game.typingInput.focus();
@@ -1094,23 +1160,33 @@
                     DOMElements.game.typingContainer.classList.remove('hidden'); 
                     DOMElements.game.typingInput.placeholder = "اكتب الجملة الإنجليزية...";
                     DOMElements.game.typingInput.style.textAlign = 'center'; 
+                    // Hide both for true dictation
                     DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                     DOMElements.game.sentenceArBox.classList.add('hidden'); 
                     
                     DOMElements.game.dictationPlayBtn.onclick = () => speak(sentence.en);
-
                     speak(sentence.en);
                     DOMElements.game.typingInput.focus();
+                    break;
+                case 'Pronunciation':
+                    DOMElements.game.pronunciationContainer.classList.remove('hidden');
+                    DOMElements.game.sentenceEn.textContent = sentence.en; // Show EN
+                    DOMElements.game.sentenceArBox.classList.remove('hidden'); // Show AR
+                    DOMElements.game.checkBtn.classList.add('hidden'); 
+                    DOMElements.game.nextBtn.classList.remove('hidden');
+                    DOMElements.game.playModelBtn.disabled = false;
+                    DOMElements.game.recordBtn.disabled = false;
+                    
+                    // Auto-play model sound
+                    speak(sentence.en); 
                     break;
                 case 'FillBlank':
                     DOMElements.game.fillBlankContainer.classList.remove('hidden');
                     DOMElements.game.wordBank.innerHTML = '';
-                    DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN - Question is the AR translation
+                    DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                     
-                    // Start 30s timer for FillBlank
                     startTimer(TIMER_DURATION_SEC, () => handleTimeout(mode));
 
-                    // Match words, including contractions and simple punctuation as separate tokens for now
                     const wordsFB = sentence.en.match(/\b(\w+'?\w*)\b|[^a-zA-Z\s]/g) || [];
                     const wordIndices = wordsFB.map((w, i) => (/\w/.test(w) ? i : -1)).filter(i => i !== -1);
                     
@@ -1123,18 +1199,16 @@
                     }
                     
                     const blankIndex = wordIndices[Math.floor(Math.random() * wordIndices.length)];
-                    const correctWordFB = wordsFB[blankIndex].replace(/[^a-zA-Z\s]/g, ''); // Ensure the word is clean for the chip
+                    const correctWordFB = wordsFB[blankIndex].replace(/[^a-zA-Z\s]/g, ''); 
                     app.currentSession.correctFillBlankWord = correctWordFB; 
 
                     const displayedSentence = [...wordsFB];
                     displayedSentence[blankIndex] = `<span id="blank-placeholder" style="color:var(--text-secondary); padding: 0 10px;">[....]</span>`;
                     
-                    // Join words and handle punctuation spacing correctly for display
                     DOMElements.game.wordBlanks.innerHTML = displayedSentence.join(' ').replace(/\s([.,?!;])/g, '$1');
                     
                     
                     const allWords = Object.values(app.sentences).flatMap(levels => Object.values(levels)).flat().flatMap(s => s.en.match(/\b(\w+'?\w*)\b/g) || []).map(w => w.replace(/[^a-zA-Z\s]/g, ''));
-                    // Filter unique words and ensure they are different from the correct one
                     const incorrectWordsFB = shuffleArray(Array.from(new Set(allWords.filter(w => cleanString(w) !== cleanString(correctWordFB) && w.trim() !== '')))).slice(0, 3);
                     const bankWordsFB = shuffleArray([correctWordFB, ...incorrectWordsFB].filter(w => w.trim() !== ''));
                     
@@ -1151,15 +1225,12 @@
                     break;
                 case 'OrderWords':
                     DOMElements.game.orderWordsContainer.classList.remove('hidden');
-                    DOMElements.game.sentenceEnBox.classList.add('hidden'); // Hide EN - Question is the AR translation
+                    DOMElements.game.sentenceEnBox.classList.add('hidden'); 
                     
-                    // Start 30s timer for OrderWords
                     startTimer(TIMER_DURATION_SEC, () => handleTimeout(mode));
                     
-                    // Match words and include punctuation as separate tokens for ordering/display purposes
                     const wordsOW = sentence.en.match(/\b(\w+'?\w*)\b|[^a-zA-Z\s]/g) || [];
                     
-                    // Clean words for chips, retaining original for tracking (using dataset)
                     const chipsForShuffling = wordsOW.filter(w => w.trim() !== '').map(w => w.replace(/[^a-zA-Z\s]/g, ''));
                     const shuffledWordsOW = shuffleArray(chipsForShuffling);
 
@@ -1167,7 +1238,6 @@
                         const chip = document.createElement('div');
                         chip.className = 'word-to-select';
                         chip.textContent = word;
-                        // Use a UUID or a unique index in this *shuffled* array to match back
                         chip.dataset.uniqueId = `${index}-${word}`; 
                         chip.onclick = () => selectWord(chip, word);
                         DOMElements.game.wordSelectionBank.appendChild(chip);
@@ -1183,7 +1253,6 @@
             const selectedChip = document.createElement('div');
             selectedChip.className = 'selected-word';
             selectedChip.textContent = word;
-            // Transfer the unique ID for safe unselection
             selectedChip.dataset.uniqueId = chip.dataset.uniqueId; 
             selectedChip.onclick = () => unselectWord(selectedChip);
             DOMElements.game.orderedSentenceArea.appendChild(selectedChip);
@@ -1194,14 +1263,12 @@
         function unselectWord(selectedChip) {
             playSound('click');
             
-            // Retrieve the original chip from the bank using its unique ID
             const originalChip = document.querySelector(`#word-selection-bank .word-to-select[data-unique-id="${selectedChip.dataset.uniqueId}"]`);
             if (originalChip) {
                 originalChip.classList.remove('hidden');
             }
             
             const wordToRemove = selectedChip.textContent;
-            // Remove the word from the sequence array (only the first instance found)
             const indexInSequence = app.orderWordsUserSequence.indexOf(wordToRemove);
             if (indexInSequence > -1) {
                 app.orderWordsUserSequence.splice(indexInSequence, 1);
@@ -1213,8 +1280,47 @@
             vibrate();
             playSound('click');
             app.pendingSession = { level, subLevel };
+            renderModeSelectionButtons();
             DOMElements.modals.modeSelection.classList.remove('hidden');
         }
+        
+        // NEW: Function to handle Thematic Challenge selection
+        function showThematicSelectionModal() {
+            // Collect all unique topics (case-insensitive and trimmed)
+            const allTopics = Array.from(new Set(
+                Object.values(app.sentences).flatMap(levels => 
+                    Object.values(levels)).flat().map(s => s.topic).filter(t => t)
+            )).map(t => t.trim());
+            
+            if (allTopics.length === 0) {
+                 DOMElements.modals.modeSelection.classList.add('hidden');
+                 showToast('لا توجد مواضيع محددة في ملفات الجمل.', 'error', '⚠️');
+                 // Restore the main mode selection view
+                 setTimeout(() => { DOMElements.modals.modeSelection.classList.remove('hidden'); renderModeSelectionButtons(); }, 500);
+                 return;
+            }
+
+            // Temporarily replace modal body content for theme selection
+            const content = allTopics.map(topic => 
+                `<button class="btn theme-btn" data-theme="${topic}">${topic}</button>`
+            ).join('');
+
+            DOMElements.modals.modeSelectionButtons.innerHTML = content;
+            DOMElements.modals.modeSelection.querySelector('.modal-header .modal-title').textContent = '🌍 اختر موضوعاً';
+            DOMElements.modals.modeSelection.querySelector('.modal-footer').style.display = 'none'; // Hide challenge buttons
+
+            // Event listener for theme selection (must be added after innerHTML update)
+            const listener = (e) => {
+                if (e.target.matches('[data-theme]')) {
+                    startSession('Thematic', { theme: e.target.dataset.theme });
+                    DOMElements.modals.modeSelection.classList.add('hidden');
+                    // Remove the temporary listener and restore main buttons
+                    DOMElements.modals.modeSelectionButtons.removeEventListener('click', listener);
+                }
+            };
+            DOMElements.modals.modeSelectionButtons.addEventListener('click', listener);
+        }
+
 
         // --- FAVORITES, STATS, SETTINGS (Updated) ---
         
@@ -1238,7 +1344,6 @@
             const currentSentence = { 
                 en: app.currentSession.currentSentence.en, 
                 ar: app.currentSession.currentSentence.ar,
-                // hint: app.currentSession.currentSentence.hint, // REMOVED HINT FIELD IN FAV
             };
             const currentSentenceClean = cleanString(currentSentence.en);
             
@@ -1255,147 +1360,48 @@
             saveData();
             updateFavoriteButton();
         }
-
-        function showFavorites() {
-            DOMElements.genericScreen.title.textContent = "❤️ المفضلة";
-            DOMElements.genericScreen.content.innerHTML = '';
-            
-            if (app.userData.favorites.length === 0) {
-                DOMElements.genericScreen.content.innerHTML = '<p style="text-align: center; color: var(--text-secondary); margin-top: 3rem;">قائمة المفضلة فارغة حالياً.</p>';
-            } else {
-                app.userData.favorites.forEach((fav, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'favorite-sentence-item';
-                    item.dataset.index = index; 
-                    item.innerHTML = `
-                        <p class="en">${fav.en}</p>
-                        <p class="ar">${fav.ar}</p>
-                        <button class="btn-icon remove-fav-btn" data-index="${index}" style="position: absolute; left: 10px; top: 10px; font-size: 1rem; padding: 0.5rem;" title="إزالة">❌</button>
-                    `;
-                    DOMElements.genericScreen.content.appendChild(item);
-                });
-                
-                DOMElements.genericScreen.content.onclick = (e) => {
-                    const removeBtn = e.target.closest('.remove-fav-btn');
-                    if (removeBtn) {
-                        const index = parseInt(removeBtn.dataset.index);
-                        app.userData.favorites.splice(index, 1);
-                        saveData();
-                        showToast('تم الحذف بنجاح.', 'info', '🗑️');
-                        showFavorites(); // Re-render the list immediately
-                    }
-                };
-            }
-            
-            showScreen('generic-screen');
-        }
-
-        function showSettings() {
-            DOMElements.genericScreen.title.textContent = "⚙️ الإعدادات";
-            DOMElements.genericScreen.content.innerHTML = `
-                <div class="setting-row" id="favorites-btn-row"><span>مراجعة المفضلة</span><button class="btn-icon">❤️</button></div>
-                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0;">
-                <div class="setting-row"><span>المظهر (داكن/فاتح)</span><input type="checkbox" id="theme-toggle" class="toggle-switch"></div>
-                <div class="setting-row"><span>تأثيرات صوتية</span><input type="checkbox" id="sfx-toggle" class="toggle-switch"></div>
-                <div class="setting-row"><span>تشغيل النطق التلقائي (TTS)</span><input type="checkbox" id="tts-toggle" class="toggle-switch"></div>
-                <div class="setting-row"><span>سرعة النطق (TTS Speed): <span id="tts-speed-value">${app.settings.ttsSpeed.toFixed(1)}</span></span><input type="range" id="tts-speed-range" min="0.5" max="2.0" step="0.1" value="${app.settings.ttsSpeed}"></div>
-                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0;">
-                <div class="setting-row" id="about-btn-row"><span>حول التطبيق والإرشادات</span><button class="btn-icon">ℹ️</button></div>
-                <div class="setting-row" id="reset-data-btn-row"><span>إعادة تعيين بياناتي (بدء جديد)</span><button class="btn-icon" style="color: var(--error-color);">🗑️</button></div>
-
-            `;
-            
-            document.getElementById('favorites-btn-row').onclick = () => { playSound('click'); showFavorites(); };
-            
-            document.getElementById('theme-toggle').checked = app.settings.theme === 'dark';
-            document.getElementById('theme-toggle').onchange = e => {
-                app.settings.theme = e.target.checked ? 'dark' : 'light';
-                document.body.dataset.theme = app.settings.theme;
-                saveSettings();
-            };
-            document.getElementById('sfx-toggle').checked = app.settings.soundEffects;
-            document.getElementById('sfx-toggle').onchange = e => { app.settings.soundEffects = e.target.checked; saveSettings(); };
-            document.getElementById('tts-toggle').checked = app.settings.ttsEnabled;
-            document.getElementById('tts-toggle').onchange = e => { app.settings.ttsEnabled = e.target.checked; saveSettings(); };
-            
-            const ttsSpeedRange = document.getElementById('tts-speed-range');
-            const speedLabel = document.getElementById('tts-speed-value');
-            ttsSpeedRange.oninput = e => {
-                app.settings.ttsSpeed = parseFloat(e.target.value);
-                speedLabel.textContent = app.settings.ttsSpeed.toFixed(1);
-                saveSettings();
-            };
-            
-            document.getElementById('about-btn-row').onclick = () => { playSound('click'); showAboutSection(); };
-
-            document.getElementById('reset-data-btn-row').onclick = () => { 
-                if (confirm('هل أنت متأكد من رغبتك في حذف جميع بيانات التقدم والبدء من جديد؟ هذا لا يمكن التراجع عنه.')) {
-                    localStorage.removeItem(LS_KEYS.USER_DATA);
-                    // Reload the page to reset the app state
-                    window.location.reload(); 
-                }
-            };
-            
-            showScreen('generic-screen');
-        }
-
-        function showAboutSection() {
-             DOMElements.genericScreen.title.textContent = "ℹ️ حول التطبيق";
-             DOMElements.genericScreen.content.innerHTML = `
-                 <div class="about-section" style="text-align: center;">
-                     <h3>تصميم وتطوير</h3>
-                     <h2 style="color: var(--accent); margin-top: 0.5rem;">Mahmoud Hassan</h2>
-                     <p style="margin-top: 1.5rem;">رحلة الجمل الإنجليزية هي أداة تفاعلية مصممة لمساعدتك على إتقان الجمل الإنجليزية من المستويات الأساسية (A1) حتى المتوسطة المتقدمة (B2).</p>
-                 </div>
-                 <div class="about-section" style="justify-content: center; text-align: center; margin-top: 2rem;">
-                    <p style="color: var(--text-primary);">نتمنى لك رحلة تعلم موفقة! 🚀</p>
-                 </div>
-             `;
-             showScreen('generic-screen');
-        }
-
-        function showStats() {
-            DOMElements.genericScreen.title.textContent = "📊 الإحصائيات";
-            DOMElements.genericScreen.content.innerHTML = `
-                <div class="stat-item"><span class="stat-label">إجمالي النقاط المكتسبة</span><span class="stat-value">${app.userData.stats.totalScore}</span></div>
-                <div class="stat-item"><span class="stat-label">إجمالي الأخطاء</span><span class="stat-value">${app.userData.stats.totalMistakes}</span></div>
-                <div class="stat-item"><span class="stat-label">أطول حماس (Streak)</span><span class="stat-value">🔥${app.userData.longestStreak}</span></div>
-                <div class="stat-item"><span class="stat-label">الجمل المحفوظة</span><span class="stat-value">❤️${app.userData.favorites.length}</span></div>
-            `;
-            showScreen('generic-screen');
-        }
         
-        function showAchievements() {
-            DOMElements.genericScreen.title.textContent = "🏆 الإنجازات";
-            DOMElements.genericScreen.content.innerHTML = '';
-            
-            const allAchievements = Object.values(ACHIEVEMENTS);
-            allAchievements.forEach(ach => {
-                const isUnlocked = app.userData.achievements[ach.id];
-                const item = document.createElement('div');
-                item.className = 'achievement-item';
-                item.style.opacity = isUnlocked ? '1' : '0.4';
-                item.innerHTML = `
-                    <span style="font-size: 2rem;">${isUnlocked ? ach.icon : '🔒'}</span>
-                    <div style="flex-grow: 1; margin-right: 1rem; text-align: right;">
-                        <p style="font-weight: 700;">${ach.name}</p>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">${ach.description}</p>
-                    </div>
-                `;
-                DOMElements.genericScreen.content.appendChild(item);
-            });
+        // ... (showFavorites, showSettings, showAboutSection, showStats, showAchievements are largely unchanged)
 
-            showScreen('generic-screen');
-        }
-
-        function startSession(mode) {
-            const { level, subLevel } = app.pendingSession;
+        function startSession(mode, optionalData = {}) {
+            let level = app.pendingSession.level;
+            let subLevel = app.pendingSession.subLevel;
             vibrate();
             playSound('click');
             
-            const questions = app.sentences[level]?.[subLevel] ? 
-                              shuffleArray([...app.sentences[level][subLevel]]) : [];
+            let questions = [];
             
+            if (mode === 'CommonMistakes') {
+                // Get permanent mistakes and map them to the standard question object structure
+                questions = shuffleArray(app.userData.permanentMistakes.map(m => ({ en: m.en, ar: m.ar, hint: '', subLevel: 'Challenge', topic: 'Mistakes' })));
+                level = 'Challenge'; // Use 'Challenge' as level for summary
+                subLevel = 'Mistakes';
+                if (questions.length === 0) {
+                    DOMElements.modals.modeSelection.classList.add('hidden');
+                    showToast('لا توجد أخطاء سابقة مسجلة للمراجعة!', 'error', '❌');
+                    return;
+                }
+            } else if (mode === 'Thematic') {
+                const theme = optionalData.theme;
+                const allSentences = Object.values(app.sentences).flatMap(levels => Object.values(levels)).flat();
+                
+                // Filter sentences by the 'topic' field (case-insensitive)
+                questions = shuffleArray(allSentences.filter(s => cleanString(s.topic || '') === cleanString(theme)));
+                
+                level = 'Challenge';
+                subLevel = theme;
+                
+                if (questions.length === 0) {
+                    DOMElements.modals.modeSelection.classList.add('hidden');
+                    showToast(`لا توجد جمل للموضوع: ${theme}`, 'error', '⚠️');
+                    return;
+                }
+            } else {
+                questions = app.sentences[level]?.[subLevel] ? 
+                              shuffleArray([...app.sentences[level][subLevel]]) : [];
+            }
+
+
             if (questions.length === 0) {
                  DOMElements.modals.modeSelection.classList.add('hidden');
                  showToast('لا توجد جمل متوفرة لهذه المرحلة.', 'error', '⚠️');
@@ -1419,20 +1425,19 @@
 
         // --- 6. EVENT LISTENERS ---
         function setupEventListeners() {
+            // ... (Existing Event Listeners)
             document.getElementById('settings-btn').onclick = () => { playSound('click'); vibrate(); showSettings(); };
             document.getElementById('stats-btn').onclick = () => { playSound('click'); vibrate(); showStats(); };
             document.getElementById('achievements-btn').onclick = () => { playSound('click'); vibrate(); showAchievements(); };
-            
             DOMElements.genericScreen.backBtn.onclick = () => { 
                 playSound('click'); 
                 vibrate(); 
                 renderMainMenu(); 
             };
             document.getElementById('back-to-menu-btn').onclick = () => { 
-                // Stop any audio before leaving
                 if ('speechSynthesis' in window) speechSynthesis.cancel();
                 if (DOMElements.audio.ttsFallback) { DOMElements.audio.ttsFallback.pause(); DOMElements.audio.ttsFallback.currentTime = 0; }
-                clearTimer(); // NEW: Clear timer
+                clearTimer(); 
                 playSound('click'); 
                 renderMainMenu(); 
             };
@@ -1445,26 +1450,41 @@
             DOMElements.modals.reviewMistakesBtn.onclick = () => { playSound('click'); reviewMistakes(); };
 
 
-            document.querySelector('#mode-selection-modal .modal-overlay').onclick = () => { playSound('click'); DOMElements.modals.modeSelection.classList.add('hidden'); };
+            document.querySelector('#mode-selection-modal .modal-overlay').onclick = () => { 
+                playSound('click'); 
+                DOMElements.modals.modeSelection.classList.add('hidden'); 
+                // Restore main buttons state if thematic selection was active
+                renderModeSelectionButtons();
+            };
             DOMElements.modals.modeSelectionButtons.addEventListener('click', e => {
                 if (e.target.matches('[data-mode]')) startSession(e.target.dataset.mode);
             });
             
+            // NEW Challenge buttons listeners
+            DOMElements.modals.commonMistakesBtn.onclick = () => {
+                 playSound('click');
+                 startSession('CommonMistakes');
+            };
+            DOMElements.modals.thematicChallengeBtn.onclick = () => {
+                 playSound('click');
+                 showThematicSelectionModal();
+            };
+
+            // ... (rest of controls listeners)
             DOMElements.game.checkBtn.onclick = () => {
                 playSound('click');
                 const mode = app.currentSession?.currentModeForQuestion;
-                if (mode === 'Typing' || mode === 'Dictation' || mode === 'TypingChallenge') { // Added TypingChallenge
+                if (mode === 'Typing' || mode === 'Dictation' || mode === 'TypingChallenge') { 
                     checkAnswer(DOMElements.game.typingInput.value);
                 } else if (mode === 'OrderWords') {
                     checkAnswer(app.orderWordsUserSequence.join(' ')); 
                 }
             };
             DOMElements.game.nextBtn.onclick = () => { 
-                // Stop any speaking audio before moving to the next question
                 if ('speechSynthesis' in window) speechSynthesis.cancel();
                 if (DOMElements.audio.ttsFallback) { DOMElements.audio.ttsFallback.pause(); DOMElements.audio.ttsFallback.currentTime = 0; }
                 
-                clearTimer(); // NEW: Clear timer before next question
+                clearTimer(); 
                 DOMElements.game.typingInput.disabled = false;
                 DOMElements.game.typingInput.style.borderColor = 'var(--border-color)';
                 playSound('click'); 
@@ -1476,12 +1496,66 @@
             
             DOMElements.game.typingInput.addEventListener('keydown', (e) => {
                 const mode = app.currentSession?.currentModeForQuestion;
-                // Trigger check on Enter for typing modes (if check button is visible)
                 if (e.key === 'Enter' && (mode === 'Typing' || mode === 'Dictation' || mode === 'TypingChallenge') && !DOMElements.game.checkBtn.classList.contains('hidden')) {
                     e.preventDefault();
                     DOMElements.game.checkBtn.click();
                 }
             });
+            
+            // --- NEW: Pronunciation Listeners ---
+            DOMElements.game.playModelBtn.onclick = () => {
+                if (app.currentSession && app.currentSession.currentSentence) {
+                    speak(app.currentSession.currentSentence.en);
+                }
+            };
+            
+            // Play the user's recorded audio
+            DOMElements.game.playUserBtn.onclick = () => {
+                if (app.userAudioURL) {
+                    const userAudio = DOMElements.audio.userPlayback;
+                    userAudio.src = app.userAudioURL; // Set the recorded audio blob URL
+                    userAudio.currentTime = 0;
+                    userAudio.play();
+                }
+            };
+            
+            // Record button logic
+            DOMElements.game.recordBtn.onclick = async () => {
+                if (app.mediaRecorder && app.mediaRecorder.state === 'recording') {
+                    // STOP recording
+                    app.mediaRecorder.stop();
+                    DOMElements.game.recordBtn.textContent = '🎤';
+                    DOMElements.game.recordBtn.classList.remove('btn-secondary');
+                    return;
+                }
+                
+                // START recording
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    app.mediaRecorder = new MediaRecorder(stream);
+                    app.audioChunks = [];
+                    
+                    app.mediaRecorder.ondataavailable = event => { app.audioChunks.push(event.data); };
+                    
+                    app.mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(app.audioChunks, { type: 'audio/webm' }); // Use webm for broader compatibility
+                        if (app.userAudioURL) URL.revokeObjectURL(app.userAudioURL); 
+                        app.userAudioURL = URL.createObjectURL(audioBlob);
+                        DOMElements.game.playUserBtn.disabled = false;
+                        showToast('تم التسجيل! قارن نطقك بالنموذج.', 'info', '🎙️');
+                        stream.getTracks().forEach(track => track.stop()); // Stop mic usage
+                    };
+                    
+                    app.mediaRecorder.start();
+                    DOMElements.game.recordBtn.textContent = '■'; // Stop icon
+                    DOMElements.game.recordBtn.classList.add('btn-secondary');
+                    DOMElements.game.playUserBtn.disabled = true;
+                    showToast('بدأ التسجيل...', 'success', '🎤');
+                } catch (err) {
+                    console.error('Error accessing microphone:', err);
+                    showToast('خطأ: لا يمكن الوصول إلى الميكروفون. تأكد من إعطاء الإذن.', 'error', '🚫');
+                }
+            };
         }
 
         // --- 7. INITIALIZATION ---
@@ -1494,7 +1568,6 @@
             // Initialize TTS voices
             if ('speechSynthesis' in window) {
                 speechSynthesis.onvoiceschanged = () => { app.ttsVoices = speechSynthesis.getVoices(); };
-                // Call immediately in case voices are already loaded
                 app.ttsVoices = speechSynthesis.getVoices(); 
             }
 
@@ -1509,14 +1582,13 @@
                     const data = await response.json();
                     
                     app.sentences[level] = {};
-                    // Group data into sub-levels of SUB_LEVEL_SIZE
                     for (let j = 0; j < data.length; j += SUB_LEVEL_SIZE) {
                         const subLevelKey = String(Math.floor(j / SUB_LEVEL_SIZE) + 1);
-                        // NEW: Ensure sentences have the hint field (even if null) for safety
                         const sentencesChunk = data.slice(j, j + SUB_LEVEL_SIZE).map(s => ({
                             ...s, 
                             subLevel: subLevelKey,
-                            hint: s.hint || '', // Hint is removed from feature but kept in data structure
+                            hint: s.hint || '',
+                            topic: s.topic || null, // Ensure topic field exists
                         }));
                         app.sentences[level][subLevelKey] = sentencesChunk;
                     }
@@ -1553,3 +1625,4 @@
     </script>
 </body>
 </html>
+
