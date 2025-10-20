@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000"> 
+    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6IFt7InNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAic3JjIjogImljb24tMTkyLnBuZyJ9LCB7InNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAic3JjIjogImljb24tNTEyLnBuZyJ9XSwgIm5hbWUiOiAi2YPZhti12Kgg2YXZj9mE2YQ2YpUiLCAic2hvcnRfbmFtZSI6ICJNLUIiLCAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwgInN0YXJ0X3VybCI6ICIuLyIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLCAidGhlbWVfY29sb3IiOiAiIzAwMDAwMCJ9">
+    
     <meta name="description" content="English Sentences Journey - An interactive game to learn English sentences from A1 to B2 levels.">
     <title>English Sentences Journey | M.H.</title>
     <style>
         /*
          * UI Enhancement: Ultimate Aesthetic - Modern, Deep, and Consistent Design
          */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght+400;600;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700;900&display=swap');
 
         :root {
             --font-ar: 'Cairo', sans-serif;
@@ -712,7 +715,7 @@
         // --- 5. GAME LOGIC ---
         
         function startTimer(duration, onTimeout) {
-            clearTimer();
+            clearTimer(); 
             DOMElements.game.timerDisplay.classList.remove('hidden');
             app.timerSeconds = duration;
             DOMElements.game.timerDisplay.textContent = app.timerSeconds;
@@ -1544,5 +1547,20 @@
         document.addEventListener('DOMContentLoaded', init);
     })();
     </script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js', { scope: './' })
+                    .then(registration => {
+                        console.log('Service Worker registered successfully with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
+
