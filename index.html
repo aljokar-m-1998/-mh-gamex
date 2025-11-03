@@ -772,7 +772,7 @@
         function endSession() {
             clearTimer(); 
             
-            // Stop any speaking audio before leaving
+            // Stop any speaking audio
             if ('speechSynthesis' in window) speechSynthesis.cancel();
             if (DOMElements.audio.ttsFallback) { DOMElements.audio.ttsFallback.pause(); DOMElements.audio.ttsFallback.currentTime = 0; }
             
@@ -1218,7 +1218,7 @@
             const currentSentence = app.currentSession.currentSentence;
             const isFavorite = app.userData.favorites.some(fav => cleanString(fav.en) === cleanString(currentSentence.en));
             DOMElements.game.favBtn.textContent = isFavorite ? '❤️' : '🤍';
-            DOMEElements.game.favBtn.title = isFavorite ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة';
+            DOMElements.game.favBtn.title = isFavorite ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة';
         }
 
         function toggleFavorite() {
@@ -1299,13 +1299,6 @@
                 <div class="setting-row"><span>سرعة النطق (TTS Speed): <span id="tts-speed-value">${app.settings.ttsSpeed.toFixed(1)}</span></span><input type="range" id="tts-speed-range" min="0.5" max="2.0" step="0.1" value="${app.settings.ttsSpeed}"></div>
                 <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0;">
                 <div class="setting-row" id="about-btn-row"><span>حول التطبيق والإرشادات</span><button class="btn-icon">ℹ️</button></div>
-                
-                <h3 style="margin-top: 2rem; margin-bottom: 0.5rem; color: var(--text-primary);">روابط مفيدة للمطور</h3>
-                <div class="setting-row link-row"><span>English Learning Game</span><a href="https://english-learning-game-sand.vercel.app/" target="_blank" class="btn-icon">🔗</a></div>
-                <div class="setting-row link-row"><span>MH Game V</span><a href="https://aljokar-m-1998.github.io/mh-gamev/" target="_blank" class="btn-icon">🔗</a></div>
-                <div class="setting-row link-row"><span>English Quest</span><a href="https://aljokar-m-1998.github.io/english-quest/" target="_blank" class="btn-icon">🔗</a></div>
-                <div class="setting-row link-row"><span>MH Game C1</span><a href="https://aljokar-m-1998.github.io/mh-gamec/" target="_blank" class="btn-icon">🔗</a></div>
-                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0;">
                 <div class="setting-row" id="reset-data-btn-row"><span>إعادة تعيين بياناتي (بدء جديد)</span><button class="btn-icon" style="color: var(--error-color);">🗑️</button></div>
 
             `;
@@ -1553,4 +1546,3 @@
     </script>
 </body>
 </html>
-
