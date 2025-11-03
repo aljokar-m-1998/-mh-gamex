@@ -9,7 +9,7 @@
         /*
          * UI Enhancement: Ultimate Aesthetic - Modern, Deep, and Consistent Design
          */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght+400;600;700;900&family=Poppins:wght+400;600;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght+400;600;700;900&display=swap');
 
         :root {
             --font-ar: 'Cairo', sans-serif;
@@ -310,7 +310,7 @@
         }
 
         /* Generic Screen Styles for Favorites, Settings, Stats */
-        .setting-row, .stat-item, .achievement-item, .favorite-sentence-item, .link-btn-row { /* Added .link-btn-row */
+        .setting-row, .stat-item, .achievement-item, .favorite-sentence-item {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1rem; margin-bottom: 1rem;
             background: var(--surface); border-radius: 15px;
@@ -318,19 +318,6 @@
             border: 1px solid var(--border-color);
             position: relative; /* Needed for absolute positioning of the remove button */
         }
-        .link-btn { /* Style for the new link buttons */
-            background: var(--accent);
-            color: white;
-            padding: 0.7rem 1.2rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.2s;
-        }
-        .link-btn:hover {
-            transform: translateY(-2px);
-        }
-
         .favorite-sentence-item {
             flex-direction: column; align-items: flex-start;
             padding-right: 40px; /* Space for the remove button */
@@ -446,11 +433,9 @@
 
         // --- 1. STATE & CONSTANTS ---
         const SUB_LEVEL_SIZE = 20;
-        
-        // ** التعديل الأول: تغيير نسبة النجاح من 75 إلى 50 **
-        const UNLOCK_PERCENTAGE = 50; 
-        
+        const UNLOCK_PERCENTAGE = 75;
         const TIMER_DURATION_SEC = 30; 
+        // التحديث المطلوب: تم تغيير تحدي الكتابة إلى 30 ثانية
         const TYPING_CHALLENGE_DURATION_SEC = 30; 
         
         const LEVELS_FILES = [
@@ -534,13 +519,6 @@
             B1_LEVEL_MASTER: { id: 'B1_LEVEL_MASTER', name: 'خبير مستوى B1', description: 'أكمل جميع المستويات الفرعية في B1', icon: '🏅' },
             B2_LEVEL_MASTER: { id: 'B2_LEVEL_MASTER', name: 'خبير مستوى B2', description: 'أكمل جميع المستويات الفرعية في B2', icon: '🏆' },
         };
-        
-        // ** التعديل الثاني: إضافة قائمة الروابط الخارجية **
-        const EXTERNAL_LINKS = [
-            { name: "English Learning Game", url: "https://english-learning-game-sand.vercel.app/" },
-            { name: "MH-Gamev", url: "https://aljokar-m-1998.github.io/mh-gamev/" },
-            { name: "English Quest", url: "https://aljokar-m-1998.github.io/english-quest/" },
-        ];
         
         // --- 2. DATA MANAGEMENT ---
         function getDefaultUserData() { 
@@ -800,11 +778,7 @@
             
             const session = app.currentSession;
             const totalQuestions = session.questions.length;
-            
-            // حساب عدد الإجابات الصحيحة
-            const correctAnswersCount = totalQuestions - session.mistakes.length; 
-            
-            const accuracy = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0;
+            const accuracy = totalQuestions > 0 ? ((totalQuestions - session.mistakes.length) / totalQuestions) * 100 : 0;
             const levelKey = `${session.level}-${session.subLevel}`;
 
             DOMElements.modals.summary.classList.remove('hidden');
@@ -819,7 +793,7 @@
                  DOMElements.modals.reviewMistakesBtn.classList.remove('hidden');
             }
 
-            // Unlocking logic: Check against the new UNLOCK_PERCENTAGE (50)
+            // Unlocking logic
             if (accuracy >= UNLOCK_PERCENTAGE && !app.userData.stats.completedLevels.includes(levelKey)) {
                 app.userData.stats.completedLevels.push(levelKey);
                 unlockNextSubLevel(session.level, session.subLevel);
@@ -1324,20 +1298,6 @@
                 <div class="setting-row"><span>تشغيل النطق التلقائي (TTS)</span><input type="checkbox" id="tts-toggle" class="toggle-switch"></div>
                 <div class="setting-row"><span>سرعة النطق (TTS Speed): <span id="tts-speed-value">${app.settings.ttsSpeed.toFixed(1)}</span></span><input type="range" id="tts-speed-range" min="0.5" max="2.0" step="0.1" value="${app.settings.ttsSpeed}"></div>
                 <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0;">
-
-                <h3 style="margin-bottom: 1rem; color: var(--accent);">مواقعنا الأخرى</h3>
-                <div id="external-links-container">
-                    ${EXTERNAL_LINKS.map(link => `
-                        <div class="link-btn-row">
-                            <span>${link.name}</span>
-                            <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="link-btn">
-                                <span style="margin-right: 5px;">🔗</span> زيارة
-                            </a>
-                        </div>
-                    `).join('')}
-                </div>
-                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0;">
-                
                 <div class="setting-row" id="about-btn-row"><span>حول التطبيق والإرشادات</span><button class="btn-icon">ℹ️</button></div>
                 <div class="setting-row" id="reset-data-btn-row"><span>إعادة تعيين بياناتي (بدء جديد)</span><button class="btn-icon" style="color: var(--error-color);">🗑️</button></div>
 
@@ -1364,19 +1324,6 @@
                 saveSettings();
             };
             
-            // --- ⚠️ هذا هو الكود الذي تم نقله إلى هنا (المكان الصحيح) ---
-            const externalLinksContainer = document.getElementById('external-links-container');
-            if (externalLinksContainer) {
-                externalLinksContainer.addEventListener('click', (e) => {
-                    const linkBtn = e.target.closest('.link-btn');
-                    if (linkBtn) {
-                        playSound('click');
-                        vibrate(50);
-                    }
-                });
-            }
-            // --- نهاية الكود المنقول ---
-
             document.getElementById('about-btn-row').onclick = () => { playSound('click'); showAboutSection(); };
 
             document.getElementById('reset-data-btn-row').onclick = () => { 
@@ -1531,8 +1478,6 @@
                     DOMElements.game.checkBtn.click();
                 }
             });
-
-            // --- ⚠️ الكود الذي كان هنا (الروابط الخارجية) تم نقله ---
         }
 
         // --- 7. INITIALIZATION ---
@@ -1577,7 +1522,7 @@
                         app.sentences[level] = {};
                     }
                 }
-                document.getElementById('loading-progress').style.width = `${((i+1)/LEVEL_FILES.length) * 100}%`;
+                document.getElementById('loading-progress').style.width = `${((i+1)/LEVELS_FILES.length) * 100}%`;
             }
             
             document.getElementById('loading-status').textContent = allFilesLoaded ? `تم تحميل جميع المستويات بنجاح.` : `تم التحميل مع بعض الأخطاء.`;
@@ -1601,4 +1546,3 @@
     </script>
 </body>
 </html>
-
