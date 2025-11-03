@@ -1244,7 +1244,7 @@
             const currentSentence = app.currentSession.currentSentence;
             const isFavorite = app.userData.favorites.some(fav => cleanString(fav.en) === cleanString(currentSentence.en));
             DOMElements.game.favBtn.textContent = isFavorite ? '❤️' : '🤍';
-            DOMEElements.game.favBtn.title = isFavorite ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة';
+            DOMElements.game.favBtn.title = isFavorite ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة';
         }
 
         function toggleFavorite() {
@@ -1364,6 +1364,19 @@
                 saveSettings();
             };
             
+            // --- ⚠️ هذا هو الكود الذي تم نقله إلى هنا (المكان الصحيح) ---
+            const externalLinksContainer = document.getElementById('external-links-container');
+            if (externalLinksContainer) {
+                externalLinksContainer.addEventListener('click', (e) => {
+                    const linkBtn = e.target.closest('.link-btn');
+                    if (linkBtn) {
+                        playSound('click');
+                        vibrate(50);
+                    }
+                });
+            }
+            // --- نهاية الكود المنقول ---
+
             document.getElementById('about-btn-row').onclick = () => { playSound('click'); showAboutSection(); };
 
             document.getElementById('reset-data-btn-row').onclick = () => { 
@@ -1519,17 +1532,7 @@
                 }
             });
 
-            // ** التعديل الثاني: إضافة معالج النقر لروابط المواقع الخارجية **
-            const externalLinksContainer = document.getElementById('external-links-container');
-            if (externalLinksContainer) {
-                externalLinksContainer.addEventListener('click', (e) => {
-                    const linkBtn = e.target.closest('.link-btn');
-                    if (linkBtn) {
-                        playSound('click');
-                        vibrate(50);
-                    }
-                });
-            }
+            // --- ⚠️ الكود الذي كان هنا (الروابط الخارجية) تم نقله ---
         }
 
         // --- 7. INITIALIZATION ---
@@ -1574,7 +1577,7 @@
                         app.sentences[level] = {};
                     }
                 }
-                document.getElementById('loading-progress').style.width = `${((i+1)/LEVELS_FILES.length) * 100}%`;
+                document.getElementById('loading-progress').style.width = `${((i+1)/LEVEL_FILES.length) * 100}%`;
             }
             
             document.getElementById('loading-status').textContent = allFilesLoaded ? `تم تحميل جميع المستويات بنجاح.` : `تم التحميل مع بعض الأخطاء.`;
